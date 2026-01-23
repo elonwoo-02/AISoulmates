@@ -186,7 +186,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1769136588965</updated>
-      <workItem from="1769141782450" duration="15411000" />
+      <workItem from="1769141782450" duration="15778000" />
     </task>
     <task id="LOCAL-00001" summary="init a new project">
       <option name="closed" value="true" />
@@ -220,7 +220,15 @@
       <option name="project" value="LOCAL" />
       <updated>1769171030447</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="update navbar">
+      <option name="closed" value="true" />
+      <created>1769171912781</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1769171912781</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

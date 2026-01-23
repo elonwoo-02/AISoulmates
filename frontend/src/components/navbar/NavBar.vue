@@ -55,8 +55,8 @@ import CompactIcon from "@/components/navbar/icons/CompactIcon.vue";
         <ul class="menu w-full grow">
           <li>
             <label for="my-drawer-4" aria-label="open sidebar" class="flex group">
-              <CompactIcon class="is-drawer-close:ml-0 group-hover:hidden"/>
-              <MenuIcon class="is-drawer-open:ml-auto is-drawer-close:hidden hidden group-hover:inline-block" />
+              <CompactIcon class="is-drawer-close:ml-0 is-drawer-close:group-hover:hidden"/>
+              <MenuIcon class="is-drawer-open:ml-auto is-drawer-close:hidden group-hover:inline-block" />
             </label>
           </li>
 
@@ -78,7 +78,7 @@ import CompactIcon from "@/components/navbar/icons/CompactIcon.vue";
           <li>
             <button class="is-drawer-close:tooltip is-drawer-close:tooltip-right py-3" data-tip="Create">
               <create-icon/>
-              <span class="is-drawer-close:hidden text-base ml-2 whitespace-nowrap">Works</span>
+              <span class="is-drawer-close:hidden text-base ml-2 whitespace-nowrap">Create</span>
             </button>
           </li>
 
