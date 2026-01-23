@@ -4,21 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e98a18ef-2db8-4f4b-b6b3-f2f0ee600751" name="更改" comment="delete examples">
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/navbar/NavBar.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/navbar/icons/CreateIcon.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/navbar/icons/FriendIcon.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/navbar/icons/HomepageIcon.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/navbar/icons/MenuIcon.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/navbar/icons/SearchIcon.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/navbar/icons/SettingIcon.vue" afterDir="false" />
+    <list default="true" id="e98a18ef-2db8-4f4b-b6b3-f2f0ee600751" name="更改" comment="create navbar">
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/navbar/icons/CompactIcon.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/web/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/backend/web/templates/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/assets/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/assets/main.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/vite.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/vite.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/navbar/NavBar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/navbar/NavBar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/navbar/icons/MenuIcon.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/navbar/icons/MenuIcon.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,11 +46,11 @@
     <urls />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="ProjectErrors" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
-  <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 3
-}</component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 4
+}]]></component>
   <component name="ProjectId" id="38djxZY7L5RiPF2GEuAbir7hWnz" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -198,7 +188,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1769136588965</updated>
-      <workItem from="1769141782450" duration="7815000" />
+      <workItem from="1769141782450" duration="14521000" />
     </task>
     <task id="LOCAL-00001" summary="init a new project">
       <option name="closed" value="true" />
@@ -216,7 +206,15 @@
       <option name="project" value="LOCAL" />
       <updated>1769156370198</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="create navbar">
+      <option name="closed" value="true" />
+      <created>1769160207674</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1769160207674</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -236,7 +234,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="init a new project" />
     <MESSAGE value="delete examples" />
-    <option name="LAST_COMMIT_MESSAGE" value="delete examples" />
+    <MESSAGE value="create navbar" />
+    <option name="LAST_COMMIT_MESSAGE" value="create navbar" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
