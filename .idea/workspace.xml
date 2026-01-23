@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e98a18ef-2db8-4f4b-b6b3-f2f0ee600751" name="更改" comment="create navbar">
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/navbar/icons/CompactIcon.vue" afterDir="false" />
+    <list default="true" id="e98a18ef-2db8-4f4b-b6b3-f2f0ee600751" name="更改" comment="update navbar">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/navbar/NavBar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/navbar/NavBar.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/navbar/icons/MenuIcon.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/navbar/icons/MenuIcon.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -188,7 +186,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1769136588965</updated>
-      <workItem from="1769141782450" duration="14521000" />
+      <workItem from="1769141782450" duration="15411000" />
     </task>
     <task id="LOCAL-00001" summary="init a new project">
       <option name="closed" value="true" />
@@ -214,7 +212,15 @@
       <option name="project" value="LOCAL" />
       <updated>1769160207674</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="update navbar">
+      <option name="closed" value="true" />
+      <created>1769171030447</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1769171030447</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -235,7 +241,8 @@
     <MESSAGE value="init a new project" />
     <MESSAGE value="delete examples" />
     <MESSAGE value="create navbar" />
-    <option name="LAST_COMMIT_MESSAGE" value="create navbar" />
+    <MESSAGE value="update navbar" />
+    <option name="LAST_COMMIT_MESSAGE" value="update navbar" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

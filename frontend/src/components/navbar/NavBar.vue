@@ -54,9 +54,9 @@ import CompactIcon from "@/components/navbar/icons/CompactIcon.vue";
         <!-- Sidebar content here -->
         <ul class="menu w-full grow">
           <li>
-            <label for="my-drawer-4" aria-label="open sidebar" class="flex">
-              <CompactIcon class="is-drawer-close:hidden is-drawer-close:ml-0 hidden" />
-              <MenuIcon class="is-drawer-open:ml-auto hidden" />
+            <label for="my-drawer-4" aria-label="open sidebar" class="flex group">
+              <CompactIcon class="is-drawer-close:ml-0 group-hover:hidden"/>
+              <MenuIcon class="is-drawer-open:ml-auto is-drawer-close:hidden hidden group-hover:inline-block" />
             </label>
           </li>
 
