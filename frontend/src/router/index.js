@@ -91,7 +91,7 @@ const router = createRouter({
       component: SettingIndex,
       name:'setting-index',
       meta: {
-        needlogin: false,
+        needlogin: true,
       }
     },
     {
@@ -107,7 +107,7 @@ const router = createRouter({
 
 router.beforeEach((to, from) => {
   const user = useUserStore()
-  if (to.meta.needLogin && user.hasPulledUserInfo && !user.isLogin()) {
+  if (to.meta.needlogin && user.hasPulledUserInfo && !user.isLogin()) {
     return {
       name: 'user-account-login-index'
     }
