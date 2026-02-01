@@ -32,15 +32,21 @@ async function handleLogout() {
   <div class="dropdown dropdown-end">
     <div tabindex="0" role="button" class="avatar btn btn-circle w-8 h-8 ml-6 mr-6">
       <div class="w-8 rounded-full">
-        <img :src="user.photo" alt="">
+        <img v-if="user.photo" :src="user.photo" alt="avatar">
       </div>
     </div>
     <ul tabindex="-1" class="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-lg">
       <li>
-        <RouterLink @click="closeMenu" to="{name:'user-space-index', params:{ user_id: user.id }}">
+        <RouterLink @click="closeMenu" :to="{name:'user-space-index', params:{ user_id: user.id }}">
           <div class="avatar">
             <div class="w-10 rounded-full">
-              <img :src="user.photo" alt="">
+              <img
+                v-if="user.photo"
+                :key="user.photo"
+                :src="user.photo"
+                alt="avatar"
+                class="w-full h-full object-cover"
+              />
             </div>
           </div>
           <span class="text-base font-bold line-clamp-1"> {{ user.username }}</span>

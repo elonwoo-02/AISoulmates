@@ -10,10 +10,19 @@ import ProfileIndex from "@/views/user/profile/ProfileIndex.vue";
 import SettingIndex from "@/views/setting/SettingIndex.vue";
 import NewIndex from "@/views/new/NewIndex.vue";
 import {useUserStore} from "@/stores/user.js";
+import Asdf from "@/views/chat/asdf.vue"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    {
+      path:'/chat/', // <-- 新增路由
+      component: Asdf,
+      name:'chat-index',
+      meta:{
+        needlogin: true,
+      },
+    },
     {
       path:'/',
       component: HomepageIndex,
@@ -91,7 +100,7 @@ const router = createRouter({
       component: SettingIndex,
       name:'setting-index',
       meta: {
-        needlogin: false,
+        needlogin: true,
       }
     },
     {
@@ -107,7 +116,7 @@ const router = createRouter({
 
 router.beforeEach((to, from) => {
   const user = useUserStore()
-  if (to.meta.needLogin && user.hasPulledUserInfo && !user.isLogin()) {
+  if (to.meta.needlogin && user.hasPulledUserInfo && !user.isLogin()) {
     return {
       name: 'user-account-login-index'
     }

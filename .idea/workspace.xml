@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e98a18ef-2db8-4f4b-b6b3-f2f0ee600751" name="更改" comment="打补丁" />
+    <list default="true" id="e98a18ef-2db8-4f4b-b6b3-f2f0ee600751" name="更改" comment="打补丁">
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/user/account/LoginIndex.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/user/account/LoginIndex.vue" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -14,13 +16,13 @@
     <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="80" />
+    <option name="cachedIndexableFilesCount" value="82" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Vue Composition API Component" />
         <option value="JavaScript File" />
+        <option value="Vue Composition API Component" />
         <option value="Python Script" />
       </list>
     </option>
@@ -36,7 +38,7 @@
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/ElandWoo/AISoulmates.git&quot;,
+    &quot;url&quot;: &quot;git@github.com:elonwoo-02/AISoulmates.git&quot;,
     &quot;accountId&quot;: &quot;04ec4a59-7dae-4550-9cf6-72a1cbfeec79&quot;
   }
 }</component>
@@ -70,19 +72,19 @@
     &quot;RunOnceActivity.pycharm.django.structure.promotion.once.per.project&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
     &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;mvp&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;javascript.nodejs.core.library.configured.version&quot;: &quot;25.4.0&quot;,
     &quot;javascript.nodejs.core.library.typings.version&quot;: &quot;25.0.10&quot;,
     &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;E:/WorkSpace/python/src/AISoulmates/backend/web/templates&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/WorkSpace/python/src/AISoulmates/frontend/src/views/chat&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;run.code.analysis.last.selected.profile&quot;: &quot;aDefault&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.intellij.python.django.customization.DjangoModulesConfigurable&quot;,
     &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
     &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\Elon\\AppData\\Roaming\\JetBrains\\PyCharm2025.3\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
@@ -99,6 +101,7 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\WorkSpace\python\src\AISoulmates\frontend\src\views\chat" />
       <recent name="E:\WorkSpace\python\src\AISoulmates\backend\web\templates" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -127,6 +130,12 @@
       <workItem from="1769515818572" duration="5764000" />
       <workItem from="1769568224579" duration="24248000" />
       <workItem from="1769650444114" duration="5608000" />
+      <workItem from="1769657569442" duration="37000" />
+      <workItem from="1769657611662" duration="258000" />
+      <workItem from="1769657991473" duration="3605000" />
+      <workItem from="1769669163501" duration="1386000" />
+      <workItem from="1769670667360" duration="148000" />
+      <workItem from="1769670923656" duration="291000" />
     </task>
     <task id="LOCAL-00001" summary="init a new project">
       <option name="closed" value="true" />

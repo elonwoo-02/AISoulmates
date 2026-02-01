@@ -11,6 +11,8 @@
   "dependencies": {
     "@tailwindcss/vite": "^4.1.18",
     "axios": "^1.13.2",
+    "highlight.js": "^11.11.1",
+    "markdown-it": "^14.1.0",
     "pinia": "^3.0.4",
     "tailwindcss": "^4.1.18",
     "vue": "^3.5.26",

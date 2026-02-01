@@ -25,8 +25,17 @@ SECRET_KEY = 'django-insecure-7nx*ai6!qk#6f4z4le&3r3ad^^57hobj3=rx@yuj*30$mh%fht
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = []
 
+ALLOWED_HOSTS = [
+    '192.168.0.88',
+    'localhost',
+    '127.0.0.1',
+]
+
+# ALLOWED_HOSTS = [
+#     '*'
+# ]
 
 # Application definition
 
@@ -150,8 +159,34 @@ SIMPLE_JWT = {
 }
 
 # 配置跨域
+
 CORS_ALLOW_CREDENTIALS = True
 
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:5173",
+# ]
+
+# 额外添加
 CORS_ALLOWED_ORIGINS = [
+    "http://127.0.0.1:8000",
+    "http://localhost:8000",
+    "http://192.168.0.88:8000",
     "http://localhost:5173",
 ]
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://127.0.0.1:8000",
+    "http://localhost:8000",
+    "http://192.168.0.88:8000",
+]
+
+# SESSION_COOKIE_SAMESITE = 'Lax'
+# CSRF_COOKIE_SAMESITE = 'Lax'
+
+SESSION_COOKIE_HTTPONLY = True
+CSRF_COOKIE_HTTPONLY = False
+
+SESSION_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SECURE = False   # 如果没有 HTTPS, False
+CSRF_COOKIE_SAMESITE = 'None'
+CSRF_COOKIE_SECURE = False

@@ -11,16 +11,19 @@ const router = useRouter()
 
 onMounted(async () => {
   try {
-    const res = await api.get('/api/user/account/get_user_info/')
-    const data = res.data
-    if (data.result === 'success') {
-      user.setUserInfo(data)
+    if (user.accessToken) {
+      const res = await api.get('/api/user/account/get_user_info/')
+      const data = res.data
+      if (data.result === 'success') {
+        user.setUserInfo(data)
+      }
     }
+
   } catch (err) {
   } finally {
     user.setHasPulledUserInfo(true)
 
-    if (route.meta.needLogin && !user.isLogin()) {
+    if (route.meta.needlogin && !user.isLogin()) {
       await router.replace({
         name: 'user-account-login-index',
       })
@@ -33,6 +36,7 @@ onMounted(async () => {
 <template>
   <NavBar>
     <RouterView/>
+      账号：Elon；密码：020329
   </NavBar>
 </template>
 

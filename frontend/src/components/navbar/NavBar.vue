@@ -12,6 +12,7 @@ import NewIcon from "@/components/navbar/icons/NewIcon.vue";
 import { ref, computed } from 'vue'
 import {useUserStore} from "@/stores/user.js";
 import UserMenu from "@/components/navbar/UserMenu.vue";
+import ChatIcon from "@/components/navbar/icons/ChatIcon.vue";
 
 // 模拟数据：7列（周日~周六）× 5行（5周）
 const data = ref([
@@ -150,6 +151,14 @@ const user = useUserStore()
               <!-- Settings icon -->
               <setting-icon/>
             <span class="is-drawer-close:hidden text-base ml-2 whitespace-nowrap">Settings</span>
+            </RouterLink>
+          </li>
+
+          <!-- src/components/navbar/NavBar.vue -->
+          <li>
+            <RouterLink :to="{name: 'chat-index'}" active-class="menu-focus" class="is-drawer-close:tooltip is-drawer-close:tooltip-right py-3" data-tip="AI Chat">
+              <ChatIcon/>
+              <span class="is-drawer-close:hidden text-base ml-2 whitespace-nowrap">AI Chat</span>
             </RouterLink>
           </li>
 

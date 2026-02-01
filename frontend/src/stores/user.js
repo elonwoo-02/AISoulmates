@@ -11,8 +11,10 @@ export const useUserStore= defineStore('user', ()=>{
     const username = ref('')
     const photo = ref('')
     const profile = ref('')
-    const accessToken = ref('')
+    // const accessToken = ref('')
     const hasPulledUserInfo = ref(false)
+
+    const accessToken = ref(localStorage.getItem('accessToken') || '')
 
     function isLogin() {
         return !!accessToken.value
@@ -20,12 +22,21 @@ export const useUserStore= defineStore('user', ()=>{
 
     function setAccessToken(token) {
         accessToken.value = token
+
+        localStorage.setItem('accessToken', token)
     }
 
     function setUserInfo(data) {
         id.value = data.user_id
         username.value = data.username
-        photo.value = data.photo
+        // photo.value = data.photo
+        if (data.photo) {
+            photo.value = data.photo.startsWith('http')
+                ? data.photo
+                : `${process.env.VUE_APP_BASE_URL}${data.photo}`
+        } else {
+            photo.value = `${process.env.VUE_APP_BASE_URL}/media/user/photos/default.jpg`
+        }
         profile.value = data.profile
     }
 

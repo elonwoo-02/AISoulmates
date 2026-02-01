@@ -19,7 +19,7 @@ async function handlelogin() {
     errorMessage.value = 'Password is required'
   } else {
     try{
-      const res = await api.post('api/user/account/login/', {
+      const res = await api.post('/api/user/account/login/', {
         username: username.value,
         password: password.value,
       })
@@ -58,7 +58,7 @@ async function handlelogin() {
 
         <div class="flex justify-end">
           <RouterLink :to="{name:'user-account-register-index'}" class="btn btn-sm btn-ghost text-gray-650">
-            Have no account ? Create a account
+            Create an account
           </RouterLink>
 
         </div>
