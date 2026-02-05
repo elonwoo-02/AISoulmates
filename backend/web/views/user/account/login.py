@@ -1,11 +1,12 @@
 from django.contrib.auth import authenticate
-from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from web.models.user import UserProfile
 
 
+# todo: 添加邮箱、手机号、验证码登录
 class LoginView(APIView):
     def post(self, request):
         try:

@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
             name='UserProfile',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('photo', models.ImageField(default='user/photos/default.jpg', upload_to=web.models.user.photo_upload_to)),
+                ('photo', models.ImageField(default='user/photos/default.png', upload_to=web.models.user.photo_upload_to)),
                 ('profile', models.TextField(max_length=500, verbose_name='Thanks for your following')),
                 ('create_time', models.DateTimeField(default=django.utils.timezone.now)),
                 ('update_time', models.DateTimeField(default=django.utils.timezone.now)),

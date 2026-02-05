@@ -1,7 +1,8 @@
 
-from rest_framework.views import APIView
-from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
 
 class LogoutView(APIView):
     permission_classes = [IsAuthenticated] # 创制用户必须登录才能访问
