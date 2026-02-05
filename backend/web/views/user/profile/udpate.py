@@ -8,57 +8,98 @@ from web.models.user import UserProfile
 
 
 class UpdateProfileView(APIView):
-    permission_classes = [IsAuthenticated]
+    """
+    API 接口：更新用户资料
+    ----------------------
+    URL: /api/user/profile/update
+    方法: POST
+    权限: 登录用户（IsAuthenticated）
 
-    def post(self, request) :
+    请求参数:
+        - username (str): 新用户名
+        - profile (str): 个人简介（最多500字符）
+        - photo (file, optional): 新头像图片文件
+
+    返回结果:
+        - 成功:
+            {
+                'result': 'success',
+                'user_id': <int>,
+                'username': <str>,
+                'profile': <str>,
+                'photo': <str, url>
+            }
+        - 失败:
+            {
+                'result': <错误信息>
+            }
+    """
+
+    # -------------------- 权限控制 --------------------
+    permission_classes = [IsAuthenticated]  # 仅允许登录用户访问
+
+    def post(self, request):
+        """
+        处理 POST 请求，更新当前登录用户的资料
+        """
         try:
-            # 1. 用户信息准备
-            # 1.1 获取发出请求的用户
-            user = request.user
-            # 1.2 获取用户请求更新的信息
-            username = request.data.get('username').strip()
-            profile = request.data.get('profile').strip()[:500]
-            photo = request.FILES.get('photo', None)
-            # 1.3 通过user取得用户资料
+            # -------------------- 1. 用户信息准备 --------------------
+            user = request.user  # 当前请求的用户（通过认证系统获取）
+
+            # 获取用户提交的数据
+            username = request.data.get('username', '').strip()  # 新用户名
+            profile = request.data.get('profile', '').strip()[:500]  # 个人简介（截断500字符）
+            photo = request.FILES.get('photo', None)  # 上传头像（可选）
+
+            # 通过user获取用户资料对象（UserProfile）
             user_profile = UserProfile.objects.get(user=user)
 
-            # 2. 处理敏感操作（不能相信）
-            # 2.1 用户名和个人简洁不能为空
+            # -------------------- 2. 验证用户输入 --------------------
+            # 2.1 用户名不能为空
             if not username:
-                return Response({
-                    'result':'username is required',
-                })
-            if not profile:
-                return Response({
-                    'result':'profile is required',
-                })
-            # 2.2 不能改为其它人的用户名
-            if username != user.username and User.objects.filter(username=username).exists():
-                return Response({
-                    'result':'username is taken',
-                })
+                return Response({'result': 'username is required'})
 
-            # 3. 更新并保存更新的用户信息
-            if photo:   # 头像需要先删除原头像再更新
-                # remove_old_photo(user_profile.photo)    # todo: 不删除旧头像是否可行，方便用户撤回
+            # 2.2 个人简介不能为空
+            if not profile:
+                return Response({'result': 'profile is required'})
+
+            # 2.3 用户名唯一性检查
+            # 如果用户名改变了，且新用户名已存在，返回错误
+            if username != user.username and User.objects.filter(username=username).exists():
+                return Response({'result': 'username is taken'})
+
+            # -------------------- 3. 更新用户信息 --------------------
+            if photo:
+                # 头像更新
+                # todo: 这里可以先删除旧头像，也可以保留原图（方便用户撤回）
+                # remove_old_photo(user_profile.photo)
                 user_profile.photo = photo
 
+            # 更新个人简介
             user_profile.profile = profile
-            user_profile.update_time = now()    # 只修改更新时间，不修改创建时间
+            # 更新资料更新时间
+            user_profile.update_time = now()  # 只更新时间，不修改创建时间
             user_profile.save()
 
+            # 更新用户名（User 模型）
             user.username = username
             user.save()
 
-            # 4. 返回更新结果
+            # -------------------- 4. 返回结果 --------------------
             return Response({
-                'result':'success',
-                'user_id':user.id,
-                'username':user.username,
-                'profile':user_profile.profile,
-                'photo':user_profile.photo.url,
+                'result': 'success',
+                'user_id': user.id,
+                'username': user.username,
+                'profile': user_profile.profile,
+                'photo': user_profile.photo.url if user_profile.photo else '',
             })
-        except:
-            return Response({
-                'result':'system error',
-            })
+
+        except UserProfile.DoesNotExist:
+            # 用户资料不存在
+            return Response({'result': 'user profile not found'})
+
+        except Exception as e:
+            # 捕获其他异常
+            # 可在调试阶段打印 e
+            # print(e)
+            return Response({'result': 'system error'})

@@ -21,5 +21,5 @@ defineExpose({
 </template>
 
 <style scoped>
-
+/* 样式使用 daisyUI/Tailwind，组件本身无需额外 CSS */
 </style>
