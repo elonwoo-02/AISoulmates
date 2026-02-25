@@ -72,7 +72,7 @@ const user = useUserStore()
         </div>
 
         <div class="navbar-end">
-          <RouterLink v-if="user.isLogin()"  :to="{name:'create-index'}"  class="btn btn-ghost text-lg hover-3d py-1">
+          <RouterLink v-if="user.isLogin()" :to="{name:'character-list'}" class="btn btn-ghost text-lg hover-3d py-1">
             <CreateIcon/>
           </RouterLink>
 

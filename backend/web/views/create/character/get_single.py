@@ -13,13 +13,13 @@ class GetSingleCharacterView(APIView):
             character_id = request.query_params['character_id']
             character = Character.objects.get(id=character_id, author__user=request.user)
             return Response({
-                "result": "Character retrieved successfully.",
+                "result": "success",
                 "character": {
                     "id": character.id,
                     "name": character.name,
                     "profile": character.profile,
                     "photo": character.photo.url,
-                    "background_image": character.background_image.url if character.background_image else None,
+                    "background_image": character.background_image.url,
                 }
             })
         except:

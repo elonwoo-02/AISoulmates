@@ -79,8 +79,6 @@ async function handleUpdate() {
         errorMessage.value = data.result
       }
     } catch (err) {
-      // 捕获请求异常（可选打印）
-      // console.log(err)
     }
   }
 }

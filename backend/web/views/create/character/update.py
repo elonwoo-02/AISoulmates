@@ -14,7 +14,7 @@ class UpdateCharacterView(APIView):
         try:
             character_id = request.data['character_id']
             character = Character.objects.get(id=character_id, author__user=request.user)
-            name = request.data['name'].stip()
+            name = request.data['name'].strip()
             profile = request.data['profile'].strip()[:100000]
             photo = request.FILES.get('photo', None)
             background_image = request.FILES.get('background_image', None)
@@ -39,7 +39,7 @@ class UpdateCharacterView(APIView):
             character.update_time = now()
             character.save()
             return Response({
-                "result": "Character updated successfully."
+                "result": "success"
             })
         except:
             return Response({
