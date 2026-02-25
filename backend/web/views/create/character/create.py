@@ -2,7 +2,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from web.models.character import Character, background_image_upload_to
+from web.models.character import Character
 from web.models.user import UserProfile
 
 # 角色创建接口
@@ -13,7 +13,7 @@ class CreateCharacterView(APIView):
         try:
             user = request.user
             user_profile = UserProfile.objects.get(user=user)
-            name = request.data.get('name').stip()
+            name = request.data.get('name').strip()
             profile = request.data.get('profile').strip()[:100000]
             photo = request.FILES.get('photo', None)
             background_image = request.FILES.get('background_image', None)
@@ -42,7 +42,7 @@ class CreateCharacterView(APIView):
                 background_image=background_image,
             )
             return Response({
-                "result": "Character created successfully."
+                "result": "success"
             })
         except:
             return Response({
