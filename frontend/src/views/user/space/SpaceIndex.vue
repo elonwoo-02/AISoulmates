@@ -14,7 +14,6 @@ const route = useRoute()
 const error = ref(null)
 
 
-
 function checkSentinelVisible() {  // 判断哨兵是否能被看到
   if (!sentinelRef.value) return false
 
@@ -43,6 +42,7 @@ async function loadMore() {
   } catch (err) {
     error.value = 'Failed to load more characters'
   } finally {
+    loading.value = false
     if (newCharacters.length === 0) {
       hasCharacters.value = false
     } else {
