@@ -7,7 +7,7 @@ import api from '@/js/http/api.js'
 import ChatField from "@/components/character/chat_field/ChatField.vue";
 import {useRouter} from "vue-router";
 
-const props = defineProps(['character', 'canEdit'])
+const props = defineProps(['character', 'canEdit', 'canRemoveFriend', 'friendId'])
 const emit = defineEmits(['remove'])
 const isHover = ref(false)
 const user = useUserStore()
@@ -25,6 +25,20 @@ async function handleRemoveCharacter() {
     // Keep silent to match current behavior.
   }
 }
+
+async function handleRemoveFriend() {
+  try {
+    const res = await api.post('/api/friend/remove/', {
+      friend_id: props.friendId
+    })
+    if (res.data.result === 'success') {
+      emit('remove', props.friendId)
+    }
+  } catch (err) {
+
+  }
+}
+
 
 const chatFieldRef = useTemplateRef('chat-field-ref')
 const friend = ref(null)
@@ -75,7 +89,13 @@ async function openChatField() {
         <RouterLink :to="{ name: 'update-character', params: { character_id: character.id } }" class="btn btn-circle btn-ghost btn-xs bg-black/35 text-white hover:bg-black/55">
           <UpdateIcon />
         </RouterLink>
-        <button @click="handleRemoveCharacter" class="btn btn-circle btn-ghost btn-xs bg-black/35 text-white hover:bg-black/55">
+        <button @click.stop="handleRemoveCharacter" class="btn btn-circle btn-ghost btn-xs bg-black/35 text-white hover:bg-black/55">
+          <RemoveIcon />
+        </button>
+      </div>
+
+      <div v-if="canRemoveFriend" class="absolute right-0 top-1">
+        <button @click.stop="handleRemoveFriend" class="btn btn-circle btn-ghost btn-xs bg-black/35 text-white hover:bg-black/55">
           <RemoveIcon />
         </button>
       </div>

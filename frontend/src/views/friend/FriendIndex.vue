@@ -7,7 +7,7 @@ const friends = ref([])
 const loading = ref(false)
 const hasFriends = ref(true)
 const sentinelRef = useTemplateRef('sentinel-ref')
-const error = ''
+const error = ref(null)
 
 function checkSentinelVisible() {  // 判断哨兵是否能被看到
   if (!sentinelRef.value) return false
@@ -32,11 +32,11 @@ async function loadMore() {
       newFriends = data.friends
     }
   } catch(err) {
-    console.log(data)
-    error.value = 'Failed to load friends'
+    console.log(err)
+    error.value = 'Failed to load more friends'
   } finally {
     loading.value = false
-    if (newFriends.value === 0) {
+    if (newFriends.length === 0) {
       hasFriends.value = false
     } else {
       friends.value.push(...newFriends)
@@ -68,6 +68,10 @@ onMounted(async () => {
   observer.observe(sentinelRef.value)
 })
 
+function removeFriend(friendId) {
+  friends.value = friends.value.filter(f => f.id !== friendId)
+}
+
 onBeforeUnmount(() => {
   observer?.disconnect()  // 解绑监听器
 })
@@ -80,6 +84,9 @@ onBeforeUnmount(() => {
         v-for="friend in friends"
         :key="friend.id"
         :character="friend.character"
+        :canRemoveFriend="removeFriend"
+        :friendId="friend.id"
+        @remove="removeFriend"
       />
     </div>
 
@@ -89,7 +96,7 @@ onBeforeUnmount(() => {
       <span class="loading loading-spinner loading-lg"></span>
     </div>
 
-    <div v-else-if="!hasFriends" class="alert alert-error mt-4">
+    <div v-else-if="error" class="alert alert-error mt-4">
       <span>{{ error }}</span>
     </div>
   </div>

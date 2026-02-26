@@ -10,7 +10,7 @@ class GetListFriendView(APIView):
 
     def get(self, request):
         try:
-            items_count = int(request.query_params.get('item_count', 0))
+            items_count = int(request.query_params.get('items_count', 0))
             friends_raw = Friend.objects.filter(
                 me__user=request.user,
             ).order_by('-update_time')[items_count: items_count + 20]
@@ -32,10 +32,10 @@ class GetListFriendView(APIView):
                         }
                     }
                 })
-                return Response({
-                    'result': 'success',
-                    'friends': friends,
-                })
+            return Response({
+                'result': 'success',
+                'friends': friends,
+            })
         except:
             return Response({
                 'result': 'failed'
