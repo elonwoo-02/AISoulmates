@@ -3,6 +3,7 @@ import {ref, onMounted, useTemplateRef, nextTick, onBeforeUnmount} from 'vue'
 import {useRoute} from 'vue-router'
 import api from '@/js/http/api.js'
 import UserInfoField from "@/views/user/space/components/UserInfoField.vue";
+import Character from "@/components/character/Character.vue";
 
 const userProfile = ref(null)
 const characters = ref([])
@@ -87,7 +88,12 @@ onBeforeUnmount(() => {
   <div class="flex flex-col mb-12">
     <UserInfoField :userProfile="userProfile"/>
     <div class="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-9 mt-12 justify-items-center w-full px-9">
-
+      <Character
+        v-for="character in characters"
+        :key="character.id"
+        :character="character"
+        :canEdit="true"
+      />
     </div>
     <!-- Sentinel element for infinite scrolling -->
     <div ref="sentinel-ref" class="h-2 mt-8 hidden text-base-100"></div>
