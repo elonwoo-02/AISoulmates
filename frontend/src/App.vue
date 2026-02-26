@@ -1,9 +1,9 @@
 <script setup>
 import NavBar from "@/components/navbar/NavBar.vue";
-import {onMounted} from "vue";
-import {useUserStore} from "@/stores/user.js";
+import { onMounted } from "vue";
+import { useUserStore } from "@/stores/user.js";
 import api from "@/js/http/api.js";
-import {useRoute, useRouter} from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 const user = useUserStore()
 const route = useRoute()
@@ -27,15 +27,18 @@ onMounted(async () => {
     }
   }
 })
-
 </script>
 
 <template>
-  <NavBar>
-    <RouterView/>
-  </NavBar>
+  <div class="app-root">
+    <NavBar>
+      <RouterView />
+    </NavBar>
+  </div>
 </template>
 
 <style scoped>
-
+.app-root {
+  min-height: 100vh;
+}
 </style>

@@ -39,55 +39,57 @@ function goToCreate() {
 </script>
 
 <template>
-  <div class="mx-auto w-full max-w-7xl px-4 py-6 md:px-6 lg:px-8">
-    <header class="mb-6 flex flex-wrap items-center justify-between gap-3">
-      <div>
-        <h1 class="text-2xl font-bold tracking-tight">Channel characters</h1>
-        <p class="mt-1 text-sm text-base-content/70">Manage your published characters</p>
-      </div>
-      <button @click="goToCreate" class="btn btn-neutral rounded-full">Create character</button>
-    </header>
-
-    <div v-if="loading" class="flex justify-center py-12">
-      <span class="loading loading-spinner loading-lg"></span>
-    </div>
-
-    <div v-else-if="error" class="alert alert-error">
-      <span>{{ error }}</span>
-    </div>
-
-    <div v-else-if="characters.length === 0" class="rounded-2xl border border-dashed border-base-300 bg-base-100 p-10 text-center">
-      <p class="text-base-content/70">You have not created any characters yet.</p>
-      <button @click="goToCreate" class="btn btn-primary mt-4 rounded-full">Create your first character</button>
-    </div>
-
-    <div v-else class="space-y-3">
-      <article
-        v-for="character in characters"
-        :key="character.id"
-        class="group cursor-pointer rounded-2xl border border-base-300 bg-base-100 p-3 shadow-sm transition-all hover:shadow-md"
-        @click="goToUpdate(character.id)"
-      >
-        <div class="flex items-center gap-4">
-          <div class="avatar">
-            <div class="h-16 w-16 rounded-xl">
-              <img :src="character.photo" :alt="character.name" class="object-cover" />
-            </div>
-          </div>
-
-          <div class="min-w-0 flex-1">
-            <h2 class="truncate text-base font-semibold">{{ character.name }}</h2>
-            <p class="line-clamp-2 mt-1 text-sm text-base-content/70">{{ character.profile }}</p>
-            <p class="mt-1 text-xs text-base-content/60">
-              Updated {{ new Date(character.update_time).toLocaleDateString() }}
-            </p>
-          </div>
-
-          <button class="btn btn-ghost btn-sm rounded-full">Edit</button>
+  <main class="page-shell pb-12">
+    <section class="glass-panel p-6 md:p-8">
+      <header class="mb-6 flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h1 class="brand-font text-3xl tracking-tight">Channel Characters</h1>
+          <p class="mt-1 text-sm text-[var(--muted)]">Manage every character in one clean workspace.</p>
         </div>
-      </article>
-    </div>
-  </div>
+        <button @click="goToCreate" class="btn rounded-full  bg-[var(--accent)] text-white">Create character</button>
+      </header>
+
+      <div v-if="loading" class="flex justify-center py-12 text-[var(--muted)]">
+        <span class="loading loading-spinner loading-lg"></span>
+      </div>
+
+      <div v-else-if="error" class="alert alert-error">
+        <span>{{ error }}</span>
+      </div>
+
+      <div v-else-if="characters.length === 0" class="rounded-2xl bg-[var(--surface)] p-10 text-center">
+        <p class="text-[var(--muted)]">You have not created any characters yet.</p>
+        <button @click="goToCreate" class="btn mt-4 rounded-full  bg-[var(--accent)] text-white">Create your first character</button>
+      </div>
+
+      <div v-else class="space-y-3">
+        <article
+          v-for="character in characters"
+          :key="character.id"
+          class="group cursor-pointer rounded-2xl bg-[var(--surface)] p-3 transition-all hover:translate-x-0.5 "
+          @click="goToUpdate(character.id)"
+        >
+          <div class="flex items-center gap-4">
+            <div class="avatar">
+              <div class="h-16 w-16 rounded-xl">
+                <img :src="character.photo" :alt="character.name" class="object-cover" />
+              </div>
+            </div>
+
+            <div class="min-w-0 flex-1">
+              <h2 class="truncate text-base font-semibold text-[var(--text)]">{{ character.name }}</h2>
+              <p class="line-clamp-2 mt-1 text-sm text-[var(--muted)]">{{ character.profile }}</p>
+              <p class="mt-1 text-xs text-[var(--muted)]">
+                Updated {{ new Date(character.update_time).toLocaleDateString() }}
+              </p>
+            </div>
+
+            <button class="btn rounded-full bg-[var(--surface-strong)] px-4 text-xs text-[var(--text)]">Edit</button>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
 </template>
 
 <style scoped>
@@ -98,3 +100,5 @@ function goToCreate() {
   overflow: hidden;
 }
 </style>
+
+

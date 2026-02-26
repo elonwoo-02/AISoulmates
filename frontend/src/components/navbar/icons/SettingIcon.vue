@@ -1,26 +1,6 @@
-<script setup>
-
-</script>
-
 <template>
-  <svg xmlns="http://www.w3.org/2000/svg"
-     viewBox="0 0 24 24"
-     fill="none"
-     stroke="currentColor"
-     stroke-width="2"
-     stroke-linecap="round"
-     stroke-linejoin="round"
-     class="inline-block size-6">
-
-    <path d="M20 7h-9"></path>
-    <path d="M14 17H5"></path>
-
-    <circle cx="17" cy="17" r="3"></circle>
-    <circle cx="7" cy="7" r="3"></circle>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-5">
+    <circle cx="12" cy="12" r="3"></circle>
+    <path d="M19.4 15a1.8 1.8 0 0 0 .36 1.98l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.8 1.8 0 0 0-1.98-.36a1.8 1.8 0 0 0-1.09 1.64V22a2 2 0 1 1-4 0v-.09A1.8 1.8 0 0 0 8.8 20.3a1.8 1.8 0 0 0-1.98.36l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.8 1.8 0 0 0 4.35 15a1.8 1.8 0 0 0-1.64-1.1H2.6a2 2 0 1 1 0-4h.1A1.8 1.8 0 0 0 4.35 8.8a1.8 1.8 0 0 0-.36-1.98l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.8 1.8 0 0 0 1.98.36h.1a1.8 1.8 0 0 0 1.08-1.64V2.6a2 2 0 1 1 4 0v.1a1.8 1.8 0 0 0 1.08 1.64h.1a1.8 1.8 0 0 0 1.98-.36l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.8 1.8 0 0 0-.36 1.98v.1a1.8 1.8 0 0 0 1.64 1.08h.1a2 2 0 1 1 0 4h-.1A1.8 1.8 0 0 0 19.4 15z"></path>
   </svg>
 </template>
-
-<style scoped>
-
-</style>
-

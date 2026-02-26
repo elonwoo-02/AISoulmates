@@ -17,12 +17,12 @@ defineExpose({
 </script>
 
 <template>
-  <fieldset class="space-y-1">
-    <label class="text-sm font-medium text-base-content/80">Profile</label>
+  <fieldset class="space-y-2">
+    <label class="text-sm font-semibold text-[var(--text)]">Profile</label>
     <textarea
       v-model="myProfile"
       rows="6"
-      class="textarea w-full rounded-xl border-base-300 bg-base-100"
+      class="w-full resize-none rounded-xl bg-[var(--surface)] px-3 py-2.5 text-[var(--text)] placeholder:text-[var(--muted)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"
       placeholder="Tell people about your characters"
     ></textarea>
   </fieldset>
@@ -30,3 +30,5 @@ defineExpose({
 
 <style scoped>
 </style>
+
+

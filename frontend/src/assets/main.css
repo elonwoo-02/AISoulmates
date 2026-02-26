@@ -1,2 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;700&display=swap');
 @import "tailwindcss";
 @plugin "daisyui";
+
+:root {
+  color-scheme: light;
+  --bg: #f5f5f7;
+  --bg-elevated: #efeff1;
+  --surface: #ffffff;
+  --surface-strong: #f8f8fa;
+  --text: #111111;
+  --muted: #6e6e73;
+  --accent: #ff3b30;
+  --accent-soft: rgba(255, 59, 48, 0.12);
+  --shadow: 0 8px 24px rgba(15, 15, 15, 0.08);
+  --radius-lg: 16px;
+  --radius-md: 12px;
+  --container-max: 1360px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --bg: #0b0b0c;
+    --bg-elevated: #141416;
+    --surface: #1a1a1d;
+    --surface-strong: #232327;
+    --text: #f5f5f7;
+    --muted: #a1a1a6;
+    --accent: #ff453a;
+    --accent-soft: rgba(255, 69, 58, 0.15);
+    --shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+  }
+}
+
+html,
+body,
+#app {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Manrope', 'Segoe UI', sans-serif;
+}
+
+h1,
+h2,
+h3,
+.brand-font {
+  font-family: 'Plus Jakarta Sans', 'Segoe UI', sans-serif;
+}
+
+:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--accent-soft), 0 0 0 4px rgba(17, 17, 17, 0.08);
+}
+
+.glass-panel {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+}
+
+.page-shell {
+  margin-inline: auto;
+  width: min(100%, var(--container-max));
+  padding: 1rem;
+}
+
+.soft-input {
+  width: 100%;
+  border: none;
+  background: var(--surface-strong);
+  color: var(--text);
+  border-radius: 12px;
+  padding: 0.65rem 0.85rem;
+}
+
+.soft-input::placeholder {
+  color: var(--muted);
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 320px));
+  justify-content: center;
+  gap: 1rem;
+}
+
+/* Layer scale: base < nav < sidebar/tooltip/dropdown < modal */
+.layer-nav { z-index: 40; }
+.layer-sidebar { z-index: 55; }
+.layer-overlay { z-index: 60; }
+.layer-popover { z-index: 70; }
+.layer-modal { z-index: 110; }
+
+.tooltip,
+.tooltip:before,
+.tooltip:after {
+  z-index: 70;
+}
+
+@media (min-width: 768px) {
+  .page-shell {
+    padding: 1.25rem 1.5rem;
+  }
+
+  .card-grid {
+    gap: 1.2rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

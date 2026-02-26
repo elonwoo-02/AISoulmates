@@ -1,8 +1,8 @@
 <script setup>
 import Character from "@/components/character/Character.vue";
-import {nextTick, onBeforeUnmount, onMounted, ref, useTemplateRef, watch} from "vue";
+import { nextTick, onBeforeUnmount, onMounted, ref, useTemplateRef, watch } from "vue";
 import api from "@/js/http/api.js";
-import {useRoute} from "vue-router";
+import { useRoute } from "vue-router";
 
 const characters = ref([])
 const loading = ref(false)
@@ -11,7 +11,7 @@ const sentinelRef = useTemplateRef('sentinel-ref')
 const error = ref(null)
 const route = useRoute()
 
-function checkSentinelVisible() {  // 判断哨兵是否能被看到
+function checkSentinelVisible() {
   if (!sentinelRef.value) return false
 
   const rect = sentinelRef.value.getBoundingClientRect()
@@ -33,7 +33,6 @@ async function loadMore() {
     const data = res.data
     if (data.result === 'success') {
       newCharacters = data.characters
-    } else {
     }
   } catch (err) {
     error.value = 'Failed to load more characters'
@@ -53,19 +52,18 @@ async function loadMore() {
 }
 
 let observer = null
-onMounted( async () => {
+onMounted(async () => {
   await loadMore()
 
   observer = new IntersectionObserver(
-      entries => {
-          entries.forEach(
-              entry => {
-                if (entry.isIntersecting) {
-                  loadMore()
-                }
-              })
-        },
-      {root: null, rootMargin: '2px', threshold: 0}
+    entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          loadMore()
+        }
+      })
+    },
+    { root: null, rootMargin: '2px', threshold: 0 }
   )
   if (sentinelRef.value) {
     observer.observe(sentinelRef.value)
@@ -80,7 +78,7 @@ function reset() {
   loadMore()
 }
 
-watch(() => route.query.q, newQ => {
+watch(() => route.query.q, () => {
   reset()
 })
 
@@ -90,28 +88,27 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
+  <main class="page-shell pb-12">
+    <section class="mt-7">
+      <div class="card-grid">
+        <Character
+          v-for="character in characters"
+          :key="character.id"
+          :character="character"
+          :canEdit="false"
+        />
+      </div>
 
-  <div class="flex flex-col items-center mb-12 ">
-    <div class="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-9 mt-6 justify-items-center w-full px-9">
-      <Character
-        v-for="character in characters"
-        :key="character.id"
-        :character="character"
-        :canEdit="false"
-      />
-    </div>
-    <!-- Sentinel element for infinite scrolling -->
-    <div ref="sentinel-ref" class="h-2 mt-8 invisible"></div>
-    <div v-if="loading" class="text-gray-500 mt-4 flex justify-center">
-      <span class="loading loading-spinner loading-lg"></span>
-    </div>
-    <div v-else-if="error" class="alert alert-error">
-      <span>{{ error }}</span>
-    </div>
-
-  </div>
+      <div ref="sentinel-ref" class="h-2 mt-8 invisible"></div>
+      <div v-if="loading" class="mt-4 flex justify-center text-[var(--muted)]">
+        <span class="loading loading-spinner loading-lg"></span>
+      </div>
+      <div v-else-if="error" class="alert alert-error mt-4">
+        <span>{{ error }}</span>
+      </div>
+    </section>
+  </main>
 </template>
 
 <style scoped>
-
 </style>

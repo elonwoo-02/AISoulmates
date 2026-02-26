@@ -1,12 +1,10 @@
 <script setup>
-import {onBeforeUnmount, ref, useTemplateRef, watch} from "vue";
+import { nextTick, onBeforeUnmount, ref, useTemplateRef, watch } from "vue";
 import CameraIcon from "@/views/user/profile/components/icon/CameraIcon.vue";
-
-import Croppie from 'croppie'          // 引入 Croppie 裁剪库
-import 'croppie/croppie.css'           // Croppie 样式
+import Croppie from 'croppie'
+import 'croppie/croppie.css'
 
 const props = defineProps(['photo'])
-
 const myPhoto = ref(props.photo)
 
 watch(() => props.photo, newVal => {
@@ -36,7 +34,7 @@ async function openModal(photo) {
   })
 }
 
-async function crop(){
+async function crop() {
   if (!croppie) return
 
   myPhoto.value = await croppie.result({
@@ -44,7 +42,11 @@ async function crop(){
     size: 'viewport',
   })
 
-  modalRef.value.close()
+  closeModal()
+}
+
+function closeModal() {
+  modalRef.value?.close()
 }
 
 function onFileChange(event) {
@@ -66,38 +68,46 @@ onBeforeUnmount(() => {
 defineExpose({
   myPhoto
 })
-
 </script>
 
 <template>
-  <div class="flex justify-center">
-    <div class="avatar relative">
-      <div v-if="myPhoto" class="w-28 rounded-full">
-        <img :src="myPhoto" alt="photo"/>
-      </div>
-      <div v-else class="w-28 h-28 rounded-full bg-base-200"></div>
-      <div @click="fileInputRef.click()" class="w-28 h-28 rounded-full bg-black/20 absolute left-0 top-0 flex justify-center items-center cursor-pointer">
-        <CameraIcon/>
+  <fieldset class="space-y-3">
+    <label class="text-sm font-semibold text-[var(--text)]">Portrait</label>
+    <div class="flex justify-center">
+      <div class="avatar relative">
+        <div v-if="myPhoto" class="h-28 w-28 rounded-full bg-[var(--surface-strong)] p-0.5">
+          <img :src="myPhoto" alt="Character photo" class="rounded-full object-cover">
+        </div>
+        <div v-else class="h-28 w-28 rounded-full bg-[var(--bg-elevated)]"></div>
+
+        <button type="button" @click="fileInputRef.click()" class="absolute inset-0 flex cursor-pointer items-center justify-center rounded-full bg-black/25 text-white transition hover:bg-black/35" aria-label="Upload portrait">
+          <CameraIcon />
+        </button>
       </div>
     </div>
-  </div>
+  </fieldset>
 
-  <input ref="file-input-ref" type="file" class="hidden" id="image/*" @change="onFileChange"/>
+  <input ref="file-input-ref" type="file" class="hidden" accept="image/*" @change="onFileChange">
 
   <dialog ref="modal-ref" class="modal">
-    <div class="modal-box transition-none">
-      <button @click="modalRef.close()" class="btn btn-sm btn-circle btn-ghost absolute top-2 right-2">✕</button>
+    <div class="modal-box max-w-lg rounded-2xl bg-[var(--surface-strong)]">
+      <button type="button" @click.stop.prevent="closeModal" class="absolute right-2 top-2 z-[120] inline-flex h-8 w-8 items-center justify-center text-[var(--muted)] transition-colors hover:text-[var(--text)]" aria-label="Close crop modal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+          <path d="M18 6L6 18"></path>
+          <path d="M6 6l12 12"></path>
+        </svg>
+      </button>
 
-      <div ref="croppie-ref" class="flex flex-col my-4"></div>
+      <div ref="croppie-ref" class="my-4 flex justify-center"></div>
 
       <div class="modal-action">
-        <button @click="modalRef.close()" class="btn">Cancel</button>
-        <button @click="crop" class="btn btn-neutral">Confirm</button>
+        <button type="button" @click="closeModal" class="btn rounded-full">Cancel</button>
+        <button @click="crop" class="btn rounded-full bg-[var(--accent)] text-white hover:opacity-90">Confirm</button>
       </div>
     </div>
   </dialog>
 </template>
 
 <style scoped>
-
 </style>
+

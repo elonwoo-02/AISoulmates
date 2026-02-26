@@ -1,7 +1,6 @@
 <script setup>
-import {onBeforeUnmount, ref, useTemplateRef, watch} from "vue";
+import { nextTick, onBeforeUnmount, ref, useTemplateRef, watch } from "vue";
 import CameraIcon from "@/views/user/profile/components/icon/CameraIcon.vue";
-
 import Croppie from 'croppie'
 import 'croppie/croppie.css'
 
@@ -11,7 +10,6 @@ const myBackgroundImage = ref(props.backgroundImage)
 watch(() => props.backgroundImage, newVal => {
   myBackgroundImage.value = newVal
 })
-
 
 const fileInputRef = useTemplateRef('file-input-ref')
 const modalRef = useTemplateRef('modal-ref')
@@ -24,7 +22,7 @@ async function openModal(photo) {
 
   if (!croppie) {
     croppie = new Croppie(croppieRef.value, {
-      viewport: { width: 210, height: 350},
+      viewport: { width: 210, height: 350 },
       boundary: { width: 400, height: 400 },
       enableOrientation: true,
       enforceBoundary: true,
@@ -36,7 +34,7 @@ async function openModal(photo) {
   })
 }
 
-async function crop(){
+async function crop() {
   if (!croppie) return
 
   myBackgroundImage.value = await croppie.result({
@@ -44,7 +42,11 @@ async function crop(){
     size: 'viewport',
   })
 
-  modalRef.value.close()
+  closeModal()
+}
+
+function closeModal() {
+  modalRef.value?.close()
 }
 
 function onFileChange(event) {
@@ -69,36 +71,38 @@ defineExpose({
 </script>
 
 <template>
-  <fieldset class="fieldset">
-    <label for="" class="label text-base">Background</label>
-    <div class="avatar relative">
-      <div v-if="myBackgroundImage" class="w-15 h-25 rounded-box">
-        <img :src="myBackgroundImage" alt="myBackgroundImage"/>
+  <fieldset class="space-y-3">
+    <label class="text-sm font-semibold text-[var(--text)]">Background</label>
+
+    <button type="button" @click="fileInputRef.click()" class="group relative h-28 w-20 overflow-hidden rounded-xl bg-[var(--bg-elevated)] cursor-pointer" aria-label="Upload background image">
+      <img v-if="myBackgroundImage" :src="myBackgroundImage" alt="Background preview" class="h-full w-full object-cover">
+      <div class="absolute inset-0 flex items-center justify-center bg-black/20 text-white transition group-hover:bg-black/35">
+        <CameraIcon />
       </div>
-      <div v-else class="w-15 h-25 rounded-box bg-base-200"></div>
-      <div @click="fileInputRef.click()" class="w-15 h-25 rounded-box absolute left-0 top-0 bg-black/20 flex justify-center items-center cursor-pointer">
-        <CameraIcon/>
-      </div>
-    </div>
+    </button>
   </fieldset>
 
-  <input ref="file-input-ref" type="file" class="hidden" id="image/*" @change="onFileChange"/>
+  <input ref="file-input-ref" type="file" class="hidden" accept="image/*" @change="onFileChange">
 
   <dialog ref="modal-ref" class="modal">
-    <div class="modal-box transition-none max-2xl">
-      <button @click="modalRef.close()" class="btn btn-sm btn-circle btn-ghost absolute top-2 right-2">✕</button>
+    <div class="modal-box max-w-2xl rounded-2xl bg-[var(--surface-strong)]">
+      <button type="button" @click.stop.prevent="closeModal" class="absolute right-2 top-2 z-[120] inline-flex h-8 w-8 items-center justify-center text-[var(--muted)] transition-colors hover:text-[var(--text)]" aria-label="Close crop modal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+          <path d="M18 6L6 18"></path>
+          <path d="M6 6l12 12"></path>
+        </svg>
+      </button>
 
-      <div ref="croppie-ref" class="flex flex-col my-4"></div>
+      <div ref="croppie-ref" class="my-4 flex justify-center"></div>
 
       <div class="modal-action">
-        <button @click="modalRef.close()" class="btn">Cancel</button>
-        <button @click="crop" class="btn btn-neutral">Confirm</button>
+        <button type="button" @click="closeModal" class="btn rounded-full">Cancel</button>
+        <button @click="crop" class="btn rounded-full bg-[var(--accent)] text-white hover:opacity-90">Confirm</button>
       </div>
     </div>
   </dialog>
-
 </template>
 
 <style scoped>
-
 </style>
+

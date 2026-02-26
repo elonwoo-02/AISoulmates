@@ -81,18 +81,18 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="mx-auto w-full max-w-screen-2xl px-4 pb-12 pt-6 md:px-6 lg:px-8">
+  <main class="page-shell pb-12">
     <UserInfoField :userProfile="userProfile" />
 
-    <section class="mt-8">
-      <div class="mb-5 flex items-end justify-between">
+    <section class="mt-7">
+      <div class="mb-4 flex items-end justify-between">
         <div>
-          <h2 class="text-xl font-semibold tracking-tight">Characters</h2>
-          <p class="mt-1 text-sm text-base-content/70">{{ characters.length }} loaded</p>
+          <h2 class="brand-font text-2xl tracking-tight">Characters</h2>
+          <p class="mt-1 text-sm text-[var(--muted)]">{{ characters.length }} loaded</p>
         </div>
       </div>
 
-      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div class="card-grid">
         <Character
           v-for="character in characters"
           :key="character.id"
@@ -105,14 +105,14 @@ onBeforeUnmount(() => {
 
     <div ref="sentinel-ref" class="mt-8 hidden h-2 text-base-100"></div>
 
-    <div v-if="loading" class="mt-4 flex justify-center text-gray-500">
+    <div v-if="loading" class="mt-4 flex justify-center text-[var(--muted)]">
       <span class="loading loading-spinner loading-lg"></span>
     </div>
 
     <div v-else-if="error" class="alert alert-error mt-4">
       <span>{{ error }}</span>
     </div>
-  </div>
+  </main>
 </template>
 
 <style scoped>

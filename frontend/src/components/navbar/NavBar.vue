@@ -1,42 +1,16 @@
 <script setup>
-
 import MenuIcon from "@/components/navbar/icons/MenuIcon.vue";
 import HomepageIcon from "@/components/navbar/icons/HomepageIcon.vue";
 import FriendIcon from "@/components/navbar/icons/FriendIcon.vue";
 import CreateIcon from "@/components/navbar/icons/CreateIcon.vue";
 import SettingIcon from "@/components/navbar/icons/SettingIcon.vue";
 import SearchIcon from "@/components/navbar/icons/SearchIcon.vue";
-import CompactIcon from "@/components/navbar/icons/CompactIcon.vue";
 import NewIcon from "@/components/navbar/icons/NewIcon.vue";
 
-import {ref, computed, watch} from 'vue'
-import {useUserStore} from "@/stores/user.js";
+import { ref, watch } from 'vue'
+import { useUserStore } from "@/stores/user.js";
 import UserMenu from "@/components/navbar/UserMenu.vue";
-import {useRoute, useRouter} from "vue-router";
-
-// 模拟数据：7列（周日~周六）× 5行（5周）
-const data = ref([
-  [0, 1, 3, 2, 5, 4, 6],
-  [2, 4, 5, 1, 0, 3, 2],
-  [3, 2, 4, 5, 1, 0, 3],
-  [1, 0, 2, 3, 4, 5, 1],
-  [0, 1, 2, 3, 1, 0, 2],
-])
-
-// 找出最大值，用于颜色归一化
-const maxVal = computed(() => Math.max(...data.value.flat()))
-
-// 根据数值返回 Tailwind 背景颜色
-const getColor = (val) => {
-  if (val === 0) return 'bg-gray-200'
-  const intensity = Math.ceil((val / maxVal.value) * 4) // 1~4
-  switch (intensity) {
-    case 1: return 'bg-gray-200'
-    case 2: return 'bg-gray-400'
-    case 3: return 'bg-gray-600'
-    case 4: return 'bg-gray-800'
-  }
-}
+import { useRoute, useRouter } from "vue-router";
 
 const user = useUserStore()
 const searchQuery = ref('')
@@ -57,123 +31,104 @@ function handleSearch() {
 </script>
 
 <template>
-  <div class="drawer lg:drawer-open">
+  <div class="drawer lg:drawer-open min-h-screen">
     <input id="my-drawer-4" type="checkbox" class="drawer-toggle" />
 
-    <div class="drawer-content">
-      <!-- Navbar -->
-      <nav class="navbar w-full bg-base-100 shadow-sm">
-        <div class="navbar-start">
-<!--          <label for="my-drawer-4" aria-label="open sidebar" class="btn btn-square btn-ghost">-->
-<!--            <MenuIcon/>-->
-<!--          </label>-->
-          <div class="dropdown dropdown-hover">
-            <div tabindex="0" role="button" class="px-0 font-bold text-xl">AISoulmates</div>
-            <ul tabindex="-1" class="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
-              <li><a>Item 1</a></li>
-              <li><a>Item 2</a></li>
-            </ul>
+    <div class="drawer-content overflow-visible pb-8">
+      <nav class="layer-nav sticky top-0 mx-3 mt-3 rounded-2xl bg-[var(--surface)] px-3 py-2 shadow-[var(--shadow)] sm:mx-4 sm:px-4">
+        <div class="flex flex-wrap items-center gap-2">
+          <label for="my-drawer-4" aria-label="Toggle sidebar" class="inline-flex h-8 w-8 cursor-pointer items-center justify-center text-[var(--muted)] lg:hidden">
+            <MenuIcon />
+          </label>
+
+          <RouterLink :to="{ name: 'homepage-index' }" class="brand-font text-xl font-semibold tracking-tight text-[var(--text)]">AISoulmates</RouterLink>
+
+          <div class="order-3 w-full sm:order-none sm:ml-4 sm:w-auto sm:flex-1">
+            <form @submit.prevent="handleSearch" class="relative max-w-2xl">
+              <input
+                v-model="searchQuery"
+                class="soft-input rounded-full pr-12"
+                placeholder="Search companions"
+                aria-label="Search companions"
+              />
+              <button type="submit" aria-label="Submit search" class="absolute right-1.5 top-1.5 flex h-8 w-8 items-center justify-center rounded-full text-[var(--muted)] transition-colors hover:bg-[var(--accent-soft)] hover:text-[var(--accent)]">
+                <SearchIcon />
+              </button>
+            </form>
           </div>
-<!--          <div class="px-2 font-bold text-xl">AISoulmates</div>-->
-        </div>
 
-        <div class="navbar-center flex justify-center w-full max-w-150">
-          <form @submit.prevent="handleSearch" class="join w-4/5 flex justify-center">
-            <input v-model="searchQuery" class="input join-item rounded-l-full w-4/5" placeholder="Search" />
-            <button class="btn join-item rounded-r-full">
-              <SearchIcon/>
-            </button>
-          </form>
-        </div>
+          <div class="ml-auto flex items-center gap-1">
+            <RouterLink v-if="user.isLogin()" :to="{ name: 'create-index' }" class="inline-flex h-9 w-9 items-center justify-center text-[var(--muted)] hover:text-[var(--accent)]" aria-label="Create character">
+              <CreateIcon />
+            </RouterLink>
 
-        <div class="navbar-end">
-          <RouterLink v-if="user.isLogin()"  :to="{name:'create-index'}"  class="btn btn-ghost text-lg hover-3d py-1">
-            <CreateIcon/>
-          </RouterLink>
+            <RouterLink v-if="user.isLogin()" :to="{ name: 'new-index' }" class="inline-flex h-9 w-9 items-center justify-center text-[var(--muted)] hover:text-[var(--accent)]" aria-label="Updates">
+              <NewIcon />
+            </RouterLink>
 
-          <RouterLink v-if="user.isLogin()" :to="{name:'new-index'}" class="btn btn-ghost text-lg hover-3d py-1">
-            <NewIcon/>
-          </RouterLink>
+            <RouterLink
+              v-if="user.hasPulledUserInfo && !user.isLogin()"
+              :to="{ name: 'user-account-login-index' }"
+              class="btn rounded-full bg-[var(--surface-strong)] px-5 text-[var(--text)] hover:bg-[var(--bg-elevated)]"
+            >
+              Sign in
+            </RouterLink>
 
-          <RouterLink v-if="user.hasPulledUserInfo && !user.isLogin()" :to="{name: 'user-account-login-index'}" active-class="btn-active" class="btn btn-ghost text-lg">
-            Sign in
-          </RouterLink>
-
-          <UserMenu v-else-if="user.isLogin()"/>
-
+            <UserMenu v-else-if="user.isLogin()" />
+          </div>
         </div>
       </nav>
-      <!-- Page content here -->
+
       <slot></slot>
     </div>
 
-    <div class="drawer-side is-drawer-close:overflow-visible">
-      <label for="my-drawer-4" aria-label="close sidebar" class="drawer-overlay"></label>
+    <div class="drawer-side layer-sidebar isolate overflow-visible">
+      <label for="my-drawer-4" aria-label="close sidebar" class="drawer-overlay layer-overlay !bg-transparent"></label>
 
-      <div class="flex min-h-full flex-col items-start bg-base-200 is-drawer-close:w-16 is-drawer-open:w-54">
-        <!-- Sidebar content here -->
-        <ul class="menu w-full grow">
+      <aside class="mx-3 my-3 flex min-h-[calc(100%-1.5rem)] w-16 flex-col overflow-visible rounded-2xl bg-[var(--surface)] px-2 py-3 shadow-[var(--shadow)] transition-all is-drawer-open:w-56">
+        <ul class="menu mt-2 w-full gap-1 p-0 text-[var(--text)]">
           <li>
-            <label for="my-drawer-4" aria-label="open sidebar" class="flex group">
-              <CompactIcon class="is-drawer-close:ml-0 is-drawer-close:group-hover:hidden"/>
-              <MenuIcon class="is-drawer-open:ml-auto is-drawer-close:hidden group-hover:inline-block" />
-            </label>
-          </li>
-          <li></li>
-          <!-- heatmap -->
-          <li>
-            <div class="flex flex-col gap-1 p-4 is-drawer-close:hidden">
-              <div
-                v-for="(week, rowIndex) in data"
-                :key="rowIndex"
-                class="flex gap-1"
-              >
-                <div
-                  v-for="(dayVal, colIndex) in week"
-                  :key="colIndex"
-                  :class="['w-4 h-4 rounded', getColor(dayVal)]"
-                  :title="`Value: ${dayVal}`"
-                ></div>
-              </div>
-            </div>
-          </li>
-          <li class="is-drawer-close:hidden"></li>
-          <li>
-            <RouterLink :to="{name: 'homepage-index'}" active-class="menu-focus" class="is-drawer-close:tooltip is-drawer-close:tooltip-right py-3" data-tip="Homepage">
-              <!-- Home icon -->
-              <homepage-icon/>
-              <span class="is-drawer-close:hidden text-base ml-2 whitespace-nowrap">Home</span>
+            <RouterLink :to="{ name: 'homepage-index' }" active-class="active-nav" class="group relative z-[70] layer-popover rounded-xl px-3 py-3 is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Home">
+              <HomepageIcon />
+              <span class="is-drawer-close:hidden ml-2">Home</span>
             </RouterLink>
           </li>
-
           <li>
-            <RouterLink :to="{name: 'friend-index'}" active-class="menu-focus" class="is-drawer-close:tooltip is-drawer-close:tooltip-right py-3" data-tip="Friend">
-              <friend-icon/>
-              <span class="is-drawer-close:hidden text-base ml-2 whitespace-nowrap">Friends</span>
+            <RouterLink :to="{ name: 'friend-index' }" active-class="active-nav" class="group relative z-[70] layer-popover rounded-xl px-3 py-3 is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Friends">
+              <FriendIcon />
+              <span class="is-drawer-close:hidden ml-2">Friends</span>
             </RouterLink>
           </li>
-
           <li>
-            <RouterLink :to="{name:'create-index'}" active-class="menu-focus" class="is-drawer-close:tooltip is-drawer-close:tooltip-right py-3" data-tip="Create">
-              <create-icon/>
-              <span class="is-drawer-close:hidden text-base ml-2 whitespace-nowrap">Create</span>
+            <RouterLink :to="{ name: 'create-index' }" active-class="active-nav" class="group relative z-[70] layer-popover rounded-xl px-3 py-3 is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Create">
+              <CreateIcon />
+              <span class="is-drawer-close:hidden ml-2">Create</span>
             </RouterLink>
           </li>
-
           <li>
-            <RouterLink :to="{name:'setting-index'}" active-class="menu-focus" class="is-drawer-close:tooltip is-drawer-close:tooltip-right py-3" data-tip="Settings">
-              <!-- Settings icon -->
-              <setting-icon/>
-            <span class="is-drawer-close:hidden text-base ml-2 whitespace-nowrap">Settings</span>
+            <RouterLink :to="{ name: 'setting-index' }" active-class="active-nav" class="group relative z-[70] layer-popover rounded-xl px-3 py-3 is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Settings">
+              <SettingIcon />
+              <span class="is-drawer-close:hidden ml-2">Settings</span>
             </RouterLink>
           </li>
-
         </ul>
-      </div>
+      </aside>
     </div>
   </div>
 </template>
 
 <style scoped>
+.active-nav {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
 
+.menu :global(a:hover) {
+  background: color-mix(in srgb, var(--surface-strong) 70%, transparent);
+}
+
+:deep([class*="tooltip"])::before,
+:deep([class*="tooltip"])::after {
+  z-index: 70 !important;
+}
 </style>

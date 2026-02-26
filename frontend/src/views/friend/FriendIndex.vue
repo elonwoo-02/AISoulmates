@@ -1,5 +1,5 @@
 <script setup>
-import {nextTick, onBeforeUnmount, onMounted, ref, useTemplateRef} from "vue";
+import { nextTick, onBeforeUnmount, onMounted, ref, useTemplateRef } from "vue";
 import api from "@/js/http/api.js";
 import Character from "@/components/character/Character.vue";
 
@@ -9,7 +9,7 @@ const hasFriends = ref(true)
 const sentinelRef = useTemplateRef('sentinel-ref')
 const error = ref(null)
 
-function checkSentinelVisible() {  // 判断哨兵是否能被看到
+function checkSentinelVisible() {
   if (!sentinelRef.value) return false
 
   const rect = sentinelRef.value.getBoundingClientRect()
@@ -31,7 +31,7 @@ async function loadMore() {
     if (data.result === 'success') {
       newFriends = data.friends
     }
-  } catch(err) {
+  } catch (err) {
     console.log(err)
     error.value = 'Failed to load more friends'
   } finally {
@@ -51,7 +51,7 @@ async function loadMore() {
 
 let observer = null
 onMounted(async () => {
-  await loadMore()  // 加载新元素
+  await loadMore()
 
   observer = new IntersectionObserver(
     entries => {
@@ -61,10 +61,9 @@ onMounted(async () => {
         }
       })
     },
-    {root: null, rootMargin: '2px', threshold: 0}
+    { root: null, rootMargin: '2px', threshold: 0 }
   )
 
-  //监听哨兵元素， 每次哨兵被看到时，都会触发一次
   observer.observe(sentinelRef.value)
 })
 
@@ -73,35 +72,36 @@ function removeFriend(friendId) {
 }
 
 onBeforeUnmount(() => {
-  observer?.disconnect()  // 解绑监听器
+  observer?.disconnect()
 })
 </script>
 
 <template>
-  <div class="flex flex-col items-center mb-12">
-    <div class="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-9 mt-12 justify-items-center w-full px-9">
-      <Character
-        v-for="friend in friends"
-        :key="friend.id"
-        :character="friend.character"
-        :canRemoveFriend="removeFriend"
-        :friendId="friend.id"
-        @remove="removeFriend"
-      />
-    </div>
+  <main class="page-shell pb-12">
+    <section class="mt-7">
+      <div class="card-grid">
+        <Character
+          v-for="friend in friends"
+          :key="friend.id"
+          :character="friend.character"
+          :canRemoveFriend="removeFriend"
+          :friendId="friend.id"
+          @remove="removeFriend"
+        />
+      </div>
 
-    <div ref="sentinel-ref" class="mt-8 hidden h-2 text-base-100"></div>
+      <div ref="sentinel-ref" class="mt-8 hidden h-2 text-base-100"></div>
 
-    <div v-if="loading" class="mt-4 flex justify-center text-gray-500">
-      <span class="loading loading-spinner loading-lg"></span>
-    </div>
+      <div v-if="loading" class="mt-4 flex justify-center text-[var(--muted)]">
+        <span class="loading loading-spinner loading-lg"></span>
+      </div>
 
-    <div v-else-if="error" class="alert alert-error mt-4">
-      <span>{{ error }}</span>
-    </div>
-  </div>
+      <div v-else-if="error" class="alert alert-error mt-4">
+        <span>{{ error }}</span>
+      </div>
+    </section>
+  </main>
 </template>
 
 <style scoped>
-
 </style>

@@ -17,13 +17,13 @@ defineExpose({
 </script>
 
 <template>
-  <fieldset class="space-y-1">
-    <label for="username" class="text-sm font-medium text-base-content/80">Username</label>
+  <fieldset class="space-y-2">
+    <label for="username" class="text-sm font-semibold text-[var(--text)]">Username</label>
     <input
       id="username"
       v-model="myUsername"
       type="text"
-      class="input w-full rounded-xl border-base-300 bg-base-100"
+      class="w-full rounded-xl bg-[var(--surface)] px-3 py-2.5 text-[var(--text)] placeholder:text-[var(--muted)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"
       placeholder="Enter your channel name"
     />
   </fieldset>
@@ -31,3 +31,5 @@ defineExpose({
 
 <style scoped>
 </style>
+
+

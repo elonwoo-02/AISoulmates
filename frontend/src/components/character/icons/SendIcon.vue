@@ -1,20 +1,6 @@
-<script setup>
-
-</script>
-
 <template>
-<svg
-  xmlns="http://www.w3.org/2000/svg"
-  viewBox="0 0 24 24"
-  fill="none"
-  stroke="currentColor"
-  stroke-width="2"
-  class="w-5 h-5 text-white">
-  <line x1="22" y1="2" x2="11" y2="13" />
-  <polygon points="22 2 15 22 11 13 2 9 22 2" />
-</svg>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-5">
+    <path d="M22 2L11 13"></path>
+    <path d="M22 2L15 22l-4-9-9-4z"></path>
+  </svg>
 </template>
-
-<style scoped>
-
-</style>

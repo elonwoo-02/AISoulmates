@@ -1,10 +1,10 @@
 <script setup>
-import {useUserStore} from "@/stores/user.js";
+import { useUserStore } from "@/stores/user.js";
 import UserSpaceIcon from "@/components/navbar/icons/UserSpaceIcon.vue";
 import UserProfileIcon from "@/components/navbar/icons/UserProfileIcon.vue";
 import UserLogoutIcon from "@/components/navbar/icons/UserLogoutIcon.vue";
 import api from "@/js/http/api.js";
-import {useRouter} from "vue-router";
+import { useRouter } from "vue-router";
 
 const user = useUserStore()
 const router = useRouter()
@@ -30,39 +30,43 @@ async function handleLogout() {
 
 <template>
   <div class="dropdown dropdown-end">
-    <div tabindex="0" role="button" class="avatar btn btn-circle w-8 h-8 ml-6 mr-6">
-      <div class="w-8 rounded-full">
-        <img :src="user.photo" alt="">
+    <div tabindex="0" role="button" class="avatar btn btn-circle h-10 w-10 bg-[var(--surface-strong)] p-0 ring-1 ring-black/10 dark:ring-white/15">
+      <div class="h-10 w-10 rounded-full overflow-hidden">
+        <img :src="user.photo" alt="user avatar">
       </div>
     </div>
-    <ul tabindex="-1" class="dropdown-content menu bg-base-100 rounded-box z-1 w-48 p-2 shadow-lg">
-      <li>
-        <RouterLink @click="closeMenu" to="{name:'user-space-index', params:{ user_id: user.id }}">
+
+    <ul tabindex="-1" class="dropdown-content layer-popover mt-2 w-56 rounded-2xl bg-[var(--surface)] p-2 text-[var(--text)] shadow-[var(--shadow)] ring-1 ring-black/10 dark:ring-white/15">
+      <li class="mb-1">
+        <RouterLink @click="closeMenu" :to="{name:'user-space-index', params:{ user_id: user.id }}" class="rounded-xl p-2 no-underline hover:no-underline">
           <div class="avatar">
-            <div class="w-10 rounded-full">
-              <img :src="user.photo" alt="">
+            <div class="w-10 rounded-full overflow-hidden">
+              <img :src="user.photo" alt="profile photo">
             </div>
           </div>
-          <!--补丁：break-all可以让英文词在任意位置断开换行-->
-          <span class="text-base font-bold line-clamp-1 break-all"> {{ user.username }}</span>
+          <span class="line-clamp-1 break-all text-sm font-semibold">{{ user.username }}</span>
         </RouterLink>
       </li>
+
       <li>
-        <RouterLink @click="closeMenu" :to="{name:'user-space-index', params:{user_id: user.id}}" class="text-sm font-bold py-3">
-          <UserSpaceIcon/>
+        <RouterLink @click="closeMenu" :to="{name:'user-space-index', params:{user_id: user.id}}" class="rounded-xl py-2.5 text-sm no-underline hover:no-underline">
+          <UserSpaceIcon />
           User Space
         </RouterLink>
       </li>
+
       <li>
-        <RouterLink @click="closeMenu" :to="{name:'user-profile-index', params:{user_id: user.id}}" class="text-sm font-bold py-3">
-          <UserProfileIcon/>
+        <RouterLink @click="closeMenu" :to="{name:'user-profile-index', params:{user_id: user.id}}" class="rounded-xl py-2.5 text-sm no-underline hover:no-underline">
+          <UserProfileIcon />
           User Profile
         </RouterLink>
       </li>
-      <li></li>
+
+      <li class="my-1 h-px bg-[var(--bg-elevated)]"></li>
+
       <li>
-        <a @click="handleLogout" class="text-sm font-bold py-3">
-          <UserLogoutIcon/>
+        <a @click="handleLogout" class="rounded-xl py-2.5 text-sm text-rose-500 hover:bg-rose-500/10 no-underline hover:no-underline">
+          <UserLogoutIcon />
           Log out
         </a>
       </li>
@@ -71,5 +75,16 @@ async function handleLogout() {
 </template>
 
 <style scoped>
+.line-clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 
+:deep(.dropdown-content a),
+:deep(.dropdown-content a:hover),
+:deep(.dropdown-content a:focus) {
+  text-decoration: none;
+}
 </style>

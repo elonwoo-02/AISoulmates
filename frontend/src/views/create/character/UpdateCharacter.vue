@@ -3,11 +3,11 @@ import Photo from "@/views/create/character/components/Photo.vue";
 import BackgroundImage from "@/views/create/character/components/BackgroundImage.vue";
 import Name from "@/views/create/character/components/Name.vue";
 import Profile from "@/views/create/character/components/Profile.vue";
-import {onMounted, ref, useTemplateRef} from "vue";
-import {base64ToFile} from "@/js/utils/base64_to_file.js";
+import { onMounted, ref, useTemplateRef } from "vue";
+import { base64ToFile } from "@/js/utils/base64_to_file.js";
 import api from "@/js/http/api.js";
-import {useRoute, useRouter} from "vue-router";
-import {useUserStore} from "@/stores/user.js";
+import { useRoute, useRouter } from "vue-router";
+import { useUserStore } from "@/stores/user.js";
 
 const user = useUserStore()
 const router = useRouter()
@@ -15,7 +15,7 @@ const route = useRoute()
 const characterId = route.params.character_id
 const character = ref(null)
 
-onMounted( async () => {
+onMounted(async () => {
   try {
     const res = await api.get(`/api/create/character/get_single/`, {
       params: {
@@ -49,8 +49,6 @@ async function handleUpdate() {
     errorMessage.value = 'Name is required'
   } else if (!profile) {
     errorMessage.value = 'Profile is required'
-  // } else if (!backgroundImage) {
-  //   errorMessage.value = 'Background image is required'
   } else {
     const formData = new FormData()
     formData.append('character_id', characterId)
@@ -83,26 +81,32 @@ async function handleUpdate() {
 </script>
 
 <template>
-  <div v-if="character" class="flex justify-center">
-    <div class="card w-120 bg-base-200 shadow-sm mt-1">
-      <div class="card-body">
-        <h3 class="text-lg font-bold my-4">Update character</h3>
-        <Photo ref="photo-ref" :photo="character.photo"/>
-        <Name ref="name-ref" :name="character.name"/>
-        <Profile ref="profile-ref" :profile="character.profile"/>
-        <BackgroundImage ref="background-image-ref" :backgroundImage="character.background_image"/>
+  <main class="page-shell pb-12">
+    <section v-if="character" class="glass-panel mx-auto max-w-3xl p-6 md:p-8">
+      <h1 class="brand-font text-3xl text-[var(--text)]">Update Character</h1>
+      <p class="mt-2 text-sm text-[var(--muted)]">Polish profile details while keeping your audience context.</p>
 
-        <p v-if="errorMessage" class="text-sm text-red-500"> {{ errorMessage }}</p>
+      <div class="mt-6 grid gap-5 md:grid-cols-[220px_1fr]">
+        <div class="space-y-5">
+          <Photo ref="photo-ref" :photo="character.photo" />
+          <BackgroundImage ref="background-image-ref" :backgroundImage="character.background_image" />
+        </div>
 
-        <div class="flex justify-center">
-          <div @click="handleUpdate" class="btn btn-neutral w-60 mt-2">Update</div>
+        <div class="space-y-5">
+          <Name ref="name-ref" :name="character.name" />
+          <Profile ref="profile-ref" :profile="character.profile" />
+
+          <p v-if="errorMessage" class="rounded-xl   bg-rose-500/10 px-3 py-2 text-sm text-rose-500">{{ errorMessage }}</p>
+
+          <div class="flex justify-end">
+            <button @click="handleUpdate" class="btn rounded-full  bg-[var(--accent)] px-8 text-white hover:opacity-90">Update</button>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-
+    </section>
+  </main>
 </template>
 
 <style scoped>
-
 </style>
+
