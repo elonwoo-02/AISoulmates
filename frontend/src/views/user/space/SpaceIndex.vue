@@ -1,101 +1,105 @@
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
+import {ref, onMounted, useTemplateRef, nextTick, onBeforeUnmount} from 'vue'
+import {useRoute} from 'vue-router'
 import api from '@/js/http/api.js'
+import UserInfoField from "@/views/user/space/components/UserInfoField.vue";
 
-const router = useRouter()
+const userProfile = ref(null)
 const characters = ref([])
-const loading = ref(true)
-const error = ref('')
+const loading = ref(false)
+const hasCharacters = ref(true)
+const sentinelRef = useTemplateRef('sentinel-ref')
+const route = useRoute()
+const error = ref(null)
 
-onMounted(async () => {
+console.log('Route params:', route.params)
+console.log('User ID from route:', route.params.user_id)
+
+
+function checkSentinelVisible() {  // 判断哨兵是否能被看到
+  if (!sentinelRef.value) return false
+
+  const rect = sentinelRef.value.getBoundingClientRect()
+  return rect.top < window.innerHeight && rect.bottom > 0
+}
+
+async function loadMore() {
+  if (loading.value || !hasCharacters.value) return
+  loading.value = true
+
+  let newCharacters = []
   try {
-    const res = await api.get('/api/create/character/list/')
+    const res = await api.get('/api/create/character/get_list/', {
+      params: {
+        items_count: characters.value.length,
+        user_id: route.params.user_id
+      }
+    })
     const data = res.data
+    console.log('API Response:', data)
     if (data.result === 'success') {
-      characters.value = data.characters
+      userProfile.value = data.user_profile
+      console.log('User profile set:', userProfile.value)
+      newCharacters = data.characters
     } else {
-      error.value = data.result
+      console.log('API returned non-success result:', data.result)
     }
   } catch (err) {
-    error.value = 'Failed to load characters'
+    error.value = 'Failed to load more characters'
   } finally {
-    loading.value = false
+    if (newCharacters.length === 0) {
+      hasCharacters.value = false
+    } else {
+      characters.value.push(...newCharacters)
+      await nextTick()
+
+      if (checkSentinelVisible()) {
+        await loadMore()
+      }
+    }
   }
+}
+
+let observer = null
+onMounted( async () => {
+  await loadMore()
+
+  observer = new IntersectionObserver(
+      entries => {
+          entries.forEach(
+              entry => {
+                if (entry.isIntersecting) {
+                  loadMore()
+                }
+              })
+        },
+      {root: null, rootMargin: '2px', threshold: 0}
+  )
+  observer.observe(sentinelRef.value)
 })
 
-function goToUpdate(characterId) {
-  router.push({
-    name: 'update-character',
-    params: { character_id: characterId }
-  })
-}
-
-function goToCreate() {
-  router.push({
-    name: 'create-index'
-  })
-}
+onBeforeUnmount(() => {
+  observer?.disconnect()
+})
 </script>
 
 <template>
-  <div class="flex justify-center">
-    <div class="card w-120 bg-base-200 shadow-sm mt-1">
-      <div class="card-body">
-        <h3 class="text-lg font-bold my-4">My Characters</h3>
+  <div class="flex flex-col mb-12">
+    <UserInfoField :userProfile="userProfile"/>
+    <div class="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-9 mt-12 justify-items-center w-full px-9">
 
-        <div v-if="loading" class="flex justify-center">
-          <span class="loading loading-spinner loading-lg"></span>
-        </div>
-
-        <div v-else-if="error" class="alert alert-error">
-          <span>{{ error }}</span>
-        </div>
-
-        <div v-else-if="characters.length === 0" class="text-center py-8">
-          <p class="text-gray-500 mb-4">You haven't created any characters yet</p>
-          <button @click="goToCreate" class="btn btn-primary">Create Your First Character</button>
-        </div>
-
-        <div v-else class="space-y-4">
-          <div v-for="character in characters" :key="character.id"
-               class="card bg-base-100 shadow-sm cursor-pointer hover:shadow-md transition-shadow"
-               @click="goToUpdate(character.id)">
-            <div class="card-body p-4">
-              <div class="flex items-center gap-4">
-                <div class="avatar">
-                  <div class="w-16 h-16 rounded-full">
-                    <img :src="character.photo" :alt="character.name" />
-                  </div>
-                </div>
-                <div class="flex-1">
-                  <h4 class="font-semibold">{{ character.name }}</h4>
-                  <p class="text-sm text-gray-600 line-clamp-2">{{ character.profile }}</p>
-                  <p class="text-xs text-gray-400 mt-1">
-                    Updated: {{ new Date(character.update_time).toLocaleDateString() }}
-                  </p>
-                </div>
-                <div class="btn btn-ghost btn-sm">
-                  Edit
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="flex justify-center mt-6">
-            <button @click="goToCreate" class="btn btn-primary">Create New Character</button>
-          </div>
-        </div>
-      </div>
+    </div>
+    <!-- Sentinel element for infinite scrolling -->
+    <div ref="sentinel-ref" class="h-2 mt-8 hidden text-base-100"></div>
+    <div v-if="loading" class="text-gray-500 mt-4 flex justify-center">
+      <span class="loading loading-spinner loading-lg"></span>
+    </div>
+    <div v-else-if="error" class="alert alert-error">
+      <span>{{ error }}</span>
     </div>
   </div>
 </template>
 
 <style scoped>
-.line-clamp-2 {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
+
 </style>
