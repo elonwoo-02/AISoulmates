@@ -6,3 +6,4 @@ media/
 staticfiles/
 static/
 .ai/
+AGENTS.md
