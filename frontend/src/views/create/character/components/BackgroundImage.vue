@@ -2,8 +2,8 @@
 import {onBeforeUnmount, ref, useTemplateRef, watch} from "vue";
 import CameraIcon from "@/views/user/profile/compoents/icon/CameraIcon.vue";
 
-import Croppie from 'croppie'          // 引入 Croppie 裁剪库
-import 'croppie/croppie.css'           // Croppie 样式
+import Croppie from 'croppie'
+import 'croppie/croppie.css'
 
 const props = defineProps(['backgroundImage'])
 const myBackgroundImage = ref(props.backgroundImage)
@@ -20,6 +20,7 @@ let croppie = null
 
 async function openModal(photo) {
   modalRef.value.showModal()
+  await nextTick()
 
   if (!croppie) {
     croppie = new Croppie(croppieRef.value, {
