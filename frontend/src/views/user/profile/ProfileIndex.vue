@@ -1,7 +1,7 @@
 <script setup>
-import Photo from '@/views/user/profile/compoents/Photo.vue'
-import Username from '@/views/user/profile/compoents/Username.vue'
-import Profile from '@/views/user/profile/compoents/Profile.vue'
+import Photo from '@/views/user/profile/components/Photo.vue'
+import Username from '@/views/user/profile/components/Username.vue'
+import Profile from '@/views/user/profile/components/Profile.vue'
 
 import { useUserStore } from '@/stores/user.js'
 import { ref, useTemplateRef } from 'vue'

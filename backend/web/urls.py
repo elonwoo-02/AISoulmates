@@ -18,7 +18,7 @@ from web.views.user.account.logout import LogoutView
 from web.views.user.account.refresh_token import RefreshTokenView
 from web.views.user.account.register import RegisterView
 
-from web.views.user.profile.udpate import UpdateProfileView
+from web.views.user.profile.update import UpdateProfileView
 
 urlpatterns = [
     # 用户账户相关接口

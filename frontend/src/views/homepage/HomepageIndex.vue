@@ -67,11 +67,14 @@ onMounted( async () => {
         },
       {root: null, rootMargin: '2px', threshold: 0}
   )
-  observer.observe(sentinelRef.value)
+  if (sentinelRef.value) {
+    observer.observe(sentinelRef.value)
+  }
 })
 
 function reset() {
   characters.value = []
+  error.value = null
   loading.value = false
   hasCharacters.value = true
   loadMore()
@@ -98,7 +101,7 @@ onBeforeUnmount(() => {
       />
     </div>
     <!-- Sentinel element for infinite scrolling -->
-    <div ref="sentinel-ref" class="h-2 mt-8 hidden text-base-100"></div>
+    <div ref="sentinel-ref" class="h-2 mt-8 invisible"></div>
     <div v-if="loading" class="text-gray-500 mt-4 flex justify-center">
       <span class="loading loading-spinner loading-lg"></span>
     </div>

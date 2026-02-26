@@ -24,11 +24,12 @@ class GetListFriendView(APIView):
                         'id': character.id,
                         'name': character.name,
                         'profile': character.profile,
-                        'background_image': character.background_image.url,
+                        'photo': character.photo.url if character.photo else '',
+                        'background_image': character.background_image.url if character.background_image else '',
                         'author': {
                             'user_id': author.user.id,
                             'username': author.user.username,
-                            'photo': author.photo.url,
+                            'photo': author.photo.url if author.photo else '',
                         }
                     }
                 })

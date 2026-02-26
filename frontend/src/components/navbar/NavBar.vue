@@ -43,9 +43,13 @@ const searchQuery = ref('')
 const router = useRouter()
 const route = useRoute()
 
-watch(() => route.query.q, newQ =>{
-  searchQuery.value = newQ || ''
-})
+watch(
+  () => route.query.q,
+  newQ => {
+    searchQuery.value = newQ || ''
+  },
+  { immediate: true }
+)
 
 function handleSearch() {
   router.push({ name: 'homepage-index', query: { q: searchQuery.value.trim() } })

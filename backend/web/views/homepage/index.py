@@ -9,11 +9,18 @@ class HomepageIndexView(APIView):
     def get(self, request):
         try:
             items_count = int(request.query_params.get('items_count', 0))
+            if items_count < 0:
+                items_count = 0
             search_query = request.query_params.get('search_query', '').strip()
             if search_query:
-                queryset = Character.objects.filter(
-                    Q(name__icontains=search_query)
-                )
+                terms = [term for term in search_query.split() if term]
+                queryset = Character.objects.all()
+                for term in terms:
+                    queryset = queryset.filter(
+                        Q(name__icontains=term)
+                        | Q(profile__icontains=term)
+                        | Q(author__user__username__icontains=term)
+                    )
             else:
                 queryset = Character.objects.all()
             characters_raw = queryset.order_by('-id')[items_count:items_count+10]
@@ -36,7 +43,13 @@ class HomepageIndexView(APIView):
                 "result": "success",
                 "characters": characters
             })
-        except Exception as e:
+        except (TypeError, ValueError):
             return Response({
-                "result": f"An error occurred"
-            })
+                "result": "invalid_items_count",
+                "characters": []
+            }, status=400)
+        except Exception:
+            return Response({
+                "result": "An error occurred",
+                "characters": []
+            }, status=500)
