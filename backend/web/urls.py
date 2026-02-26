@@ -1,8 +1,8 @@
 from django.urls import path, re_path
 
 from web.views.create.character.create import CreateCharacterView
+from web.views.create.character.get_list import GetListCharacterView
 from web.views.create.character.get_single import GetSingleCharacterView
-from web.views.create.character.list import ListCharacterView
 from web.views.create.character.remove import RemoveCharacterView
 from web.views.create.character.update import UpdateCharacterView
 
@@ -29,7 +29,7 @@ urlpatterns = [
 
     # 角色相关接口
     path('api/create/character/create/', CreateCharacterView.as_view()),
-    path('api/create/character/list/', ListCharacterView.as_view()),
+    path('api/create/character/get_list/', GetListCharacterView.as_view()),
     path('api/create/character/update/', UpdateCharacterView.as_view()),
     path('api/create/character/remove/', RemoveCharacterView.as_view()),
     path('api/create/character/get_single/', GetSingleCharacterView.as_view()),
