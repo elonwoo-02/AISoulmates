@@ -38,5 +38,5 @@ class HomepageIndexView(APIView):
             })
         except Exception as e:
             return Response({
-                "result": f"An error occurred: {str(e)}"
+                "result": f"An error occurred"
             })
