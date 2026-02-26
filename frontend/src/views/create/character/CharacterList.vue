@@ -39,7 +39,7 @@ function goToCreate() {
 </script>
 
 <template>
-  <div class="mx-auto w-full max-w-screen-xl px-4 py-6 md:px-6 lg:px-8">
+  <div class="mx-auto w-full max-w-7xl px-4 py-6 md:px-6 lg:px-8">
     <header class="mb-6 flex flex-wrap items-center justify-between gap-3">
       <div>
         <h1 class="text-2xl font-bold tracking-tight">Channel characters</h1>
