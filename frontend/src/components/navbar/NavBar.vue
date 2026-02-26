@@ -9,9 +9,10 @@ import SearchIcon from "@/components/navbar/icons/SearchIcon.vue";
 import CompactIcon from "@/components/navbar/icons/CompactIcon.vue";
 import NewIcon from "@/components/navbar/icons/NewIcon.vue";
 
-import { ref, computed } from 'vue'
+import {ref, computed, watch} from 'vue'
 import {useUserStore} from "@/stores/user.js";
 import UserMenu from "@/components/navbar/UserMenu.vue";
+import {useRoute, useRouter} from "vue-router";
 
 // 模拟数据：7列（周日~周六）× 5行（5周）
 const data = ref([
@@ -38,7 +39,17 @@ const getColor = (val) => {
 }
 
 const user = useUserStore()
+const searchQuery = ref('')
+const router = useRouter()
+const route = useRoute()
 
+watch(() => route.query.q, newQ =>{
+  searchQuery.value = newQ || ''
+})
+
+function handleSearch() {
+  router.push({ name: 'homepage-index', query: { q: searchQuery.value.trim() } })
+}
 </script>
 
 <template>
@@ -63,12 +74,12 @@ const user = useUserStore()
         </div>
 
         <div class="navbar-center flex justify-center w-full max-w-150">
-          <div class="join w-4/5 flex justify-center">
-            <input class="input join-item rounded-l-full w-4/5" placeholder="Search" />
+          <form @submit.prevent="handleSearch" class="join w-4/5 flex justify-center">
+            <input v-model="searchQuery" class="input join-item rounded-l-full w-4/5" placeholder="Search" />
             <button class="btn join-item rounded-r-full">
               <SearchIcon/>
             </button>
-          </div>
+          </form>
         </div>
 
         <div class="navbar-end">
