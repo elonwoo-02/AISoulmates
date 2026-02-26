@@ -4,8 +4,8 @@ defineProps(['userProfile'])
 
 <template>
   <div v-if="userProfile" class="flex mt-12 gap-8">
-    <div class="w-44 rounded-full">
-      <img :src="userProfile.photo" alt="">
+    <div class="w-44">
+      <img :src="userProfile.photo" alt="" class="rounded-full w-full h-full object-cover">
     </div>
     <div class="flex flex-col w-64 h-44">
       <div class="text-2xl font-bold line-clamp-1 break-all">{{ userProfile.username }}</div>

@@ -13,8 +13,6 @@ const sentinelRef = useTemplateRef('sentinel-ref')
 const route = useRoute()
 const error = ref(null)
 
-console.log('Route params:', route.params)
-console.log('User ID from route:', route.params.user_id)
 
 
 function checkSentinelVisible() {  // 判断哨兵是否能被看到
@@ -37,13 +35,10 @@ async function loadMore() {
       }
     })
     const data = res.data
-    console.log('API Response:', data)
     if (data.result === 'success') {
       userProfile.value = data.user_profile
-      console.log('User profile set:', userProfile.value)
       newCharacters = data.characters
     } else {
-      console.log('API returned non-success result:', data.result)
     }
   } catch (err) {
     error.value = 'Failed to load more characters'
@@ -79,6 +74,10 @@ onMounted( async () => {
   observer.observe(sentinelRef.value)
 })
 
+function removeCharacter(characterId) {
+  characters.value = characters.value.filter(c => c.id !== characterId)
+}
+
 onBeforeUnmount(() => {
   observer?.disconnect()
 })
@@ -93,6 +92,7 @@ onBeforeUnmount(() => {
         :key="character.id"
         :character="character"
         :canEdit="true"
+        @remove="removeCharacter"
       />
     </div>
     <!-- Sentinel element for infinite scrolling -->

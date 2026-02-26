@@ -3,10 +3,25 @@ import {ref} from "vue";
 import {useUserStore} from "@/stores/user.js";
 import UpdateIcon from "@/components/character/icons/UpdateIcon.vue";
 import RemoveIcon from "@/components/character/icons/RemoveIcon.vue";
+import api from "@/js/http/api.js";
 
 const props = defineProps(['character', 'canEdit'])
+const emit = defineEmits(['remove'])
 const isHover = ref(false)
 const user = useUserStore()
+
+async function handleRemoveCharacter() {
+  try {
+    const res = await api.post('/api/create/character/remove/', {
+      character_id: props.character.id
+    })
+    if (res.data.result === 'success') {
+      emit('remove', props.character.id)
+    }
+  } catch (err) {
+    // Error handling
+  }
+}
 </script>
 
 <template>
@@ -20,7 +35,7 @@ const user = useUserStore()
           <RouterLink :to="{name: 'update-character', params: {character_id: character.id}}" class="btn btn-circle btn-ghost bg-transparent">
             <UpdateIcon/>
           </RouterLink>
-          <button class="btn btn-circle btn-ghost bg-transparent">
+          <button @click="handleRemoveCharacter" class="btn btn-circle btn-ghost bg-transparent">
             <RemoveIcon/>
           </button>
         </div>
