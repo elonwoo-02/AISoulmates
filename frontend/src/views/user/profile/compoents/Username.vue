@@ -1,35 +1,33 @@
 <script setup>
-import {ref, watch} from "vue";
+import { ref, watch } from 'vue'
 
 const props = defineProps(['username'])
 const myUsername = ref(props.username)
 
-watch(() => props.username, newVal => {
-  myUsername.value = newVal
-})
+watch(
+  () => props.username,
+  newVal => {
+    myUsername.value = newVal
+  },
+)
 
 defineExpose({
-  myUsername
+  myUsername,
 })
 </script>
 
-<!--
- ProfileIndex username
-      ↓
- props.username   （只读）
-      ↓
- myUsername (ref) （可编辑）
-      ↓
-   v-model 输入框
--->
-
 <template>
-  <fieldset class="fieldset">
-    <label for="username" class="label text-base">Username</label>
-    <input id="username" v-model="myUsername" type="text" class="input w-108">
+  <fieldset class="space-y-1">
+    <label for="username" class="text-sm font-medium text-base-content/80">Username</label>
+    <input
+      id="username"
+      v-model="myUsername"
+      type="text"
+      class="input w-full rounded-xl border-base-300 bg-base-100"
+      placeholder="Enter your channel name"
+    />
   </fieldset>
 </template>
 
 <style scoped>
-/* 样式使用 daisyUI/Tailwind，组件本身无需额外 CSS */
 </style>

@@ -1,25 +1,32 @@
 <script setup>
-import {ref, watch} from "vue";
+import { ref, watch } from 'vue'
 
 const props = defineProps(['profile'])
 const myProfile = ref(props.profile)
 
-watch(() => props.profile, newVal => {
-  myProfile.value = newVal
-})
+watch(
+  () => props.profile,
+  newVal => {
+    myProfile.value = newVal
+  },
+)
 
 defineExpose({
-  myProfile
+  myProfile,
 })
 </script>
 
 <template>
-  <fieldset class="fieldset">
-    <label class="label text-base">Profile</label>
-    <textarea v-model="myProfile" rows="5" class="textarea w-108"></textarea>
+  <fieldset class="space-y-1">
+    <label class="text-sm font-medium text-base-content/80">Profile</label>
+    <textarea
+      v-model="myProfile"
+      rows="6"
+      class="textarea w-full rounded-xl border-base-300 bg-base-100"
+      placeholder="Tell people about your characters"
+    ></textarea>
   </fieldset>
 </template>
 
 <style scoped>
-/* 样式使用 daisyUI/Tailwind，组件本身无需额外 CSS */
 </style>

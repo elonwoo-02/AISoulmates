@@ -119,7 +119,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 # 设置static和media静态文件路径
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 # STATIC_ROOT = BASE_DIR / 'static'  # 生产阶段使用
 
 STATICFILES_DIRS = [  # 开发阶段使用，生产阶段需要注释掉

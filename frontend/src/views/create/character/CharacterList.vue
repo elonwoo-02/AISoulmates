@@ -17,7 +17,7 @@ onMounted(async () => {
     } else {
       error.value = data.result
     }
-  } catch (err) {
+  } catch {
     error.value = 'Failed to load characters'
   } finally {
     loading.value = false
@@ -27,66 +27,65 @@ onMounted(async () => {
 function goToUpdate(characterId) {
   router.push({
     name: 'update-character',
-    params: { character_id: characterId }
+    params: { character_id: characterId },
   })
 }
 
 function goToCreate() {
   router.push({
-    name: 'create-index'
+    name: 'create-index',
   })
 }
 </script>
 
 <template>
-  <div class="flex justify-center">
-    <div class="card w-120 bg-base-200 shadow-sm mt-1">
-      <div class="card-body">
-        <h3 class="text-lg font-bold my-4">My Characters</h3>
-        
-        <div v-if="loading" class="flex justify-center">
-          <span class="loading loading-spinner loading-lg"></span>
-        </div>
-        
-        <div v-else-if="error" class="alert alert-error">
-          <span>{{ error }}</span>
-        </div>
-        
-        <div v-else-if="characters.length === 0" class="text-center py-8">
-          <p class="text-gray-500 mb-4">You haven't created any characters yet</p>
-          <button @click="goToCreate" class="btn btn-primary">Create Your First Character</button>
-        </div>
-        
-        <div v-else class="space-y-4">
-          <div v-for="character in characters" :key="character.id" 
-               class="card bg-base-100 shadow-sm cursor-pointer hover:shadow-md transition-shadow"
-               @click="goToUpdate(character.id)">
-            <div class="card-body p-4">
-              <div class="flex items-center gap-4">
-                <div class="avatar">
-                  <div class="w-16 h-16 rounded-full">
-                    <img :src="character.photo" :alt="character.name" />
-                  </div>
-                </div>
-                <div class="flex-1">
-                  <h4 class="font-semibold">{{ character.name }}</h4>
-                  <p class="text-sm text-gray-600 line-clamp-2">{{ character.profile }}</p>
-                  <p class="text-xs text-gray-400 mt-1">
-                    Updated: {{ new Date(character.update_time).toLocaleDateString() }}
-                  </p>
-                </div>
-                <div class="btn btn-ghost btn-sm">
-                  Edit
-                </div>
-              </div>
+  <div class="mx-auto w-full max-w-screen-xl px-4 py-6 md:px-6 lg:px-8">
+    <header class="mb-6 flex flex-wrap items-center justify-between gap-3">
+      <div>
+        <h1 class="text-2xl font-bold tracking-tight">Channel characters</h1>
+        <p class="mt-1 text-sm text-base-content/70">Manage your published characters</p>
+      </div>
+      <button @click="goToCreate" class="btn btn-neutral rounded-full">Create character</button>
+    </header>
+
+    <div v-if="loading" class="flex justify-center py-12">
+      <span class="loading loading-spinner loading-lg"></span>
+    </div>
+
+    <div v-else-if="error" class="alert alert-error">
+      <span>{{ error }}</span>
+    </div>
+
+    <div v-else-if="characters.length === 0" class="rounded-2xl border border-dashed border-base-300 bg-base-100 p-10 text-center">
+      <p class="text-base-content/70">You have not created any characters yet.</p>
+      <button @click="goToCreate" class="btn btn-primary mt-4 rounded-full">Create your first character</button>
+    </div>
+
+    <div v-else class="space-y-3">
+      <article
+        v-for="character in characters"
+        :key="character.id"
+        class="group cursor-pointer rounded-2xl border border-base-300 bg-base-100 p-3 shadow-sm transition-all hover:shadow-md"
+        @click="goToUpdate(character.id)"
+      >
+        <div class="flex items-center gap-4">
+          <div class="avatar">
+            <div class="h-16 w-16 rounded-xl">
+              <img :src="character.photo" :alt="character.name" class="object-cover" />
             </div>
           </div>
-          
-          <div class="flex justify-center mt-6">
-            <button @click="goToCreate" class="btn btn-primary">Create New Character</button>
+
+          <div class="min-w-0 flex-1">
+            <h2 class="truncate text-base font-semibold">{{ character.name }}</h2>
+            <p class="line-clamp-2 mt-1 text-sm text-base-content/70">{{ character.profile }}</p>
+            <p class="mt-1 text-xs text-base-content/60">
+              Updated {{ new Date(character.update_time).toLocaleDateString() }}
+            </p>
           </div>
+
+          <button class="btn btn-ghost btn-sm rounded-full">Edit</button>
         </div>
-      </div>
+      </article>
     </div>
   </div>
 </template>

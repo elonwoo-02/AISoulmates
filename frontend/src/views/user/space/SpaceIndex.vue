@@ -1,9 +1,9 @@
 <script setup>
-import {ref, onMounted, useTemplateRef, nextTick, onBeforeUnmount} from 'vue'
-import {useRoute} from 'vue-router'
+import { ref, onMounted, useTemplateRef, nextTick, onBeforeUnmount } from 'vue'
+import { useRoute } from 'vue-router'
 import api from '@/js/http/api.js'
-import UserInfoField from "@/views/user/space/components/UserInfoField.vue";
-import Character from "@/components/character/Character.vue";
+import UserInfoField from '@/views/user/space/components/UserInfoField.vue'
+import Character from '@/components/character/Character.vue'
 
 const userProfile = ref(null)
 const characters = ref([])
@@ -13,8 +13,7 @@ const sentinelRef = useTemplateRef('sentinel-ref')
 const route = useRoute()
 const error = ref(null)
 
-
-function checkSentinelVisible() {  // 判断哨兵是否能被看到
+function checkSentinelVisible() {
   if (!sentinelRef.value) return false
 
   const rect = sentinelRef.value.getBoundingClientRect()
@@ -30,16 +29,15 @@ async function loadMore() {
     const res = await api.get('/api/create/character/get_list/', {
       params: {
         items_count: characters.value.length,
-        user_id: route.params.user_id
-      }
+        user_id: route.params.user_id,
+      },
     })
     const data = res.data
     if (data.result === 'success') {
       userProfile.value = data.user_profile
       newCharacters = data.characters
-    } else {
     }
-  } catch (err) {
+  } catch {
     error.value = 'Failed to load more characters'
   } finally {
     loading.value = false
@@ -57,19 +55,18 @@ async function loadMore() {
 }
 
 let observer = null
-onMounted( async () => {
+onMounted(async () => {
   await loadMore()
 
   observer = new IntersectionObserver(
-      entries => {
-          entries.forEach(
-              entry => {
-                if (entry.isIntersecting) {
-                  loadMore()
-                }
-              })
-        },
-      {root: null, rootMargin: '2px', threshold: 0}
+    entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          loadMore()
+        }
+      })
+    },
+    { root: null, rootMargin: '2px', threshold: 0 },
   )
   observer.observe(sentinelRef.value)
 })
@@ -84,28 +81,39 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="flex flex-col mb-12">
-    <UserInfoField :userProfile="userProfile"/>
-    <div class="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-9 mt-12 justify-items-center w-full px-9">
-      <Character
-        v-for="character in characters"
-        :key="character.id"
-        :character="character"
-        :canEdit="true"
-        @remove="removeCharacter"
-      />
-    </div>
-    <!-- Sentinel element for infinite scrolling -->
-    <div ref="sentinel-ref" class="h-2 mt-8 hidden text-base-100"></div>
-    <div v-if="loading" class="text-gray-500 mt-4 flex justify-center">
+  <div class="mx-auto w-full max-w-screen-2xl px-4 pb-12 pt-6 md:px-6 lg:px-8">
+    <UserInfoField :userProfile="userProfile" />
+
+    <section class="mt-8">
+      <div class="mb-5 flex items-end justify-between">
+        <div>
+          <h2 class="text-xl font-semibold tracking-tight">Characters</h2>
+          <p class="mt-1 text-sm text-base-content/70">{{ characters.length }} loaded</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <Character
+          v-for="character in characters"
+          :key="character.id"
+          :character="character"
+          :canEdit="true"
+          @remove="removeCharacter"
+        />
+      </div>
+    </section>
+
+    <div ref="sentinel-ref" class="mt-8 hidden h-2 text-base-100"></div>
+
+    <div v-if="loading" class="mt-4 flex justify-center text-gray-500">
       <span class="loading loading-spinner loading-lg"></span>
     </div>
-    <div v-else-if="error" class="alert alert-error">
+
+    <div v-else-if="error" class="alert alert-error mt-4">
       <span>{{ error }}</span>
     </div>
   </div>
 </template>
 
 <style scoped>
-
 </style>
