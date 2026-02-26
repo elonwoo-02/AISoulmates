@@ -91,14 +91,16 @@ onBeforeUnmount(() => {
 
 <template>
 
-  <div class="flex flex-col items-center mb-12 ">
-    <div class="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-9 mt-6 justify-items-center w-full px-9">
+  <div class="flex flex-col items-center mb-12">
+    <div class="w-full px-1 sm:px-2">
+      <div class="masonry mt-4 columns-1 gap-6 sm:columns-2 lg:columns-3 xl:columns-4">
       <Character
         v-for="character in characters"
         :key="character.id"
         :character="character"
         :canEdit="false"
       />
+      </div>
     </div>
     <!-- Sentinel element for infinite scrolling -->
     <div ref="sentinel-ref" class="h-2 mt-8 invisible"></div>

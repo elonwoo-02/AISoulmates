@@ -79,7 +79,8 @@ onBeforeUnmount(() => {
 
 <template>
   <div class="flex flex-col items-center mb-12">
-    <div class="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-9 mt-12 justify-items-center w-full px-9">
+    <div class="w-full px-1 sm:px-2">
+      <div class="masonry mt-4 columns-1 gap-6 sm:columns-2 lg:columns-3 xl:columns-4">
       <Character
         v-for="friend in friends"
         :key="friend.id"
@@ -88,6 +89,7 @@ onBeforeUnmount(() => {
         :friendId="friend.id"
         @remove="removeFriend"
       />
+      </div>
     </div>
 
     <div ref="sentinel-ref" class="mt-8 hidden h-2 text-base-100"></div>

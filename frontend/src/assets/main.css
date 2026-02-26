@@ -1,2 +1,30 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap");
 @import "tailwindcss";
 @plugin "daisyui";
+
+:root {
+  --app-bg: #f6f7fb;
+  --surface-muted: #f0f1f5;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-tertiary: #94a3b8;
+  --accent-red: #ff384f;
+  --accent-yellow: #f5b94c;
+}
+
+html {
+  font-family: "Manrope", "Sora", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  background-color: var(--app-bg);
+  color: var(--text-primary);
+}
+
+body {
+  min-height: 100vh;
+  background: radial-gradient(circle at top, rgba(255, 56, 79, 0.08), transparent 40%),
+    radial-gradient(circle at 20% 20%, rgba(245, 185, 76, 0.08), transparent 35%),
+    var(--app-bg);
+}
+
+.masonry {
+  column-gap: 24px;
+}

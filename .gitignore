@@ -7,3 +7,5 @@ staticfiles/
 static/
 .ai/
 AGENTS.md
+.agents
+skills-lock.json
