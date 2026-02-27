@@ -61,7 +61,7 @@ function handleSearch() {
         <input id="my-drawer-4" type="checkbox" class="drawer-toggle" />
 
         <div class="drawer-content">
-          <nav class="navbar w-full bg-base-100 shadow-sm">
+          <nav class="fixed z-70 navbar w-full bg-base-100 shadow-sm">
             <div class="navbar-start">
               <div class="dropdown dropdown-hover">
                 <div tabindex="0" role="button" class="px-0 font-bold text-xl">AISoulmates</div>
@@ -82,13 +82,13 @@ function handleSearch() {
             </div>
 
             <div class="navbar-end">
-<!--              <RouterLink v-if="user.isLogin()" :to="{ name: 'create-index' }" class="btn btn-ghost text-lg hover-3d py-1">-->
-<!--                <CreateIcon />-->
-<!--              </RouterLink>-->
+              <RouterLink v-if="user.isLogin()" :to="{ name: 'create-index' }" class="btn btn-ghost text-lg hover-3d py-1">
+                <CreateIcon />
+              </RouterLink>
 
-<!--              <RouterLink v-if="user.isLogin()" :to="{ name: 'new-index' }" class="btn btn-ghost text-lg hover-3d py-1">-->
-<!--                <NewIcon />-->
-<!--              </RouterLink>-->
+              <RouterLink v-if="user.isLogin()" :to="{ name: 'new-index' }" class="btn btn-ghost text-lg hover-3d py-1">
+                <NewIcon />
+              </RouterLink>
 
               <RouterLink
                 v-if="user.hasPulledUserInfo && !user.isLogin()"

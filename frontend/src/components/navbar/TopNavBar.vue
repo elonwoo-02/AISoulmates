@@ -28,7 +28,7 @@ function handleSearch() {
 </script>
 
 <template>
-  <nav class="sticky top-0 z-30 border-b border-black/5 bg-white/80 backdrop-blur">
+  <nav class="fixed top-0 left-0 right-0 z-40 border-b border-black/5 bg-white/80 backdrop-blur">
     <div class="mx-auto flex w-full max-w-[1200px] items-center gap-4 px-4 py-3 sm:px-6 lg:px-8">
       <div class="flex items-center gap-5">
         <RouterLink
@@ -68,23 +68,23 @@ function handleSearch() {
       </form>
 
       <div class="ml-auto flex items-center gap-2">
-        <RouterLink
-          v-if="user.isLogin()"
-          :to="{ name: 'create-index' }"
-          class="btn btn-ghost text-lg hover-3d py-1"
-          aria-label="Create"
-        >
-          <CreateIcon />
-        </RouterLink>
+<!--        <RouterLink-->
+<!--          v-if="user.isLogin()"-->
+<!--          :to="{ name: 'create-index' }"-->
+<!--          class="btn btn-ghost text-lg hover-3d py-1"-->
+<!--          aria-label="Create"-->
+<!--        >-->
+<!--          <CreateIcon />-->
+<!--        </RouterLink>-->
 
-        <RouterLink
-          v-if="user.isLogin()"
-          :to="{ name: 'new-index' }"
-          class="btn btn-ghost text-lg hover-3d py-1"
-          aria-label="New"
-        >
-          <NewIcon />
-        </RouterLink>
+<!--        <RouterLink-->
+<!--          v-if="user.isLogin()"-->
+<!--          :to="{ name: 'new-index' }"-->
+<!--          class="btn btn-ghost text-lg hover-3d py-1"-->
+<!--          aria-label="New"-->
+<!--        >-->
+<!--          <NewIcon />-->
+<!--        </RouterLink>-->
 
         <RouterLink
           v-if="user.hasPulledUserInfo && !user.isLogin()"
