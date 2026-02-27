@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from web.models.user import UserProfile
+from web.views.utils.photo import remove_old_photo
 
 
 class UpdateProfileView(APIView):
@@ -50,6 +51,7 @@ class UpdateProfileView(APIView):
             username = request.data.get('username', '').strip()  # 新用户名
             profile = request.data.get('profile', '').strip()[:500]  # 个人简介（截断500字符）
             photo = request.FILES.get('photo', None)  # 上传头像（可选）
+            background_image = request.FILES.get('background_image', None)
 
             # 通过user获取用户资料对象（UserProfile）
             user_profile = UserProfile.objects.get(user=user)
@@ -72,8 +74,11 @@ class UpdateProfileView(APIView):
             if photo:
                 # 头像更新
                 # todo: 这里可以先删除旧头像，也可以保留原图（方便用户撤回）
-                # remove_old_photo(user_profile.photo)
+                remove_old_photo(user_profile.photo)
                 user_profile.photo = photo
+            if background_image:
+                remove_old_photo(user_profile.background_image)
+                user_profile.background_image = background_image
 
             # 更新个人简介
             user_profile.profile = profile
@@ -92,6 +97,7 @@ class UpdateProfileView(APIView):
                 'username': user.username,
                 'profile': user_profile.profile,
                 'photo': user_profile.photo.url if user_profile.photo else '',
+                'background_image': user_profile.background_image.url if user_profile.background_image else '',
             })
 
         except UserProfile.DoesNotExist:

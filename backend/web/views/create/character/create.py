@@ -32,7 +32,7 @@ class CreateCharacterView(APIView):
                 })
             # if not background_image:
             #     return Response({
-            #         "result": "Background image is required."
+            #         "result": "BackgroundImage image is required."
             #     })
             Character.objects.create(
                 author=user_profile,

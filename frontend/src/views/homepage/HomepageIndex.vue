@@ -139,9 +139,9 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="flex flex-col items-center mb-12">
+  <div class="flex flex-col items-center">
     <!-- Mobile Swipe Card View (only when logged in) -->
-    <div v-if="shouldUseSwipeCards && currentCard" class="w-full h-screen">
+    <div v-if="shouldUseSwipeCards && currentCard" class="fixed inset-0 w-full h-full pt-0 z-30">
       <HomepageSwipeCard
         :character="currentCard"
         @like="handleLike"
@@ -150,7 +150,7 @@ onBeforeUnmount(() => {
       />
       
       <!-- Card counter -->
-      <div class="absolute top-20 left-0 right-0 text-center">
+      <div class="absolute top-4 left-0 right-0 text-center z-40">
         <span class="bg-black/50 text-white px-3 py-1 rounded-full text-sm">
           {{ currentCardIndex + 1 }} / {{ characters.length }}
         </span>
@@ -158,8 +158,8 @@ onBeforeUnmount(() => {
     </div>
 
     <!-- Desktop Masonry View or logged out view -->
-    <div v-else class="w-full px-1 sm:px-2">
-      <div class="masonry mt-4 columns-1 gap-6 sm:columns-2 lg:columns-3 xl:columns-4">
+    <div v-else class="w-full gap-2">
+      <div class="grid grid-cols-2 gap-1 mx-1 my-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5">
       <Character
         v-for="character in characters"
         :key="character.id"

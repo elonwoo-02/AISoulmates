@@ -31,7 +31,7 @@ const showBottomBar = computed(() => {
 });
 
 const showTopBarOnMobile = computed(() => {
-  return route.name === "homepage-index";
+  return route.name === "homepage-index" || route.name === "friend-index";
 });
 
 watch(
@@ -52,8 +52,8 @@ function handleSearch() {
   <div class="min-h-screen bg-[--app-bg] text-[--text-primary]">
     <!-- Mobile / small screens -->
     <div class="md:hidden">
-      <TopNavBar />
-      <main class="mx-auto w-full max-w-300 px-4 pb-[calc(96px+env(safe-area-inset-bottom))] pt-6 sm:px-6 lg:px-8">
+      <TopNavBar v-if="showTopBarOnMobile"/>
+      <main class="mx-auto w-full max-w-300 pb-[calc(96px+env(safe-area-inset-bottom))]">
         <slot></slot>
       </main>
       <BottomTabBar v-if="showBottomBar" />
@@ -65,7 +65,7 @@ function handleSearch() {
         <input id="my-drawer-4" type="checkbox" class="drawer-toggle" />
 
         <div class="drawer-content">
-          <nav class="fixed z-70 navbar w-full bg-base-100 shadow-sm">
+          <nav class="z-70 navbar w-full bg-base-100 shadow-sm">
             <div class="navbar-start">
               <div class="dropdown dropdown-hover">
                 <div tabindex="0" role="button" class="px-0 font-bold text-xl">AISoulmates</div>

@@ -40,14 +40,6 @@ function goToCreate() {
 
 <template>
   <div class="mx-auto w-full max-w-7xl px-4 py-6 md:px-6 lg:px-8">
-    <header class="mb-6 flex flex-wrap items-center justify-between gap-3">
-      <div>
-        <h1 class="text-2xl font-bold tracking-tight">Channel characters</h1>
-        <p class="mt-1 text-sm text-base-content/70">Manage your published characters</p>
-      </div>
-      <button @click="goToCreate" class="btn btn-neutral rounded-full">Create character</button>
-    </header>
-
     <div v-if="loading" class="flex justify-center py-12">
       <span class="loading loading-spinner loading-lg"></span>
     </div>

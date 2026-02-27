@@ -217,7 +217,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="relative flex items-center justify-center h-screen max-h-[800px] px-4">
+  <div class="relative flex items-center justify-center w-full h-screen">
     <!-- Like/Dislike indicators -->
     <div 
       v-if="Math.abs(currentX) > 30"
@@ -247,7 +247,7 @@ onBeforeUnmount(() => {
     <!-- Processing overlay -->
     <div 
       v-if="isProcessing"
-      class="absolute inset-0 bg-black/50 flex items-center justify-center z-20 rounded-2xl"
+      class="absolute inset-0 bg-black/50 flex items-center justify-center z-20 rounded-xl"
     >
       <span class="loading loading-spinner loading-lg text-white"></span>
     </div>
@@ -255,7 +255,7 @@ onBeforeUnmount(() => {
     <!-- Card -->
     <div
       ref="cardRef"
-      class="relative w-full max-w-sm cursor-grab active:cursor-grabbing"
+      class="relative w-full max-w-md cursor-grab active:cursor-grabbing"
       :style="{
         transform: transform,
         opacity: opacity,
@@ -263,7 +263,7 @@ onBeforeUnmount(() => {
       }"
       @click="openChat"
     >
-      <article class="overflow-hidden rounded-2xl border border-black/5 bg-white shadow-[0_12px_30px_-20px_rgba(15,23,42,0.35)]">
+      <article class="overflow-hidden rounded-xl border border-black/5 bg-white shadow-[0_12px_30px_-20px_rgba(15,23,42,0.35)]">
         <div class="relative aspect-[3/5] overflow-hidden bg-[var(--surface-muted)]">
           <img
             :src="character.background_image"
@@ -297,51 +297,9 @@ onBeforeUnmount(() => {
         </div>
       </article>
     </div>
-
-    <!-- Action buttons -->
-    <div class="absolute bottom-8 left-0 right-0 flex justify-center gap-4 px-4">
-      <button 
-        @click.stop="handleDislike"
-        :disabled="isProcessing"
-        class="w-14 h-14 bg-white rounded-full shadow-lg flex items-center justify-center text-red-500 hover:scale-110 transition-transform disabled:opacity-50 disabled:cursor-not-allowed"
-      >
-        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
-          <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
-        </svg>
-      </button>
-      
-      <button 
-        @click.stop="handleLike"
-        :disabled="isProcessing"
-        class="w-14 h-14 bg-white rounded-full shadow-lg flex items-center justify-center text-green-500 hover:scale-110 transition-transform disabled:opacity-50 disabled:cursor-not-allowed"
-      >
-        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
-          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-        </svg>
-      </button>
-    </div>
   </div>
 </template>
 
 <style scoped>
-.line-clamp-2,
-.line-clamp-3 {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
 
-.line-clamp-3 {
-  -webkit-line-clamp: 3;
-}
-
-/* Prevent text selection during swipe */
-.cursor-grab,
-.cursor-grabbing {
-  user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-}
 </style>

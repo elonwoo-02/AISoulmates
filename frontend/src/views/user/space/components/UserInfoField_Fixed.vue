@@ -28,6 +28,10 @@ function calculateBackgroundHeight() {
   })
 }
 
+function editProfile() {
+  emit('editProfile')
+}
+
 watch(() => props.userProfile?.profile, () => {
   calculateBackgroundHeight()
 })
@@ -41,12 +45,13 @@ onMounted(() => {
   <section class="w-full">
     <div class="relative overflow-hidden">
       <!-- Background image with gradient overlay -->
-      <div ref="background-ref" class="relative transition-all duration-300" :style="`height: ${profileHeight}; ${props.userProfile && props.userProfile.background_image ? `background-image: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url(${props.userProfile.background_image}); background-size: cover; background-position: center;` : 'background-image: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url(/src/assets/playboy.jpg); background-size: cover; background-position: center;'}`">
-        <!-- Edit profile button in top-right corner -->
+      <div ref="background-ref" class="relative transition-all duration-300" :style="`height: ${profileHeight}; ${props.userProfile && props.userProfile.background_image ? `background-image: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url(${props.userProfile.background_image}); background-size: cover; background-position: center;` : 'background: linear-gradient(135deg, rgb(239 68 68 / 0.9), rgb(251 146 60 / 0.8), rgb(252 211 77 / 0.8));'}`">
+        <!-- Edit button in top-right corner -->
         <div class="absolute top-4 right-4 z-10">
-          <button @click="$emit('editProfile')" class="btn btn-ghost btn-sm rounded-full bg-white/10 backdrop-blur-sm text-white border-white/20 hover:bg-white/20">
+          <button @click="editProfile" class="btn btn-ghost btn-sm rounded-full bg-white/10 backdrop-blur-sm text-white border-white/20 hover:bg-white/20">
             <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
             </svg>
           </button>
         </div>
