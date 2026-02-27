@@ -30,6 +30,10 @@ const showBottomBar = computed(() => {
   return enabledRoutes.has(route.name);
 });
 
+const showTopBarOnMobile = computed(() => {
+  return route.name === "homepage-index";
+});
+
 watch(
   () => route.query.q,
   (newQ) => {
