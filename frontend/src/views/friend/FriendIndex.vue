@@ -79,8 +79,8 @@ onBeforeUnmount(() => {
 
 <template>
   <div class="flex flex-col items-center mb-12">
-    <div class="w-full px-1 sm:px-2">
-      <div class="masonry mt-4 columns-1 gap-6 sm:columns-2 lg:columns-3 xl:columns-4">
+    <div class="w-full gap-2">
+      <div class="grid grid-cols-2 gap-1 mx-1 my-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5">
       <Character
         v-for="friend in friends"
         :key="friend.id"

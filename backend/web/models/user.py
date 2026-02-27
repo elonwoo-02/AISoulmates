@@ -12,12 +12,17 @@ def photo_upload_to(instance, filename): # instance是上传的文件所在的�
     filename = f'{uuid.uuid4().hex[:10]}.{ext}' # 取随机字符串（转化成16进制）的前十位
     return f'user/photos/{instance.user_id}_{filename}'
 
+def background_image_upload_to(instance, filename):
+    ext = filename.split('.')[-1]
+    filename = f'{uuid.uuid4().hex[:10]}.{ext}'
+    return f'user/background_images/{instance.user_id}_{filename}'
 
 # 定义一个用户资料模型，包含用户的照片、简介、创建时间和更新时间等字段
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     photo = models.ImageField(default='user/photos/default.png', upload_to=photo_upload_to)
     profile = models.TextField(default="Thanks for your following", max_length=500) # TextField的最大长度无效
+    background_image = models.ImageField(default='user/background_images/default.png', upload_to=background_image_upload_to)
     create_time = models.DateTimeField(default=now)
     update_time = models.DateTimeField(default=now)
 

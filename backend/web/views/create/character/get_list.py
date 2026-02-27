@@ -38,6 +38,7 @@ class GetListCharacterView(APIView):
                     "username": user.username,
                     "profile": user_profile.profile,
                     "photo": user_profile.photo.url,
+                    "background_image": user_profile.background_image.url,
                 },
                 "characters": characters
             })

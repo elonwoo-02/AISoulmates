@@ -7,12 +7,14 @@ import { useUserStore } from '@/stores/user.js'
 import { ref, useTemplateRef } from 'vue'
 import { base64ToFile } from '@/js/utils/base64_to_file.js'
 import api from '@/js/http/api.js'
+import BackgroundImage from "@/views/user/profile/components/BackgroundImage.vue";
 
 const user = useUserStore()
 
 const photoRef = useTemplateRef('photo-ref')
 const profileRef = useTemplateRef('profile-ref')
 const usernameRef = useTemplateRef('username-ref')
+const backgroundRef = useTemplateRef('background-ref')
 
 const errorMessage = ref('')
 
@@ -20,6 +22,7 @@ async function handleUpdate() {
   const photo = photoRef.value.myPhoto
   const username = usernameRef.value.myUsername.trim()
   const profile = profileRef.value.myProfile.trim()
+  const backgroundImage = backgroundRef.value?.myBackgroundImage
 
   errorMessage.value = ''
 
@@ -38,6 +41,9 @@ async function handleUpdate() {
       formData.append('photo', base64ToFile(photo, 'photo.png'))
     }
 
+    if (backgroundImage && backgroundImage !== user.background_image) {
+      formData.append('background_image', base64ToFile(backgroundImage, 'background.png'))
+    }
     try {
       const res = await api.post('/api/user/profile/update', formData)
       const data = res.data
@@ -55,7 +61,7 @@ async function handleUpdate() {
 </script>
 
 <template>
-  <div class="mx-auto w-full max-w-screen-lg px-4 py-6 md:px-6 lg:px-8">
+  <div class="mx-auto w-full max-w-5xl px-4 py-6 md:px-6 lg:px-8">
     <section class="overflow-hidden rounded-3xl border border-base-300 bg-base-100 shadow-sm">
       <div class="border-b border-base-300 bg-base-200/60 px-5 py-4 md:px-8">
         <h1 class="text-2xl font-bold tracking-tight">Channel profile</h1>
@@ -63,9 +69,15 @@ async function handleUpdate() {
       </div>
 
       <div class="grid gap-6 p-5 md:grid-cols-[260px_1fr] md:gap-8 md:p-8">
-        <aside class="rounded-2xl border border-base-300 bg-base-200/40 p-4">
+        <aside class="rounded-2xl border border-base-300 bg-base-200/40 p-4 space-y-4">
           <Photo ref="photo-ref" :photo="user.photo" />
-          <p class="mt-4 text-center text-xs text-base-content/65">Upload a square image for best results.</p>
+          <p class="text-center text-xs text-base-content/65">Upload a square image for best results.</p>
+
+          <!-- 添加背景图片组件 -->
+          <div>
+            <BackgroundImage ref="background-ref" :backgroundImage="user.background_image" />
+            <p class="mt-2 text-center text-xs text-base-content/65">Upload a landscape image for best results.</p>
+          </div>
         </aside>
 
         <main class="space-y-4">

@@ -29,25 +29,17 @@ function handleSearch() {
         <RouterLink
           :to="{ name: 'friend-index' }"
           class="relative text-[15px] font-semibold tracking-tight text-[--text-secondary] transition-colors hover:text-[--text-primary]"
-          :class="{ 'text-[--accent-red]': activeTab === 'friend' }"
+          :class="{ 'text-[--accent-red] border-b-2 border-red-500': activeTab === 'friend' }"
         >
           Friend
-          <span
-            v-if="activeTab === 'friend'"
-            class="absolute -bottom-2 left-0 h-0.5 w-full rounded-full bg-[--accent-red]"
-          ></span>
         </RouterLink>
 
         <RouterLink
           :to="{ name: 'homepage-index' }"
           class="relative text-[15px] font-semibold tracking-tight text-[--text-secondary] transition-colors hover:text-[--text-primary]"
-          :class="{ 'text---accent-red]': activeTab === 'explore' }"
+          :class="{ 'text-[--accent-red] border-b-2 border-red-500': activeTab === 'explore' }"
         >
           Explore
-          <span
-            v-if="activeTab === 'explore'"
-            class="absolute -bottom-2 left-0 h-0.5 w-full rounded-full bg-[--accent-red]"
-          ></span>
         </RouterLink>
       </div>
     </div>

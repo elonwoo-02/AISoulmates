@@ -71,11 +71,11 @@ async function openChatField() {
 
 <template>
   <article
-    class="group mb-6 cursor-pointer break-inside-avoid overflow-hidden rounded-3xl border border-black/5 bg-white shadow-[0_12px_30px_-20px_rgba(15,23,42,0.35)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-24px_rgba(15,23,42,0.45)]"
+    class="group cursor-pointer break-inside-avoid overflow-hidden rounded-xl border border-black/5 bg-white shadow-[0_12px_30px_-20px_rgba(15,23,42,0.35)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-24px_rgba(15,23,42,0.45)]"
     @mouseover="isHover = true"
     @mouseleave="isHover = false" @click="openChatField"
   >
-    <div class="relative aspect-[3/5] overflow-hidden bg-[var(--surface-muted)]">
+    <div class="relative aspect-3/5 overflow-hidden bg-[--surface-muted]">
       <img
         :src="character.background_image"
         class="h-full w-full object-cover transition-transform duration-300"
@@ -84,7 +84,7 @@ async function openChatField() {
         loading="lazy"
         decoding="async"
       />
-      <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+      <div class="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-transparent"></div>
 
       <div
         v-if="canEdit && character.author.user_id === user.id"
@@ -105,6 +105,7 @@ async function openChatField() {
       </div>
 
       <div class="absolute bottom-0 left-0 right-0 p-4 text-white">
+        <img :src="character.photo" alt="" class="w-7 h-7 rounded-full">
         <h3 class="line-clamp-2 text-base font-semibold leading-5 tracking-tight">{{ character.name }}</h3>
         <p class="line-clamp-2 mt-1 text-xs text-white/80">{{ character.profile }}</p>
       </div>

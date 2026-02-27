@@ -24,7 +24,7 @@ async function openModal(photo) {
 
   if (!croppie) {
     croppie = new Croppie(croppieRef.value, {
-      viewport: { width: 210, height: 350},
+      viewport: { width: 320, height: 180},
       boundary: { width: 400, height: 400 },
       enableOrientation: true,
       enforceBoundary: true,
@@ -69,13 +69,13 @@ defineExpose({
 </script>
 
 <template>
-  <fieldset class="fieldset">
+  <fieldset class="fieldset flex justify-center">
     <div class="avatar relative">
-      <div v-if="myBackgroundImage" class="w-15 h-25 rounded-box">
-        <img :src="myBackgroundImage" alt="myBackgroundImage"/>
+      <div class="w-55 h-31 rounded-box">
+        <img v-if="myBackgroundImage" :src="myBackgroundImage" alt="myBackgroundImage" class="w-full h-full object-cover rounded-box"/>
+        <div v-else class="w-full h-full bg-base-200 rounded-box"></div>
       </div>
-      <div v-else class="w-15 h-25 rounded-box bg-base-200"></div>
-      <div @click="fileInputRef.click()" class="w-15 h-25 rounded-box absolute left-0 top-0 bg-black/20 flex justify-center items-center cursor-pointer">
+      <div @click="fileInputRef.click()" class="w-55 h-31 rounded-box absolute left-0 top-0 bg-black/20 flex justify-center items-center cursor-pointer">
         <CameraIcon/>
       </div>
     </div>

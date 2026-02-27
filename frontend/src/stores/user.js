@@ -11,6 +11,7 @@ export const useUserStore= defineStore('user', ()=>{
     const username = ref('')
     const photo = ref('')
     const profile = ref('')
+    const background_image = ref('')
     const accessToken = ref('')
     const hasPulledUserInfo = ref(false)
 
@@ -26,6 +27,7 @@ export const useUserStore= defineStore('user', ()=>{
         id.value = data.user_id
         username.value = data.username
         photo.value = data.photo
+        background_image.value = data.background_image
         profile.value = data.profile
     }
 
@@ -33,6 +35,7 @@ export const useUserStore= defineStore('user', ()=>{
         id.value = 0
         username.value = ''
         photo.value = ''
+        background_image.value = ''
         profile.value = ''
         accessToken.value = ''
     }
@@ -45,6 +48,7 @@ export const useUserStore= defineStore('user', ()=>{
         id,
         username,
         photo,
+        background_image,
         profile,
         accessToken,
         hasPulledUserInfo,

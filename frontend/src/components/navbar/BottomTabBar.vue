@@ -3,7 +3,7 @@ import { computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useUserStore } from "@/stores/user.js";
 import HomepageIcon from "@/components/navbar/icons/HomepageIcon.vue";
-import MarketIcon from "@/components/navbar/icons/MarketIcon.vue";
+import FriendIcon from "@/components/navbar/icons/FriendIcon.vue";
 import MessagesIcon from "@/components/navbar/icons/MessagesIcon.vue";
 import UserIcon from "@/components/navbar/icons/UserIcon.vue";
 import PlusCircleIcon from "@/components/navbar/icons/PlusCircleIcon.vue";
@@ -19,7 +19,7 @@ function goHome() {
 }
 
 function goMarket() {
-  router.push({ name: "404" });
+  router.push({ name: "friend-index" });
 }
 
 function goCreate() {
@@ -27,7 +27,7 @@ function goCreate() {
 }
 
 function goMessages() {
-  router.push({ name: "404" });
+  router.push({ name: "new-index" });
 }
 
 function goMe() {
@@ -44,10 +44,10 @@ function goMe() {
     class="fixed bottom-0 left-0 right-0 z-40 border-t border-black/5 bg-white/90 backdrop-blur"
     style="padding-bottom: env(safe-area-inset-bottom);"
   >
-    <div class="mx-auto flex w-full max-w-[1200px] items-center justify-between px-6 py-3">
+    <div class="mx-auto flex w-full max-w-300 items-center justify-between px-6">
       <button
-        class="flex flex-col items-center gap-1 text-xs font-medium text-[var(--text-tertiary)] transition-colors hover:text-[var(--text-primary)]"
-        :class="{ 'text-[var(--accent-red)]': activeName === 'homepage-index' }"
+        class="flex flex-col items-center gap-1 text-xs font-medium text-[--text-tertiary] transition-colors hover:text-[--text-primary] border-b-2 border-transparent"
+        :class="{ 'text-[--accent-red] border-red-500': activeName === 'homepage-index' }"
         @click="goHome"
         aria-label="Home"
       >
@@ -56,16 +56,17 @@ function goMe() {
       </button>
 
       <button
-        class="flex flex-col items-center gap-1 text-xs font-medium text-[var(--text-tertiary)] transition-colors hover:text-[var(--text-primary)]"
+        class="flex flex-col items-center gap-1 text-xs font-medium text-[--text-tertiary] transition-colors hover:text-[--text-primary] border-b-2 border-transparent"
+        :class="{ 'text-[--accent-red] border-red-500': activeName === 'friend-index' }"
         @click="goMarket"
-        aria-label="Market"
+        aria-label="Friends"
       >
-        <MarketIcon class="h-6 w-6" />
-        Market
+        <FriendIcon class="h-6 w-6" />
+        Friends
       </button>
 
       <button
-        class="relative flex h-14 w-14 -translate-y-4 items-center justify-center rounded-full bg-[var(--accent-red)] text-white shadow-[0_16px_30px_-16px_rgba(255,56,79,0.7)] transition-transform hover:-translate-y-[18px]"
+        class="relative flex h-12 w-12 items-center justify-center rounded-full bg-red-500 z-50"
         @click="goCreate"
         aria-label="Create"
       >
@@ -73,17 +74,18 @@ function goMe() {
       </button>
 
       <button
-        class="flex flex-col items-center gap-1 text-xs font-medium text-[var(--text-tertiary)] transition-colors hover:text-[var(--text-primary)]"
+        class="flex flex-col items-center gap-1 text-xs font-medium text-[--text-tertiary] transition-colors hover:text-[--text-primary] border-b-2 border-transparent"
+        :class="{ 'text-[--accent-red] border-red-500': activeName === 'new-index' }"
         @click="goMessages"
-        aria-label="Messages"
+        aria-label="New"
       >
         <MessagesIcon class="h-6 w-6" />
-        Messages
+        New
       </button>
 
       <button
-        class="flex flex-col items-center gap-1 text-xs font-medium text-[var(--text-tertiary)] transition-colors hover:text-[var(--text-primary)]"
-        :class="{ 'text-[var(--accent-red)]': activeName === 'user-space-index' }"
+        class="flex flex-col items-center gap-1 text-xs font-medium text-[--text-tertiary] transition-colors hover:text-[--text-primary] border-b-2 border-transparent"
+        :class="{ 'text-[--accent-red] border-red-500': activeName === 'user-space-index' }"
         @click="goMe"
         aria-label="Me"
       >

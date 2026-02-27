@@ -50,7 +50,7 @@ async function handleUpdate() {
   } else if (!profile) {
     errorMessage.value = 'Profile is required'
   // } else if (!backgroundImage) {
-  //   errorMessage.value = 'Background image is required'
+  //   errorMessage.value = 'BackgroundImage image is required'
   } else {
     const formData = new FormData()
     formData.append('character_id', characterId)

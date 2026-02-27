@@ -1,5 +1,5 @@
 <script setup>
-import {onBeforeUnmount, ref, useTemplateRef, watch} from "vue";
+import {nextTick, onBeforeUnmount, ref, useTemplateRef, watch} from "vue";
 import CameraIcon from "@/views/user/profile/components/icon/CameraIcon.vue";
 
 import Croppie from 'croppie'          // 引入 Croppie 裁剪库
