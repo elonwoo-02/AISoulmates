@@ -5,7 +5,7 @@ defineProps(['userProfile'])
 <template>
   <section class="w-full">
     <div class="relative overflow-hidden rounded-3xl border border-base-300/80 bg-base-200/70">
-      <div class="h-28 bg-gradient-to-r from-red-500/80 via-orange-400/70 to-amber-300/70 md:h-36"></div>
+      <div class="h-28 bg-linear-to-r from-red-500/80 via-orange-400/70 to-amber-300/70 md:h-36"></div>
 
       <div class="-mt-10 flex flex-col gap-4 px-4 pb-5 md:-mt-12 md:flex-row md:items-end md:gap-6 md:px-6">
         <template v-if="userProfile">
@@ -40,9 +40,9 @@ defineProps(['userProfile'])
 
     <div class="mt-4 border-b border-base-300">
       <div class="flex gap-6 px-2 text-sm font-medium text-base-content/70">
-        <span class="border-b-2 border-base-content px-1 pb-2 text-base-content">Home</span>
+        <span class="border-b-2 border-base-content px-1 pb-2 text-base-content">Characters</span>
         <span class="px-1 pb-2">Characters</span>
-        <span class="px-1 pb-2">About</span>
+        <span class="px-1 pb-2">Characters</span>
       </div>
     </div>
   </section>
