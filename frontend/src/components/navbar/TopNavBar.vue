@@ -2,8 +2,10 @@
 import { computed, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import SearchIcon from "@/components/navbar/icons/SearchIcon.vue";
+import SearchModal from "./SearchModal.vue";
 
 const searchQuery = ref("");
+const showSearchModal = ref(false);
 const router = useRouter();
 const route = useRoute();
 
@@ -17,8 +19,12 @@ watch(
 
 const activeTab = computed(() => (route.name === "friend-index" ? "friend" : "explore"));
 
-function handleSearch() {
-  router.push({ name: "homepage-index", query: { q: searchQuery.value.trim() } });
+function openSearchModal() {
+  showSearchModal.value = true;
+}
+
+function closeSearchModal() {
+  showSearchModal.value = false;
 }
 </script>
 
@@ -42,8 +48,16 @@ function handleSearch() {
           Explore
         </RouterLink>
       </div>
+
+      <!-- Search Icon -->
+      <button @click="openSearchModal" class="absolute right-4 p-1 text-[--text-secondary] hover:text-[--text-primary]">
+        <SearchIcon class="w-5 h-5" />
+      </button>
     </div>
   </nav>
+
+  <!-- Search Modal -->
+  <SearchModal :show="showSearchModal" @close="closeSearchModal" />
 </template>
 
 <style scoped>
