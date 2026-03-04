@@ -45,7 +45,7 @@ urlpatterns = [
     path('api/friend/remove/', RemoveFriendView.as_view()),
     path('api/friend/get_list/', GetListFriendView.as_view()),
 
-    path('api/firend/message/chat/', MessageView.as_view()),
+    path('api/friend/message/chat/', MessageView.as_view()),
 
     # 首页相关接口
     path('api/homepage/index/', HomepageIndexView.as_view()),
