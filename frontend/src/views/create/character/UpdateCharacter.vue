@@ -83,22 +83,38 @@ async function handleUpdate() {
 </script>
 
 <template>
-  <div v-if="character" class="flex justify-center">
-    <div class="card w-120 bg-base-200 shadow-sm mt-1">
-      <div class="card-body">
-        <h3 class="text-lg font-bold my-4">Update character</h3>
-        <Photo ref="photo-ref" :photo="character.photo"/>
-        <Name ref="name-ref" :name="character.name"/>
-        <Profile ref="profile-ref" :profile="character.profile"/>
-        <BackgroundImage ref="background-image-ref" :backgroundImage="character.background_image"/>
-
-        <p v-if="errorMessage" class="text-sm text-red-500"> {{ errorMessage }}</p>
-
-        <div class="flex justify-center">
-          <div @click="handleUpdate" class="btn btn-neutral w-60 mt-2">Update</div>
-        </div>
+  <div v-if="character" class="mx-auto w-full max-w-5xl px-4 py-6 md:px-6 lg:px-8">
+    <section class="overflow-hidden rounded-3xl border border-base-300 bg-base-100 shadow-sm">
+      <div class="border-b border-base-300 bg-base-200/60 px-5 py-4 md:px-8">
+        <h1 class="text-2xl font-bold tracking-tight">Update character</h1>
+        <p class="mt-1 text-sm text-base-content/70">Edit your character's information.</p>
       </div>
-    </div>
+
+      <div class="grid gap-6 p-5 md:grid-cols-[260px_1fr] md:gap-8 md:p-8">
+        <aside class="rounded-2xl border border-base-300 bg-base-200/40 p-4 space-y-4">
+          <Photo ref="photo-ref" :photo="character.photo" />
+          <p class="text-center text-xs text-base-content/65">Upload a square image for best results.</p>
+
+          <div>
+            <BackgroundImage ref="background-image-ref" :backgroundImage="character.background_image" />
+            <p class="mt-2 text-center text-xs text-base-content/65">Upload a landscape image for best results.</p>
+          </div>
+        </aside>
+
+        <main class="space-y-4">
+          <Name ref="name-ref" :name="character.name" />
+          <Profile ref="profile-ref" :profile="character.profile" />
+
+          <p v-if="errorMessage" class="rounded-lg border border-error/30 bg-error/10 px-3 py-2 text-sm text-error-content">
+            {{ errorMessage }}
+          </p>
+
+          <div class="flex justify-end pt-2">
+            <button @click="handleUpdate" class="btn btn-neutral rounded-full px-6">Save changes</button>
+          </div>
+        </main>
+      </div>
+    </section>
   </div>
 
 </template>
