@@ -1,18 +1,34 @@
 <script setup>
-import { ref, onMounted, useTemplateRef, nextTick, onBeforeUnmount } from 'vue'
+import {ref, onMounted, useTemplateRef, nextTick, onBeforeUnmount, watch} from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import api from '@/js/http/api.js'
 import UserInfoField from '@/views/user/space/components/UserInfoField.vue'
 import Character from '@/components/character/Character.vue'
 
+const route = useRoute()
+const router = useRouter()
+const sentinelRef = useTemplateRef('sentinel-ref')
+
 const userProfile = ref(null)
 const characters = ref([])
 const loading = ref(false)
 const hasCharacters = ref(true)
-const sentinelRef = useTemplateRef('sentinel-ref')
-const route = useRoute()
-const router = useRouter()
 const error = ref(null)
+
+// 监控用户id变化时更新页�?
+
+function reset() {
+  userProfile.value = null
+  characters.value = []
+  loading.value = false
+  hasCharacters.value = true
+  error.value = null
+  loadMore()
+}
+
+watch(() => route.params.user_id, async () => {
+  reset()
+})
 
 function checkSentinelVisible() {
   if (!sentinelRef.value) return false
