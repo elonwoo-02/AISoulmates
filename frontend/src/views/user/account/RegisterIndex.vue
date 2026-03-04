@@ -55,16 +55,16 @@ async function handleRegister() {
 
       <form @submit.prevent="handleRegister" class="register-form">
         <label class="register-label">Username</label>
-        <input v-model="username" type="text" class="input register-input" placeholder="Name" />
+        <input v-model="username" type="text" class="input input-bordered w-full register-input" placeholder="Name" />
 
         <label class="register-label">Email</label>
-        <input type="email" class="input register-input" placeholder="Email" />
+        <input type="email" class="input input-bordered w-full register-input" placeholder="Email" />
 
         <label class="register-label">Password</label>
-        <input v-model="password" type="password" class="input register-input" placeholder="Password" />
+        <input v-model="password" type="password" class="input input-bordered w-full register-input" placeholder="Password" />
 
         <label class="register-label">Confirm Password</label>
-        <input v-model="passwordConfirmed" type="password" class="input register-input" placeholder="Password" />
+        <input v-model="passwordConfirmed" type="password" class="input input-bordered w-full register-input" placeholder="Password" />
 
         <p v-if="errorMessage" class="text-sm text-red-500 mt-1">{{ errorMessage }}</p>
 

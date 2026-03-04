@@ -52,10 +52,10 @@ async function handlelogin() {
 
       <form @submit.prevent="handlelogin" class="login-form">
         <label class="login-label">Username</label>
-        <input v-model="username" type="text" class="input login-input" placeholder="Name" />
+        <input v-model="username" type="text" class="input input-bordered w-full login-input" placeholder="Name" />
 
         <label class="login-label">Password</label>
-        <input v-model="password" type="password" class="input login-input" placeholder="Password" />
+        <input v-model="password" type="password" class="input input-bordered w-full login-input" placeholder="Password" />
 
         <p v-if="errorMessage" class="text-sm text-red-500 mt-1">{{ errorMessage }}</p>
 
