@@ -48,7 +48,6 @@ async function handleRegister() {
     <TextureCard class="w-full max-w-md">
       <template #header>
         <div class="register-header">
-          <div class="register-pill">Cult UI</div>
           <h1 class="register-title">Create your account</h1>
           <p class="register-subtitle">Start building a new companion in seconds.</p>
         </div>

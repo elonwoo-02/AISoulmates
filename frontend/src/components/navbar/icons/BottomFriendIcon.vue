@@ -1,19 +1,17 @@
 <script setup>
-defineOptions({
-  inheritAttrs: false
-})
+
 </script>
 
 <template>
   <svg
     xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
+    viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
-    class="inline-block size-6"
-    stroke-width="1.8"
+    stroke-width="2"
     stroke-linecap="round"
     stroke-linejoin="round"
+    class="inline-block size-6"
   >
     <!-- 两个人头像 -->
     <circle cx="7" cy="6" r="3" />
@@ -25,5 +23,8 @@ defineOptions({
 </template>
 
 <style scoped>
-
+.text-red-500 {
+  color: #ef4444 !important;
+  stroke: #ef4444 !important;
+}
 </style>

@@ -45,7 +45,6 @@ async function handlelogin() {
     <TextureCard class="w-full max-w-md">
       <template #header>
         <div class="login-header">
-          <div class="login-pill">Cult UI</div>
           <h1 class="login-title">Welcome back</h1>
           <p class="login-subtitle">Log in to continue your story.</p>
         </div>

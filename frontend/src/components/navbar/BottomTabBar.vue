@@ -2,8 +2,8 @@
 import { computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useUserStore } from "@/stores/user.js";
-import HomepageIcon from "@/components/navbar/icons/HomepageIcon.vue";
-import FriendIcon from "@/components/navbar/icons/FriendIcon.vue";
+import BottomHomepageIcon from "@/components/navbar/icons/BottomHomepageIcon.vue";
+import BottomFriendIcon from "@/components/navbar/icons/BottomFriendIcon.vue";
 import MessagesIcon from "@/components/navbar/icons/MessagesIcon.vue";
 import UserIcon from "@/components/navbar/icons/UserIcon.vue";
 import PlusCircleIcon from "@/components/navbar/icons/PlusCircleIcon.vue";
@@ -51,7 +51,7 @@ function goMe() {
         @click="goHome"
         aria-label="Home"
       >
-        <HomepageIcon class="h-6 w-6" :class="{ 'text-red-500': activeName === 'homepage-index' }" />
+        <BottomHomepageIcon class="h-6 w-6" :class="{ 'text-red-500': activeName === 'homepage-index' }" />
       </button>
 
       <button
@@ -60,7 +60,7 @@ function goMe() {
         @click="goMarket"
         aria-label="Friends"
       >
-        <FriendIcon class="h-6 w-6" :class="{ 'text-red-500': activeName === 'friend-index' }" />
+        <BottomFriendIcon class="h-6 w-6" :class="{ 'text-red-500': activeName === 'friend-index' }" />
       </button>
 
       <button

@@ -129,7 +129,7 @@ function handleSearch() {
                   class="is-drawer-close:tooltip is-drawer-close:tooltip-right py-3"
                   data-tip="Homepage"
                 >
-                  <homepage-icon />
+                  <HomepageIcon />
                   <span class="is-drawer-close:hidden text-base ml-2 whitespace-nowrap">Home</span>
                 </RouterLink>
               </li>
@@ -141,7 +141,7 @@ function handleSearch() {
                   class="is-drawer-close:tooltip is-drawer-close:tooltip-right py-3"
                   data-tip="Friend"
                 >
-                  <friend-icon />
+                  <FriendIcon />
                   <span class="is-drawer-close:hidden text-base ml-2 whitespace-nowrap">Friends</span>
                 </RouterLink>
               </li>
@@ -153,7 +153,7 @@ function handleSearch() {
                   class="is-drawer-close:tooltip is-drawer-close:tooltip-right py-3"
                   data-tip="Create"
                 >
-                  <create-icon />
+                  <CreateIcon />
                   <span class="is-drawer-close:hidden text-base ml-2 whitespace-nowrap">Create</span>
                 </RouterLink>
               </li>
@@ -165,7 +165,7 @@ function handleSearch() {
                   class="is-drawer-close:tooltip is-drawer-close:tooltip-right py-3"
                   data-tip="Settings"
                 >
-                  <setting-icon />
+                  <SettingIcon />
                   <span class="is-drawer-close:hidden text-base ml-2 whitespace-nowrap">Settings</span>
                 </RouterLink>
               </li>
