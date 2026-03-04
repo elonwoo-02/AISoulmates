@@ -53,18 +53,20 @@ defineExpose({
 </script>
 
 <template>
-  <form @submit.prevent="handleSend" class="absolute bottom-4 left-1/2 -translate-x-1/2 h-12 w-86 flex items-center">
+  <form @submit.prevent="handleSend" class="flex items-center gap-2 h-12 px-2">
     <input
         ref="input-ref"
         v-model="message"
         class="input bg-black/30 backdrop-blur-sm text-white text-base w-full h-full rounded-2xl focus:outline-none focus:border-none focus:ring-0"
         type="text"
         placeholder="type here...">
-    <div @click="handleSend" class="absolute right-2 w-8 h-8 flex justify-center items-center cursor-pointer">
-      <SendIcon/>
-    </div>
-    <div class="absolute right-8 w-8 h-8 flex justify-center items-center cursor-pointer">
-      <MicIcon/>
+    <div class="flex items-center gap-1">
+      <div class="w-8 h-8 flex justify-center items-center cursor-pointer hover:bg-white/10 rounded-full transition-colors">
+        <MicIcon/>
+      </div>
+      <div @click="handleSend" class="w-8 h-8 flex justify-center items-center cursor-pointer hover:bg-white/10 rounded-full transition-colors">
+        <SendIcon/>
+      </div>
     </div>
   </form>
 </template>

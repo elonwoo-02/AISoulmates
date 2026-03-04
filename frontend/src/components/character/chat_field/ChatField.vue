@@ -33,15 +33,23 @@ defineExpose({
 
 <template>
   <dialog ref="modal-ref" class="modal" @click.stop>
-    <div class="modal-box w-11/12 max-w-2xl h-5/6 max-h-600px" :style="modalStyle">
-      <div class="flex justify-between items-center mb-4">
-        <button @click.stop="modalRef.close()" class="btn btn-sm btn-circle btn-ghost absolute bg-transparent right-1 top-1">✕</button>
-        <InputField
-            v-if="friend"
-            ref="input-ref"
-            :friendId="friend.id"/>
+    <div class="modal-box w-11/12 max-w-2xl h-[85vh] sm:h-5/6 max-h-[600px] flex flex-col" :style="modalStyle">
+      <!-- Header: Character Info + Close Button -->
+      <div class="flex justify-between items-start mb-2">
         <CharacterPhotoField v-if="friend" :character="friend.character" />
+        <button @click.stop="modalRef.close()" class="btn btn-sm btn-circle btn-ghost bg-black/30 text-white hover:bg-black/50">✕</button>
       </div>
+
+      <!-- Message Area Placeholder -->
+      <div class="flex-1 overflow-y-auto py-4">
+        <!-- TODO: Add message list component here -->
+      </div>
+
+      <!-- Footer: Input Field -->
+      <InputField
+          v-if="friend"
+          ref="input-ref"
+          :friendId="friend.id"/>
     </div>
   </dialog>
 </template>
