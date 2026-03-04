@@ -25,6 +25,7 @@ class RegisterView(APIView):
                 'username': user.username,
                 'photo': user_profile.photo.url,
                 'profile': user_profile.profile,
+                'background_image': user_profile.background_image.url if user_profile.background_image else '',
             })
             response.set_cookie(
                 key='refresh_token',

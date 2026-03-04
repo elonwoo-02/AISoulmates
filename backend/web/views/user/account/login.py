@@ -29,6 +29,7 @@ class LoginView(APIView):
                     'username': user.username,
                     'photo': user_profile.photo.url if user_profile.photo else '', # 必须加url
                     'profile': user_profile.profile,
+                    'background_image': user_profile.background_image.url if user_profile.background_image else '',
                 })
                 response.set_cookie(
                     key='refresh_token',
