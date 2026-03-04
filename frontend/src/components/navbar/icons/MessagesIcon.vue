@@ -1,20 +1,25 @@
 <script setup>
+defineOptions({
+  inheritAttrs: false
+})
 </script>
 
 <template>
   <svg
     xmlns="http://www.w3.org/2000/svg"
+    v-bind="$attrs"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
     stroke-width="1.8"
     stroke-linecap="round"
     stroke-linejoin="round"
-    class="h-6 w-6"
   >
-    <path d="M21 14a6 6 0 0 1-6 6H8l-5 3v-9a6 6 0 0 1 6-6h6a6 6 0 0 1 6 6z" />
-    <path d="M9 12h6" />
-    <path d="M9 16h4" />
+    <!-- 聊天气泡 -->
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+    <!-- 消息线条 -->
+    <path d="M8 10h8" />
+    <path d="M8 14h4" />
   </svg>
 </template>
 
