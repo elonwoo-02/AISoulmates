@@ -36,7 +36,10 @@ defineExpose({
     <div class="modal-box w-11/12 max-w-2xl h-5/6 max-h-600px" :style="modalStyle">
       <div class="flex justify-between items-center mb-4">
         <button @click.stop="modalRef.close()" class="btn btn-sm btn-circle btn-ghost absolute bg-transparent right-1 top-1">✕</button>
-        <InputField ref="input-ref"/>
+        <InputField
+            v-if="friend"
+            ref="input-ref"
+            :friendId="friend.id"/>
         <CharacterPhotoField v-if="friend" :character="friend.character" />
       </div>
     </div>
