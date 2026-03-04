@@ -53,7 +53,7 @@ function handleSearch() {
     <!-- Mobile / small screens -->
     <div class="md:hidden">
       <TopNavBar v-if="showTopBarOnMobile"/>
-      <main class="mx-auto w-full max-w-300 pb-[calc(96px+env(safe-area-inset-bottom))]">
+      <main class="mx-auto w-full max-w-300">
         <slot></slot>
       </main>
       <BottomTabBar v-if="showBottomBar" />

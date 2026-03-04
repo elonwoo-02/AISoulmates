@@ -261,35 +261,36 @@ onBeforeUnmount(() => {
 
         <!-- Character Info - Bottom -->
         <div class="absolute bottom-0 left-0 right-0 p-5 pb-24">
-          <!-- Name -->
-          <h3 class="text-3xl font-bold text-white leading-tight">{{ character.name }}</h3>
+          <!-- Avatar + Name Row -->
+          <div class="flex items-center gap-3">
+            <!-- Character Avatar -->
+            <div class="w-14 h-14 rounded-full overflow-hidden ring-3 ring-white/60 shadow-lg flex-shrink-0">
+              <img
+                v-if="character.photo"
+                :src="character.photo"
+                alt="character avatar"
+                class="w-full h-full object-cover"
+              />
+              <div v-else class="w-full h-full bg-gradient-to-br from-pink-500 to-purple-600 flex items-center justify-center">
+                <span class="text-xl font-bold text-white">{{ character.name?.charAt(0) }}</span>
+              </div>
+            </div>
+
+            <!-- Name -->
+            <h3 class="text-3xl font-bold text-white leading-tight">{{ character.name }}</h3>
+          </div>
 
           <!-- Profile -->
-          <p class="text-white/80 text-base mt-1 line-clamp-2">{{ character.profile }}</p>
+          <p class="text-white/80 text-base mt-2 line-clamp-2">bio: {{ character.profile }}</p>
 
-          <!-- Bottom Row: Character Photo + Author -->
+          <!-- Bottom Row: Author -->
           <div class="flex items-center justify-between mt-4">
-            <!-- Character Avatar (Floating) -->
-            <div class="flex items-center gap-3">
-              <div class="w-14 h-14 rounded-2xl overflow-hidden ring-3 ring-white/60 shadow-lg">
-                <img
-                  v-if="character.photo"
-                  :src="character.photo"
-                  alt="character avatar"
-                  class="w-full h-full object-cover"
-                />
-                <div v-else class="w-full h-full bg-gradient-to-br from-pink-500 to-purple-600 flex items-center justify-center">
-                  <span class="text-xl font-bold text-white">{{ character.name?.charAt(0) }}</span>
-                </div>
+            <!-- Author Info -->
+            <div class="flex items-center gap-2">
+              <div class="w-6 h-6 rounded-full overflow-hidden">
+                <img :src="character.author.photo" alt="author" class="w-full h-full object-cover" />
               </div>
-
-              <!-- Author Info -->
-              <div class="flex items-center gap-2">
-                <div class="w-6 h-6 rounded-full overflow-hidden">
-                  <img :src="character.author.photo" alt="author" class="w-full h-full object-cover" />
-                </div>
-                <span class="text-white/60 text-sm">{{ character.author.username }}</span>
-              </div>
+              <span class="text-white/60 text-sm">{{ character.author.username }}</span>
             </div>
 
             <!-- Like Count -->

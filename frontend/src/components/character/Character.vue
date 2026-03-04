@@ -105,9 +105,13 @@ async function openChatField() {
       </div>
 
       <div class="absolute bottom-0 left-0 right-0 p-4 text-white">
-        <img :src="character.photo" alt="" class="w-7 h-7 rounded-full">
-        <h3 class="line-clamp-2 text-base font-semibold leading-5 tracking-tight">{{ character.name }}</h3>
-        <p class="line-clamp-2 mt-1 text-xs text-white/80">{{ character.profile }}</p>
+        <!-- Avatar + Name Row -->
+        <div class="flex items-center gap-2">
+          <img :src="character.photo" alt="" class="w-7 h-7 rounded-full flex-shrink-0">
+          <h3 class="line-clamp-2 text-base font-semibold leading-5 tracking-tight">{{ character.name }}</h3>
+        </div>
+        <!-- Profile -->
+        <p class="line-clamp-2 mt-1 text-xs text-white/80">bio: {{ character.profile }}</p>
       </div>
     </div>
 

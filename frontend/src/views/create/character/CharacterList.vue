@@ -60,7 +60,7 @@ function goToCreate() {
         class="group cursor-pointer rounded-2xl border border-base-300 bg-base-100 p-3 shadow-sm transition-all hover:shadow-md"
         @click="goToUpdate(character.id)"
       >
-        <div class="flex items-center gap-4">
+        <div class="flex items-start gap-4">
           <div class="avatar">
             <div class="h-16 w-16 rounded-xl">
               <img :src="character.photo" :alt="character.name" class="object-cover" />
@@ -68,14 +68,18 @@ function goToCreate() {
           </div>
 
           <div class="min-w-0 flex-1">
-            <h2 class="truncate text-base font-semibold">{{ character.name }}</h2>
-            <p class="line-clamp-2 mt-1 text-sm text-base-content/70">{{ character.profile }}</p>
+            <!-- Avatar + Name Row -->
+            <div class="flex items-center gap-3">
+              <h2 class="truncate text-base font-semibold">{{ character.name }}</h2>
+            </div>
+            <!-- Profile -->
+            <p class="line-clamp-2 mt-1 text-sm text-base-content/70">bio: {{ character.profile }}</p>
             <p class="mt-1 text-xs text-base-content/60">
               Updated {{ new Date(character.update_time).toLocaleDateString() }}
             </p>
           </div>
 
-          <button class="btn btn-ghost btn-sm rounded-full">Edit</button>
+          <button class="btn btn-ghost btn-sm rounded-full">edit_file</button>
         </div>
       </article>
     </div>

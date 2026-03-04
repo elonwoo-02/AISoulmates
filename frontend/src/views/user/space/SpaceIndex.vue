@@ -102,10 +102,10 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="mx-auto w-full max-w-screen-2xl">
+  <div class="mx-auto w-full max-w-screen-2xl flex flex-col min-h-screen">
     <UserInfoField :userProfile="userProfile" @editProfile="handleEditProfile" />
 
-    <section class="bg-white rounded-t-2xl -mt-3 shadow-lg relative z-10 pb-[calc(96px+env(safe-area-inset-bottom))]">
+    <section class="bg-white rounded-t-2xl -mt-3 shadow-lg relative z-10 flex-1">
       <!-- Navigation tabs -->
       <!-- todo: -->
       <div class="mb-0 border-b border-gray-200 gap-5">
