@@ -148,13 +148,6 @@ onBeforeUnmount(() => {
         @dislike="handleDislike"
         @next="nextCard"
       />
-      
-      <!-- Card counter -->
-      <div class="absolute top-4 left-0 right-0 text-center z-40">
-        <span class="bg-black/50 text-white px-3 py-1 rounded-full text-sm">
-          {{ currentCardIndex + 1 }} / {{ characters.length }}
-        </span>
-      </div>
     </div>
 
     <!-- Desktop Masonry View or logged out view -->

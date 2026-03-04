@@ -52,7 +52,6 @@ function goMe() {
         aria-label="Home"
       >
         <HomepageIcon class="h-6 w-6" />
-        Home
       </button>
 
       <button

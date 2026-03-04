@@ -1,11 +1,12 @@
 <script setup>
-import {computed, nextTick, useTemplateRef} from 'vue'
+import {computed, nextTick, ref, useTemplateRef} from 'vue'
 import InputField from '@/components/character/chat_field/input_field/InputField.vue'
 import CharacterPhotoField from '@/components/character/chat_field/character_photo_field/CharacterPhotoField.vue'
 
 const props = defineProps(['friend'])
 const modalRef = useTemplateRef('modal-ref')
 const inputRef = useTemplateRef('input-ref')
+const history = ref(null)
 
 async function showModal() {
   modalRef.value.showModal()
@@ -49,7 +50,8 @@ defineExpose({
       <InputField
           v-if="friend"
           ref="input-ref"
-          :friendId="friend.id"/>
+          :friendId="friend.id"
+      />
     </div>
   </dialog>
 </template>
