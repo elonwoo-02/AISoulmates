@@ -19,14 +19,14 @@ class GetHistoryView(APIView):
             for m in messages_raw:
                 messages.append({
                     'id': m.id,
-                    'user_messages': m.user_messages,
+                    'user_message': m.user_message,
                     'output': m.output,
                 })
             return Response({
                 'result': 'success',
                 'messages': messages,
             })
-        except Friend.DoesNotExist:
+        except Exception as e:
             return Response({
-                "error": "Friend does not exist"
-            }, status=404)
+                "error": str(e)
+            }, status=400)

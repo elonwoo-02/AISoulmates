@@ -40,6 +40,10 @@ function handleAddToLastMessage(delta) {
   chatHistoryRef.value.scrollToBottom()
 }
 
+function handlePushFrontMessage(msg) {
+  history.value.unshift(msg)
+}
+
 defineExpose({
   showModal,
 })
@@ -47,7 +51,7 @@ defineExpose({
 
 <template>
   <dialog ref="modal-ref" class="modal" @click.stop>
-    <div class="modal-box w-[90vw] max-w-sm aspect-3/5 flex flex-col" :style="modalStyle">
+    <div class="modal-box p-2 max-w-sm aspect-3/5 flex flex-col" :style="modalStyle">
       <!-- Header: Character Info + Close Button -->
       <div class="flex justify-between items-start mb-2">
         <CharacterPhotoField v-if="friend" :character="friend.character" />
@@ -61,7 +65,7 @@ defineExpose({
           :history="history"
           :friendId="friend.id"
           :character="friend.character"
-
+          @pushBackFrontMessage="handlePushFrontMessage"
       />
 
       <!-- Footer: Input Field -->
