@@ -1,13 +1,13 @@
 import json
 
-from langchain_core.messages import HumanMessage, AIMessage
+from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
 from rest_framework.renderers import BaseRenderer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from django.http import StreamingHttpResponse
 
-from web.models.friend import Friend, Message
+from web.models.friend import Friend, Message, SystemPrompt
 from web.views.friend.message.chat.graph import ChatGraph
 
 class SSERenderer(BaseRenderer):
@@ -17,6 +17,26 @@ class SSERenderer(BaseRenderer):
 
     def render(self, data, accepted_media_type=None, renderer_context=None):
         return data
+
+def add_system_prompt(state, friend):
+    msgs = state['messages']
+    system_prompts = SystemPrompt.objects.filter(title='回复').order_by('order_number')
+    prompt = ''
+    for sp in system_prompts:
+        prompt += sp.prompt
+    prompt += f'\n【角色性格】\n{friend.character.profile}\n'
+    return {'messages': [SystemMessage(prompt)] + msgs}
+
+def add_recent_messages(state, friend):
+    msgs = state['messages']
+    message_raw = list(Message.objects.filter(friend=friend).order_by('-id')[:10])
+    message_raw.reverse()
+    messages = []
+    for m in message_raw:
+        messages.append(HumanMessage(m.user_message))
+        messages.append(AIMessage(m.output))
+    return {'messages': msgs[:1] + messages + msgs[-1:]}
+
 
 class MessageView(APIView):
     permission_classes = [IsAuthenticated]
@@ -40,6 +60,8 @@ class MessageView(APIView):
         inputs = {
             'messages': [HumanMessage(request.data.get('message'))],  # 构建输入消息
         }
+        inputs = add_system_prompt(inputs, friend)
+        inputs = add_recent_messages(inputs, friend)
 
         def event_stream():
             gen = self._stream_chat_response(app, inputs)  # 获取流式响应生成器

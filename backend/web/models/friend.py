@@ -28,3 +28,14 @@ class Message(models.Model):
 
     def __str__(self):
         return f"{self.friend.character.name} - {self.friend.me.user.username} - {self.user_message[:50]} - {localtime(self.create_time).strftime('%Y-%m-%d %H:%M:%S')}"
+
+
+class SystemPrompt(models.Model):
+    title = models.CharField(max_length=100)
+    order_number = models.IntegerField(default=0)
+    prompt = models.TextField(max_length=10000)
+    create_time = models.DateTimeField(default=now)
+    update_time = models.DateTimeField(default=now)
+
+    def __str__(self):
+        return f"{self.title} - {self.order_number} - {self.prompt[:50]} - {localtime(self.create_time).strftime('%Y-%m-%d %H:%M:%S')}"
