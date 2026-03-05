@@ -25,6 +25,7 @@ def add_system_prompt(state, friend):
     for sp in system_prompts:
         prompt += sp.prompt
     prompt += f'\n【角色性格】\n{friend.character.profile}\n'
+    prompt += f'【长期记忆】\n{friend.memory}\n'
     return {'messages': [SystemMessage(prompt)] + msgs}
 
 def add_recent_messages(state, friend):
@@ -170,3 +171,6 @@ class MessageView(APIView):
             output_tokens=output_tokens,
             total_tokens=total_tokens
         )
+        if Message.objects.filter(friend=friend).count() % 1 == 0:
+            update_memory(friend)
+
