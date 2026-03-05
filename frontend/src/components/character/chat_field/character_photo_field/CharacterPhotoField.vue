@@ -1,5 +1,5 @@
 <script setup>
-defineProps(['character'])
+defineProps(['character', 'isThinking'])
 </script>
 
 <template>
@@ -11,7 +11,7 @@ defineProps(['character'])
   </div>
   <div class="text-white">
     <div class="font-medium text-sm">{{ character.name }}</div>
-    <div class="text-xs text-white/60">Online</div>
+    <div class="text-xs text-white/60">{{ isThinking ? 'Thinking...' : 'Online' }}</div>
   </div>
 </div>
 </template>

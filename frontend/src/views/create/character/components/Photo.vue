@@ -1,6 +1,7 @@
 <script setup>
 import {nextTick, onBeforeUnmount, ref, useTemplateRef, watch} from "vue";
 import CameraIcon from "@/views/user/profile/components/icon/CameraIcon.vue";
+import TextureCard from "@/components/ui/TextureCard.vue";
 
 import Croppie from 'croppie'          // 引入 Croppie 裁剪库
 import 'croppie/croppie.css'           // Croppie 样式
@@ -70,17 +71,23 @@ defineExpose({
 </script>
 
 <template>
-  <div class="flex justify-center">
-    <div class="avatar relative">
-      <div v-if="myPhoto" class="w-28 rounded-full">
-        <img :src="myPhoto" alt="photo"/>
+  <TextureCard>
+    <div class="photo-card">
+      <p class="photo-label">Avatar</p>
+      <div class="flex justify-center">
+        <div class="avatar relative">
+          <div v-if="myPhoto" class="w-28 rounded-full">
+            <img :src="myPhoto" alt="photo"/>
+          </div>
+          <div v-else class="w-28 h-28 rounded-full bg-base-200"></div>
+          <div @click="fileInputRef.click()" class="w-28 h-28 rounded-full bg-black/20 absolute left-0 top-0 flex justify-center items-center cursor-pointer">
+            <CameraIcon/>
+          </div>
+        </div>
       </div>
-      <div v-else class="w-28 h-28 rounded-full bg-base-200"></div>
-      <div @click="fileInputRef.click()" class="w-28 h-28 rounded-full bg-black/20 absolute left-0 top-0 flex justify-center items-center cursor-pointer">
-        <CameraIcon/>
-      </div>
+      <p class="photo-hint">Square image recommended.</p>
     </div>
-  </div>
+  </TextureCard>
 
   <input ref="file-input-ref" type="file" class="hidden" id="image/*" @change="onFileChange"/>
 
@@ -99,5 +106,22 @@ defineExpose({
 </template>
 
 <style scoped>
+.photo-card {
+  display: grid;
+  gap: 10px;
+}
 
+.photo-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(15, 23, 42, 0.6);
+}
+
+.photo-hint {
+  text-align: center;
+  font-size: 12px;
+  color: rgba(15, 23, 42, 0.6);
+}
 </style>

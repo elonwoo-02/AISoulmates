@@ -6,22 +6,24 @@ import {ref, useTemplateRef} from "vue";
 import streamApi from "@/js/http/streamApi.js";
 
 const props = defineProps(['friendId'])
-const emit = defineEmits(['pushBackMessage', 'addToLastMessage'])
+const emit = defineEmits(['pushBackMessage', 'addToLastMessage', 'updateProcessing'])
 const inputRef = useTemplateRef('input-ref')
 const message = ref('')
-let processing = false
+const processing = ref(false)
 
 function focus() {
   inputRef.value.focus()
 }
 
 async function handleSend() {
-  if (processing) return
-  processing = true
+  if (processing.value) return
+  processing.value = true
+  emit('updateProcessing', true)
 
   const content = message.value.trim()
   if (!content) {
-    processing = false
+    processing.value = false
+    emit('updateProcessing', false)
     return
   }
   message.value = ''
@@ -37,17 +39,20 @@ async function handleSend() {
       },
       onmessage(data, isDone) {
         if (isDone) {
-          processing = false
+          processing.value = false
+          emit('updateProcessing', false)
         } else if (data.content) {
           emit('addToLastMessage', data.content)
         }
       },
       onerror(err) {
-        processing = false
+        processing.value = false
+        emit('updateProcessing', false)
       }
     })
   } catch (err) {
-    processing = false
+    processing.value = false
+    emit('updateProcessing', false)
   }
 
 

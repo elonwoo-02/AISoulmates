@@ -9,6 +9,7 @@ const modalRef = useTemplateRef('modal-ref')
 const inputRef = useTemplateRef('input-ref')
 const chatHistoryRef = useTemplateRef('chat-history-ref')
 const history = ref([])
+const isThinking = ref(false)
 
 async function showModal() {
   modalRef.value.showModal()
@@ -44,6 +45,10 @@ function handlePushFrontMessage(msg) {
   history.value.unshift(msg)
 }
 
+function handleUpdateProcessing(value) {
+  isThinking.value = value
+}
+
 defineExpose({
   showModal,
 })
@@ -54,7 +59,7 @@ defineExpose({
     <div class="modal-box p-2 max-w-sm aspect-3/5 flex flex-col" :style="modalStyle">
       <!-- Header: Character Info + Close Button -->
       <div class="flex justify-between items-start mb-2">
-        <CharacterPhotoField v-if="friend" :character="friend.character" />
+        <CharacterPhotoField v-if="friend" :character="friend.character" :isThinking="isThinking" />
         <button @click.stop="modalRef.close()" class="btn btn-sm btn-circle btn-ghost bg-black/30 text-white hover:bg-black/50">✕</button>
       </div>
 
@@ -75,6 +80,7 @@ defineExpose({
           :friendId="friend.id"
           @pushBackMessage="handlePushBackMessage"
           @addToLastMessage="handleAddToLastMessage"
+          @updateProcessing="handleUpdateProcessing"
       />
     </div>
   </dialog>

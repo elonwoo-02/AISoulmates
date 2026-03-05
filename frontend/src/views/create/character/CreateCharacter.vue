@@ -9,6 +9,7 @@ import {base64ToFile} from "@/js/utils/base64_to_file.js";
 import api from "@/js/http/api.js";
 import {useRouter} from "vue-router";
 import {useUserStore} from "@/stores/user.js";
+import TextureCard from "@/components/ui/TextureCard.vue";
 
 const user = useUserStore()
 const router = useRouter()
@@ -61,41 +62,38 @@ async function handleCreate() {
 </script>
 
 <template>
-  <div class="mx-auto w-full max-w-5xl px-4 py-6 md:px-6 lg:px-8">
-    <section class="overflow-hidden rounded-3xl border border-base-300 bg-base-100 shadow-sm">
-      <div class="border-b border-base-300 bg-base-200/60 px-5 py-4 md:px-8">
-        <h1 class="text-2xl font-bold tracking-tight">Create character</h1>
-        <p class="mt-1 text-sm text-base-content/70">Add a new character to your space.</p>
-      </div>
+  <div class="flex justify-center px-4 py-12">
+    <TextureCard class="w-full max-w-4xl">
+      <template #header>
+        <div class="create-header">
+          <h1 class="create-title">Create character</h1>
+          <p class="create-subtitle">Add a new companion to your space with a unique style and story.</p>
+        </div>
+      </template>
 
-      <div class="grid gap-6 p-5 md:grid-cols-[260px_1fr] md:gap-8 md:p-8">
-        <aside class="rounded-2xl border border-base-300 bg-base-200/40 p-4 space-y-4">
+      <form @submit.prevent="handleCreate" class="create-form">
+        <aside class="create-media-panel">
           <Photo ref="photo-ref" />
-          <p class="text-center text-xs text-base-content/65">Upload a square image for best results.</p>
-
-          <div>
-            <BackgroundImage ref="background-image-ref" />
-            <p class="mt-2 text-center text-xs text-base-content/65">Upload a landscape image for best results.</p>
-          </div>
+          <BackgroundImage ref="background-image-ref" />
         </aside>
 
-        <main class="space-y-4">
+        <section class="create-fields">
           <Name ref="name-ref" />
           <Profile ref="profile-ref" />
 
-          <p v-if="errorMessage" class="rounded-lg border border-error/30 bg-error/10 px-3 py-2 text-sm text-error-content">
-            {{ errorMessage }}
-          </p>
+          <p v-if="errorMessage" class="create-error">{{ errorMessage }}</p>
+        </section>
+      </form>
 
-          <div class="flex justify-end pt-2">
-            <button @click="handleCreate" class="btn btn-neutral rounded-full px-6">Create</button>
-          </div>
-        </main>
-      </div>
-    </section>
+      <template #footer>
+        <div class="create-footer">
+          <span>Ready to publish this character?</span>
+          <button type="submit" @click="handleCreate" class="btn btn-neutral create-button">Create</button>
+        </div>
+      </template>
+    </TextureCard>
   </div>
 </template>
 
 <style scoped>
-
 </style>

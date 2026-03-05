@@ -1,6 +1,7 @@
 <script setup>
 import {nextTick, onBeforeUnmount, ref, useTemplateRef, watch} from "vue";
 import CameraIcon from "@/views/user/profile/components/icon/CameraIcon.vue";
+import TextureCard from "@/components/ui/TextureCard.vue";
 
 import Croppie from 'croppie'
 import 'croppie/croppie.css'
@@ -69,17 +70,23 @@ defineExpose({
 </script>
 
 <template>
-  <fieldset class="fieldset">
-    <div class="avatar relative">
-      <div v-if="myBackgroundImage" class="w-15 h-25 rounded-box">
-        <img :src="myBackgroundImage" alt="myBackgroundImage"/>
+  <TextureCard>
+    <fieldset class="background-fieldset">
+      <label class="background-label">Background</label>
+      <div class="flex justify-center">
+        <div class="avatar relative">
+          <div v-if="myBackgroundImage" class="w-15 h-25 rounded-box">
+            <img :src="myBackgroundImage" alt="myBackgroundImage"/>
+          </div>
+          <div v-else class="w-15 h-25 rounded-box bg-base-200"></div>
+          <div @click="fileInputRef.click()" class="w-15 h-25 rounded-box absolute left-0 top-0 bg-black/20 flex justify-center items-center cursor-pointer">
+            <CameraIcon/>
+          </div>
+        </div>
       </div>
-      <div v-else class="w-15 h-25 rounded-box bg-base-200"></div>
-      <div @click="fileInputRef.click()" class="w-15 h-25 rounded-box absolute left-0 top-0 bg-black/20 flex justify-center items-center cursor-pointer">
-        <CameraIcon/>
-      </div>
-    </div>
-  </fieldset>
+      <p class="background-hint">Portrait image recommended.</p>
+    </fieldset>
+  </TextureCard>
 
   <input ref="file-input-ref" type="file" class="hidden" id="image/*" @change="onFileChange"/>
 
@@ -99,5 +106,22 @@ defineExpose({
 </template>
 
 <style scoped>
+.background-fieldset {
+  display: grid;
+  gap: 10px;
+}
 
+.background-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(15, 23, 42, 0.6);
+}
+
+.background-hint {
+  text-align: center;
+  font-size: 12px;
+  color: rgba(15, 23, 42, 0.6);
+}
 </style>

@@ -42,7 +42,7 @@ class ChatGraph:
 
         # 初始化 ChatOpenAI 模型，支持流式输出
         llm = ChatOpenAI(
-            model = 'gpt-4o-mini',
+            model = 'gpt-5-mini',
             openai_api_key = os.getenv('API_KEY'),
             openai_api_base = os.getenv('API_BASE'),
             streaming=True,
