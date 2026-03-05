@@ -47,7 +47,6 @@ async function handleSend() {
       }
     })
   } catch (err) {
-    console.log(err)
     processing = false
   }
 

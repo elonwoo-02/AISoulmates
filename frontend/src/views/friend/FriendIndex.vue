@@ -32,7 +32,6 @@ async function loadMore() {
       newFriends = data.friends
     }
   } catch(err) {
-    console.log(err)
     error.value = 'Failed to load more friends'
   } finally {
     loading.value = false

@@ -97,12 +97,10 @@ function reset() {
 }
 
 function handleLike(characterId) {
-  console.log('Added to friends:', characterId)
   nextCard()
 }
 
 function handleDislike(characterId) {
-  console.log('Disliked character:', characterId)
   nextCard()
 }
 

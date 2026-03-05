@@ -157,7 +157,6 @@ async function handleLike() {
     
     if (res.data.result === 'success') {
       emit('like', props.character.id);
-      console.log('Added to friends:', props.character.name);
     }
   } catch (err) {
     console.error('Error adding friend:', err);
@@ -168,7 +167,6 @@ async function handleLike() {
 
 async function handleDislike() {
   emit('dislike', props.character.id);
-  console.log('Disliked character:', props.character.name);
 }
 
 async function openChat() {

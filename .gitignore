@@ -10,4 +10,5 @@ AGENTS.md
 skills-lock.json
 .agents/
 .comate/
+backend/web/documents/
 *.env
