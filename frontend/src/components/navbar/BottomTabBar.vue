@@ -35,7 +35,9 @@ function goMe() {
     router.push({ name: "user-account-login-index" });
     return;
   }
-  router.push({ name: "user-space-index", params: { user_id: user.id } });
+  if (user.id && user.id !== 0) {
+    router.push({ name: "user-space-index", params: { user_id: user.id } });
+  }
 }
 </script>
 

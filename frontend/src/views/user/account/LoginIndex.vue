@@ -20,7 +20,7 @@ async function handlelogin() {
     errorMessage.value = 'Password is required'
   } else {
     try{
-      const res = await api.post('api/user/account/login/', {
+      const res = await api.post('/api/user/account/login/', {
         username: username.value,
         password: password.value,
       })
@@ -35,6 +35,14 @@ async function handlelogin() {
         errorMessage.value = data.result
       }
     } catch (err) {
+      console.error('Login error:', err)
+      if (err.response?.data?.result) {
+        errorMessage.value = err.response.data.result
+      } else if (err.response?.status === 401) {
+        errorMessage.value = 'Invalid username or password'
+      } else {
+        errorMessage.value = 'Login failed. Please try again.'
+      }
     }
   }
 }
@@ -55,7 +63,7 @@ async function handlelogin() {
         <input v-model="username" type="text" class="input input-bordered w-full login-input" placeholder="Name" />
 
         <label class="login-label">Password</label>
-        <input v-model="password" type="password" class="input input-bordered w-full login-input" placeholder="Password" />
+        <input v-model="password" type="password" autocomplete="current-password" class="input input-bordered w-full login-input" placeholder="Password" />
 
         <p v-if="errorMessage" class="text-sm text-red-500 mt-1">{{ errorMessage }}</p>
 

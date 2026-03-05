@@ -2,11 +2,12 @@
 import {computed, nextTick, ref, useTemplateRef} from 'vue'
 import InputField from '@/components/character/chat_field/input_field/InputField.vue'
 import CharacterPhotoField from '@/components/character/chat_field/character_photo_field/CharacterPhotoField.vue'
+import ChatHistory from "@/components/character/chat_field/chat_history/ChatHistory.vue";
 
 const props = defineProps(['friend'])
 const modalRef = useTemplateRef('modal-ref')
 const inputRef = useTemplateRef('input-ref')
-const history = ref(null)
+const history = ref([])
 
 async function showModal() {
   modalRef.value.showModal()
@@ -23,9 +24,18 @@ const modalStyle = computed(() => {
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat',
     }
+  } else {
+    return {}
   }
-  return {}
 })
+
+function handlePushBackMessage(msg) {
+  history.value.push(msg)
+}
+
+function handleAddToLastMessage(delta) {
+  history.value.at(-1).content += delta
+}
 
 defineExpose({
   showModal,
@@ -34,7 +44,7 @@ defineExpose({
 
 <template>
   <dialog ref="modal-ref" class="modal" @click.stop>
-    <div class="modal-box w-11/12 max-w-2xl h-[85vh] sm:h-5/6 max-h-[600px] flex flex-col" :style="modalStyle">
+    <div class="modal-box w-11/12 max-w-2xl h-[85vh] sm:h-5/6 max-h-150 flex flex-col" :style="modalStyle">
       <!-- Header: Character Info + Close Button -->
       <div class="flex justify-between items-start mb-2">
         <CharacterPhotoField v-if="friend" :character="friend.character" />
@@ -42,15 +52,21 @@ defineExpose({
       </div>
 
       <!-- Message Area Placeholder -->
-      <div class="flex-1 overflow-y-auto py-4">
-        <!-- TODO: Add message list component here -->
-      </div>
+      <ChatHistory
+          v-if="friend"
+          :history="history"
+          :friendId="friend.id"
+          :character="friend.character"
+
+      />
 
       <!-- Footer: Input Field -->
       <InputField
           v-if="friend"
           ref="input-ref"
           :friendId="friend.id"
+          @pushBackMessage="handlePushBackMessage"
+          @addToLastMessage="handleAddToLastMessage"
       />
     </div>
   </dialog>
