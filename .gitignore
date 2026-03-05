@@ -9,4 +9,5 @@ static/
 AGENTS.md
 skills-lock.json
 .agents/
+.comate/
 *.env
