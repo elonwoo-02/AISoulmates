@@ -28,8 +28,9 @@ async function handleSend() {
   }
   message.value = ''
 
-  emit('pushBackMessage', {role: 'user', content: content, id: crypto.randomUUID() })
-  emit('pushBackMessage', {role: 'ai', content: '', id: crypto.randomUUID() })
+  const now = new Date().toISOString()
+  emit('pushBackMessage', {role: 'user', content: content, id: crypto.randomUUID(), time: now, status: 'sent' })
+  emit('pushBackMessage', {role: 'ai', content: '', id: crypto.randomUUID(), time: now, status: 'sent' })
 
   try {
     await streamApi('/api/friend/message/chat/', {

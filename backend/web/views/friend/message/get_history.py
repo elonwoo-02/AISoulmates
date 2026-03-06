@@ -1,8 +1,9 @@
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django.utils.timezone import localtime
 
-from web.models.friend import Friend, Message
+from web.models.friend import Message
 
 class GetHistoryView(APIView):
     permission_classes = [IsAuthenticated]
@@ -21,6 +22,7 @@ class GetHistoryView(APIView):
                     'id': m.id,
                     'user_message': m.user_message,
                     'output': m.output,
+                    'created_at': localtime(m.create_time).isoformat(),
                 })
             return Response({
                 'result': 'success',

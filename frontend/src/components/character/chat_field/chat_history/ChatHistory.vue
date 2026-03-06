@@ -2,6 +2,7 @@
 import Message from "@/components/character/chat_field/chat_history/message/Message.vue";
 import {nextTick, onBeforeUnmount, onMounted, useTemplateRef} from "vue";
 import api from "@/js/http/api.js";
+import MessageBubble from "@/components/character/chat_field/chat_history/message/MessageBubble.vue";
 
 const props = defineProps(
   ['history', 'friendId', 'character']
@@ -48,15 +49,20 @@ async function loadMore() {
       const oldTop = scrollRef.value.scrollTop
 
       for (const m of newMessages) {  // 后端已按 id 降序返回；配合 unshift 可保持整体时间正序
+        const msgTime = m.created_at || new Date().toISOString()
         emit('pushBackFrontMessage', {
           role: 'ai',
           content: m.output,
           id: crypto.randomUUID(),
+          time: msgTime,
+          status: 'sent',
         })
         emit('pushBackFrontMessage', {
           role: 'user',
           content: m.user_message,
           id: crypto.randomUUID(),
+          time: msgTime,
+          status: 'sent',
         })
       }
       lastMessageId = oldestMessageId
@@ -99,7 +105,7 @@ defineExpose({
 <template>
   <div ref="scroll-ref" class="flex-1 overflow-y-scroll overflow-x-hidden scrollbar-hide w-full">
     <div ref="sentinel-ref" class="h-2 bg-red-500"></div>
-    <Message
+    <MessageBubble
         v-for="message in history"
         :key="message.id"
         :message="message"
