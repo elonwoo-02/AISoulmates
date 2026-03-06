@@ -1,10 +1,9 @@
 <script setup>
 import { computed } from 'vue'
+import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user.js'
 
-
 const props = defineProps(['message', 'character'])
-
 const user = useUserStore()
 
 const isSelf = computed(() => props.message.role === 'user')

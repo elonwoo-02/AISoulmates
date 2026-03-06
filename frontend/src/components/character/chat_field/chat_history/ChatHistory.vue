@@ -1,5 +1,4 @@
 <script setup>
-import Message from "@/components/character/chat_field/chat_history/message/Message.vue";
 import {nextTick, onBeforeUnmount, onMounted, useTemplateRef} from "vue";
 import api from "@/js/http/api.js";
 import MessageBubble from "@/components/character/chat_field/chat_history/message/MessageBubble.vue";
@@ -70,6 +69,10 @@ async function loadMore() {
 
       const newHeight = scrollRef.value.scrollHeight
       scrollRef.value.scrollTop = oldTop + newHeight - oldHeight
+
+      if (checkSentinelVisible()) {
+        await loadMore()
+      }
     }
   }
 }
@@ -103,8 +106,8 @@ defineExpose({
 </script>
 
 <template>
-  <div ref="scroll-ref" class="flex-1 overflow-y-scroll overflow-x-hidden scrollbar-hide w-full">
-    <div ref="sentinel-ref" class="h-2 bg-red-500"></div>
+  <div ref="scroll-ref" class="flex-1 overflow-y-scroll no-scrollbar w-full">
+    <div ref="sentinel-ref" class="h-2"></div>
     <MessageBubble
         v-for="message in history"
         :key="message.id"
@@ -116,7 +119,16 @@ defineExpose({
 </template>
 
 <style scoped>
+/* 隐藏 Chrome, Safari 和 Opera 的滚动条 */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
 
+/* 隐藏 IE, Edge 和 Firefox 的滚动条 */
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
 </style>
 
 
