@@ -1,7 +1,6 @@
 <script setup>
 import {nextTick, onBeforeUnmount, ref, useTemplateRef, watch} from "vue";
 import CameraIcon from "@/views/user/profile/components/icon/CameraIcon.vue";
-import TextureCard from "@/components/ui/TextureCard.vue";
 
 import Croppie from 'croppie'
 import 'croppie/croppie.css'
@@ -70,31 +69,29 @@ defineExpose({
 </script>
 
 <template>
-  <TextureCard>
-    <fieldset class="background-fieldset">
-      <label class="background-label">Background</label>
-      <div class="flex justify-center">
-        <div class="avatar relative">
-          <div v-if="myBackgroundImage" class="w-15 h-25 rounded-box">
-            <img :src="myBackgroundImage" alt="myBackgroundImage"/>
-          </div>
-          <div v-else class="w-15 h-25 rounded-box bg-base-200"></div>
-          <div @click="fileInputRef.click()" class="w-15 h-25 rounded-box absolute left-0 top-0 bg-black/20 flex justify-center items-center cursor-pointer">
-            <CameraIcon/>
-          </div>
-        </div>
+  <div class="flex justify-center">
+    <div class="relative">
+      <div v-if="myBackgroundImage" class="h-24 w-16 rounded-box ring-2 ring-base-300">
+        <img :src="myBackgroundImage" alt="background" class="object-cover" />
       </div>
-      <p class="background-hint">Portrait image recommended.</p>
-    </fieldset>
-  </TextureCard>
+      <div v-else class="h-24 w-16 rounded-box bg-base-200 ring-2 ring-base-300"></div>
+      <button
+        type="button"
+        @click="fileInputRef.click()"
+        class="absolute inset-0 flex items-center justify-center rounded-box bg-black/35 text-white transition hover:bg-black/45 cursor-pointer"
+      >
+        <CameraIcon />
+      </button>
+    </div>
+  </div>
 
-  <input ref="file-input-ref" type="file" class="hidden" id="image/*" @change="onFileChange"/>
+  <input ref="file-input-ref" type="file" accept="image/*" class="hidden" @change="onFileChange"/>
 
   <dialog ref="modal-ref" class="modal">
-    <div class="modal-box transition-none max-2xl">
-      <button @click="modalRef.close()" class="btn btn-sm btn-circle btn-ghost absolute top-2 right-2">✕</button>
+    <div class="modal-box transition-none max-w-2xl">
+      <button @click="modalRef.close()" class="btn btn-circle btn-xs btn-ghost absolute right-2 top-2">x</button>
 
-      <div ref="croppie-ref" class="flex flex-col my-4"></div>
+      <div ref="croppie-ref" class="my-4 flex flex-col justify-center"></div>
 
       <div class="modal-action">
         <button @click="modalRef.close()" class="btn">Cancel</button>
@@ -106,22 +103,5 @@ defineExpose({
 </template>
 
 <style scoped>
-.background-fieldset {
-  display: grid;
-  gap: 10px;
-}
 
-.background-label {
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: rgba(15, 23, 42, 0.6);
-}
-
-.background-hint {
-  text-align: center;
-  font-size: 12px;
-  color: rgba(15, 23, 42, 0.6);
-}
 </style>

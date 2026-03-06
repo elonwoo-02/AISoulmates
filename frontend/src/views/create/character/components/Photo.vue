@@ -1,7 +1,6 @@
 <script setup>
 import {nextTick, onBeforeUnmount, ref, useTemplateRef, watch} from "vue";
 import CameraIcon from "@/views/user/profile/components/icon/CameraIcon.vue";
-import TextureCard from "@/components/ui/TextureCard.vue";
 
 import Croppie from 'croppie'          // 引入 Croppie 裁剪库
 import 'croppie/croppie.css'           // Croppie 样式
@@ -71,31 +70,29 @@ defineExpose({
 </script>
 
 <template>
-  <TextureCard>
-    <div class="photo-card">
-      <p class="photo-label">Avatar</p>
-      <div class="flex justify-center">
-        <div class="avatar relative">
-          <div v-if="myPhoto" class="w-28 rounded-full">
-            <img :src="myPhoto" alt="photo"/>
-          </div>
-          <div v-else class="w-28 h-28 rounded-full bg-base-200"></div>
-          <div @click="fileInputRef.click()" class="w-28 h-28 rounded-full bg-black/20 absolute left-0 top-0 flex justify-center items-center cursor-pointer">
-            <CameraIcon/>
-          </div>
-        </div>
+  <div class="flex justify-center">
+    <div class="avatar relative">
+      <div v-if="myPhoto" class="h-28 w-28 rounded-full ring-2 ring-base-300">
+        <img :src="myPhoto" alt="avatar" class="object-cover" />
       </div>
-      <p class="photo-hint">Square image recommended.</p>
+      <div v-else class="h-28 w-28 rounded-full bg-base-200 ring-2 ring-base-300"></div>
+      <button
+        type="button"
+        @click="fileInputRef.click()"
+        class="absolute inset-0 flex items-center justify-center rounded-full bg-black/35 text-white transition hover:bg-black/45 cursor-pointer"
+      >
+        <CameraIcon />
+      </button>
     </div>
-  </TextureCard>
+  </div>
 
-  <input ref="file-input-ref" type="file" class="hidden" id="image/*" @change="onFileChange"/>
+  <input ref="file-input-ref" type="file" accept="image/*" class="hidden" @change="onFileChange"/>
 
   <dialog ref="modal-ref" class="modal">
     <div class="modal-box transition-none">
-      <button @click="modalRef.close()" class="btn btn-sm btn-circle btn-ghost absolute top-2 right-2">✕</button>
+      <button @click="modalRef.close()" class="btn btn-circle btn-xs btn-ghost absolute right-2 top-2">x</button>
 
-      <div ref="croppie-ref" class="flex flex-col my-4"></div>
+      <div ref="croppie-ref" class="my-4 flex flex-col justify-center"></div>
 
       <div class="modal-action">
         <button @click="modalRef.close()" class="btn">Cancel</button>
@@ -106,22 +103,4 @@ defineExpose({
 </template>
 
 <style scoped>
-.photo-card {
-  display: grid;
-  gap: 10px;
-}
-
-.photo-label {
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: rgba(15, 23, 42, 0.6);
-}
-
-.photo-hint {
-  text-align: center;
-  font-size: 12px;
-  color: rgba(15, 23, 42, 0.6);
-}
 </style>

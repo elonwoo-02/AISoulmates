@@ -8,7 +8,6 @@ import {base64ToFile} from "@/js/utils/base64_to_file.js";
 import api from "@/js/http/api.js";
 import {useRoute, useRouter} from "vue-router";
 import {useUserStore} from "@/stores/user.js";
-import TextureCard from "@/components/ui/TextureCard.vue";
 
 const user = useUserStore()
 const router = useRouter()
@@ -84,36 +83,35 @@ async function handleUpdate() {
 </script>
 
 <template>
-  <div v-if="character" class="flex justify-center px-4 py-12">
-    <TextureCard class="w-full max-w-4xl">
-      <template #header>
-        <div class="update-header">
-          <h1 class="update-title">Update character</h1>
-          <p class="update-subtitle">Refine details, refresh visuals, and keep your character profile in sync.</p>
-        </div>
-      </template>
+  <div v-if="character" class="mx-auto w-full max-w-5xl px-4 py-6 md:px-6 lg:px-8">
+    <section class="overflow-hidden rounded-3xl border border-base-300 bg-base-100 shadow-sm">
+      <div class="border-b border-base-300 bg-base-200/60 px-5 py-4 md:px-8">
+        <h1 class="text-2xl font-bold tracking-tight">Update character</h1>
+        <p class="mt-1 text-sm text-base-content/70">Refine details, refresh visuals, and keep your character profile in sync.</p>
+      </div>
 
-      <form @submit.prevent="handleUpdate" class="update-form">
-        <aside class="update-media-panel">
+      <div class="grid gap-6 p-5 md:grid-cols-[260px_1fr] md:gap-8 md:p-8">
+        <aside class="rounded-2xl border border-base-300 bg-base-200/40 p-4 space-y-4">
           <Photo ref="photo-ref" :photo="character.photo" />
+          <p class="text-center text-xs text-base-content/65">Upload a square image for best results.</p>
           <BackgroundImage ref="background-image-ref" :backgroundImage="character.background_image" />
+          <p class="text-center text-xs text-base-content/65">Upload a portrait image for best results.</p>
         </aside>
 
-        <section class="update-fields">
+        <main class="space-y-4">
           <Name ref="name-ref" :name="character.name" />
           <Profile ref="profile-ref" :profile="character.profile" />
 
-          <p v-if="errorMessage" class="update-error">{{ errorMessage }}</p>
-        </section>
-      </form>
+          <p v-if="errorMessage" class="rounded-lg border border-error/30 bg-error/10 px-3 py-2 text-sm text-error-content">
+            {{ errorMessage }}
+          </p>
 
-      <template #footer>
-        <div class="update-footer">
-          <span>Save your edits and return to your space.</span>
-          <button type="submit" @click="handleUpdate" class="btn btn-neutral update-button">Save changes</button>
-        </div>
-      </template>
-    </TextureCard>
+          <div class="flex justify-center pt-2">
+            <button type="submit" @click="handleUpdate" class="btn btn-neutral px-6">Save changes</button>
+          </div>
+        </main>
+      </div>
+    </section>
   </div>
 
 </template>

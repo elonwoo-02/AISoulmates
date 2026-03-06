@@ -2,12 +2,12 @@
 import Photo from '@/views/user/profile/components/Photo.vue'
 import Username from '@/views/user/profile/components/Username.vue'
 import Profile from '@/views/user/profile/components/Profile.vue'
+import BackgroundImage from "@/views/user/profile/components/BackgroundImage.vue";
 
 import { useUserStore } from '@/stores/user.js'
 import { ref, useTemplateRef } from 'vue'
 import { base64ToFile } from '@/js/utils/base64_to_file.js'
 import api from '@/js/http/api.js'
-import BackgroundImage from "@/views/user/profile/components/BackgroundImage.vue";
 
 const user = useUserStore()
 
@@ -88,8 +88,8 @@ async function handleUpdate() {
             {{ errorMessage }}
           </p>
 
-          <div class="flex justify-end pt-2">
-            <button @click="handleUpdate" class="btn btn-neutral rounded-full px-6">Save changes</button>
+          <div class="flex justify-center pt-2">
+            <button @click="handleUpdate" class="btn btn-neutral px-6">Save changes</button>
           </div>
         </main>
       </div>
