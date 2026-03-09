@@ -4,6 +4,7 @@ import { useRouter } from "vue-router";
 import api from "@/js/http/api.js";
 import { useUserStore } from "@/stores/user.js";
 import { useSettingsStore } from "@/stores/settings.js";
+import MobilePageHeader from "@/components/navbar/MobilePageHeader.vue";
 
 const loading = ref(true);
 const saving = ref(false);
@@ -25,6 +26,16 @@ const usingDefaultApiBase = ref(true);
 const router = useRouter();
 const user = useUserStore();
 const settings = useSettingsStore();
+const backTarget = computed(() => {
+  if (user.id) {
+    return {
+      name: "user-space-index",
+      params: { user_id: user.id },
+    };
+  }
+
+  return { name: "homepage-index" };
+});
 
 const rememberLastSearchModel = computed({
   get: () => settings.rememberLastSearch,
@@ -138,28 +149,17 @@ onMounted(loadSettings);
 </script>
 
 <template>
-  <div class="relative overflow-hidden px-4 py-6 md:px-6 lg:px-8">
-    <div class="pointer-events-none absolute inset-x-0 top-0 h-72 bg-[radial-gradient(circle_at_top_left,rgba(255,56,79,0.14),transparent_45%),radial-gradient(circle_at_top_right,rgba(245,185,76,0.16),transparent_42%)]"></div>
+  <div class="relative overflow-hidden bg-base-100 px-4 pb-6 pt-0 md:px-6 md:py-6 lg:px-8">
+    <div class="pointer-events-none absolute inset-x-0 top-0 hidden h-72 bg-[radial-gradient(circle_at_top_left,rgba(255,56,79,0.14),transparent_45%),radial-gradient(circle_at_top_right,rgba(245,185,76,0.16),transparent_42%)] md:block"></div>
 
-    <section class="relative mx-auto max-w-6xl space-y-6">
-      <header class="rounded-[2rem] border border-white/60 bg-white/80 p-6 shadow-[0_24px_80px_rgba(15,23,42,0.08)] backdrop-blur">
-        <p class="text-xs font-semibold uppercase tracking-[0.3em] text-[--accent-red]">Settings</p>
-        <div class="mt-3 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <div>
-            <h1 class="font-['Fraunces'] text-3xl font-semibold text-slate-900 md:text-4xl">Control Center</h1>
-            <p class="mt-2 text-sm text-slate-500">{{ user.username || "Account settings" }}</p>
-          </div>
-
-          <div class="flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">
-            <span class="rounded-full border border-slate-200 bg-white px-3 py-2">AI</span>
-            <span class="rounded-full border border-slate-200 bg-white px-3 py-2">Account</span>
-            <span class="rounded-full border border-slate-200 bg-white px-3 py-2">Preferences</span>
-          </div>
-        </div>
-      </header>
+    <section class="relative mx-auto max-w-6xl space-y-2 md:space-y-6">
+      <MobilePageHeader
+        title="Settings"
+        :fallback-route="backTarget"
+      />
 
       <div class="grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
-        <section class="rounded-[2rem] border border-slate-200 bg-white/85 p-6 shadow-[0_20px_60px_rgba(15,23,42,0.08)] backdrop-blur">
+        <section class="rounded-3xl border border-base-300 bg-base-100 p-5 shadow-sm md:rounded-[2rem] md:border-slate-200 md:bg-white/85 md:p-6 md:shadow-[0_20px_60px_rgba(15,23,42,0.08)] md:backdrop-blur">
           <div class="flex items-start justify-between gap-4 border-b border-slate-200 pb-5">
             <div>
               <h2 class="font-['Fraunces'] text-2xl font-semibold text-slate-900">AI Connection</h2>
@@ -238,7 +238,7 @@ onMounted(loadSettings);
         </section>
 
         <div class="space-y-6">
-          <section class="rounded-[2rem] border border-slate-200 bg-white/85 p-6 shadow-[0_20px_60px_rgba(15,23,42,0.08)] backdrop-blur">
+          <section class="rounded-3xl border border-base-300 bg-base-100 p-5 shadow-sm md:rounded-[2rem] md:border-slate-200 md:bg-white/85 md:p-6 md:shadow-[0_20px_60px_rgba(15,23,42,0.08)] md:backdrop-blur">
             <div class="border-b border-slate-200 pb-5">
               <h2 class="font-['Fraunces'] text-2xl font-semibold text-slate-900">Account</h2>
               <p class="mt-2 text-sm text-slate-500">Shortcuts and session controls.</p>
@@ -304,7 +304,7 @@ onMounted(loadSettings);
             </p>
           </section>
 
-          <section class="rounded-[2rem] border border-slate-200 bg-white/85 p-6 shadow-[0_20px_60px_rgba(15,23,42,0.08)] backdrop-blur">
+          <section class="rounded-3xl border border-base-300 bg-base-100 p-5 shadow-sm md:rounded-[2rem] md:border-slate-200 md:bg-white/85 md:p-6 md:shadow-[0_20px_60px_rgba(15,23,42,0.08)] md:backdrop-blur">
             <div class="border-b border-slate-200 pb-5">
               <h2 class="font-['Fraunces'] text-2xl font-semibold text-slate-900">Preferences</h2>
               <p class="mt-2 text-sm text-slate-500">Saved in this browser.</p>

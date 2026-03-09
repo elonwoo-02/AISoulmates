@@ -3,13 +3,24 @@ import Photo from '@/views/user/profile/components/Photo.vue'
 import Username from '@/views/user/profile/components/Username.vue'
 import Profile from '@/views/user/profile/components/Profile.vue'
 import BackgroundImage from "@/views/user/profile/components/BackgroundImage.vue";
+import MobilePageHeader from "@/components/navbar/MobilePageHeader.vue";
 
 import { useUserStore } from '@/stores/user.js'
-import { ref, useTemplateRef } from 'vue'
+import { computed, ref, useTemplateRef } from 'vue'
 import { base64ToFile } from '@/js/utils/base64_to_file.js'
 import api from '@/js/http/api.js'
 
 const user = useUserStore()
+const backTarget = computed(() => {
+  if (user.id) {
+    return {
+      name: "user-space-index",
+      params: { user_id: user.id },
+    }
+  }
+
+  return { name: "setting-index" }
+})
 
 const photoRef = useTemplateRef('photo-ref')
 const profileRef = useTemplateRef('profile-ref')
@@ -61,7 +72,12 @@ async function handleUpdate() {
 </script>
 
 <template>
-  <div class="mx-auto w-full max-w-5xl px-4 py-6 md:px-6 lg:px-8">
+  <div class="mx-auto w-full max-w-5xl px-4 pb-6 pt-0 md:px-6 md:py-6 lg:px-8">
+    <MobilePageHeader
+      title="Edit profile"
+      :fallback-route="backTarget"
+    />
+
     <section class="overflow-hidden rounded-3xl border border-base-300 bg-base-100 shadow-sm">
       <div class="border-b border-base-300 bg-base-200/60 px-5 py-4 md:px-8">
         <h1 class="text-2xl font-bold tracking-tight">Channel profile</h1>

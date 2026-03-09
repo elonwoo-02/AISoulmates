@@ -9,9 +9,21 @@ import {base64ToFile} from "@/js/utils/base64_to_file.js";
 import api from "@/js/http/api.js";
 import {useRouter} from "vue-router";
 import {useUserStore} from "@/stores/user.js";
+import {computed} from "vue";
+import MobilePageHeader from "@/components/navbar/MobilePageHeader.vue";
 
 const user = useUserStore()
 const router = useRouter()
+const backTarget = computed(() => {
+  if (user.id) {
+    return {
+      name: "user-space-index",
+      params: { user_id: user.id },
+    }
+  }
+
+  return { name: "homepage-index" }
+})
 
 const photoRef = useTemplateRef('photo-ref')
 const nameRef = useTemplateRef('name-ref')
@@ -61,7 +73,12 @@ async function handleCreate() {
 </script>
 
 <template>
-  <div class="mx-auto w-full max-w-5xl px-4 py-6 md:px-6 lg:px-8">
+  <div class="mx-auto w-full max-w-5xl px-4 pb-6 pt-0 md:px-6 md:py-6 lg:px-8">
+    <MobilePageHeader
+      title="Create character"
+      :fallback-route="backTarget"
+    />
+
     <section class="overflow-hidden rounded-3xl border border-base-300 bg-base-100 shadow-sm">
       <div class="border-b border-base-300 bg-base-200/60 px-5 py-4 md:px-8">
         <h1 class="text-2xl font-bold tracking-tight">Create character</h1>
