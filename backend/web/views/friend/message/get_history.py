@@ -4,6 +4,9 @@ from rest_framework.views import APIView
 from django.utils.timezone import localtime
 
 from web.models.friend import Message
+import logging
+
+logger = logging.getLogger(__name__)
 
 class GetHistoryView(APIView):
     permission_classes = [IsAuthenticated]
@@ -29,6 +32,7 @@ class GetHistoryView(APIView):
                 'messages': messages,
             })
         except Exception as e:
+            logger.exception("Error while fetching message history")
             return Response({
-                "error": str(e)
+                "error": "An error occurred while fetching message history."
             }, status=400)
