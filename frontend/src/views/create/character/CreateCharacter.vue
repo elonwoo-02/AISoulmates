@@ -79,14 +79,14 @@ async function handleCreate() {
       :fallback-route="backTarget"
     />
 
-    <section class="overflow-hidden rounded-3xl border border-base-300 bg-base-100 shadow-sm">
+    <section class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
       <div class="border-b border-base-300 bg-base-200/60 px-5 py-4 md:px-8">
         <h1 class="text-2xl font-bold tracking-tight">Create character</h1>
         <p class="mt-1 text-sm text-base-content/70">Add a new companion to your space with a unique style and story.</p>
       </div>
 
       <div class="grid gap-6 p-5 md:grid-cols-[260px_1fr] md:gap-8 md:p-8">
-        <aside class="rounded-2xl border border-base-300 bg-base-200/40 p-4 space-y-4">
+        <aside class="rounded-2xl border border-slate-200 bg-slate-50 p-4 space-y-4">
           <Photo ref="photo-ref" />
           <p class="text-center text-xs text-base-content/65">Upload a square image for best results.</p>
           <BackgroundImage ref="background-image-ref" />

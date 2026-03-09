@@ -78,7 +78,7 @@ function handleSearch() {
         <input id="my-drawer-4" type="checkbox" class="drawer-toggle" />
 
         <div class="drawer-content">
-          <nav class="z-70 sticky top-0 navbar w-full bg-base-100 shadow-sm">
+          <nav class="z-70 sticky top-0 navbar w-full bg-base-200 shadow-sm">
             <div class="navbar-start">
               <div class="dropdown dropdown-hover">
                 <div tabindex="0" role="button" class="px-0 font-bold text-xl">AISoulmates</div>

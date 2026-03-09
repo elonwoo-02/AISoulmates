@@ -23,6 +23,8 @@ const apiKeyConfigured = ref(false);
 const apiKeyMasked = ref("");
 const usingDefaultApiBase = ref(true);
 
+// These variables are properly defined in the script setup section
+
 const router = useRouter();
 const user = useUserStore();
 const settings = useSettingsStore();
@@ -149,8 +151,8 @@ onMounted(loadSettings);
 </script>
 
 <template>
-  <div class="relative overflow-hidden bg-[var(--cloud-dancer)] px-4 pb-6 pt-0 md:px-6 md:py-6 lg:px-8">
-    <div class="pointer-events-none absolute inset-x-0 top-0 hidden h-72 bg-[var(--cloud-dancer)] md:block"></div>
+  <div class="relative overflow-hidden bg-(--cloud-dancer) px-4 pb-6 pt-0 md:px-6 md:py-6 lg:px-8">
+    <div class="pointer-events-none absolute inset-x-0 top-0 hidden h-72 bg-(--cloud-dancer) md:block"></div>
 
     <section class="relative mx-auto max-w-6xl space-y-2 md:space-y-6">
       <MobilePageHeader
@@ -159,12 +161,12 @@ onMounted(loadSettings);
       />
 
       <div class="grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
-        <section class="rounded-3xl border border-base-300 bg-[var(--cloud-dancer)] p-5 shadow-sm md:rounded-[2rem] md:border-slate-200 md:bg-white/85 md:p-6 md:shadow-[0_20px_60px_rgba(15,23,42,0.08)] md:backdrop-blur">
-          <div class="flex items-start justify-between gap-4 border-b border-slate-200 pb-5">
-            <div>
-              <h2 class="font-['Fraunces'] text-2xl font-semibold text-slate-900">AI Connection</h2>
-              <p class="mt-2 text-sm text-slate-500">Personal config first, server default second.</p>
-            </div>
+        <section class="overflow-hidden rounded-2xl border border-slate-200 bg-white p-5 shadow-sm md:p-6 md:shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
+          <div class="border-b border-slate-200 pb-5">
+            <h2 class="font-['Fraunces'] text-2xl font-semibold text-slate-900">AI Settings</h2>
+            <p class="mt-2 text-sm text-slate-500">Personal config first, server default second.</p>
+          </div>
+          <div class="flex items-center justify-between">
             <span class="rounded-full border border-slate-200 bg-slate-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
               Private
             </span>
@@ -238,7 +240,7 @@ onMounted(loadSettings);
         </section>
 
         <div class="space-y-6">
-          <section class="rounded-3xl border border-base-300 bg-[var(--cloud-dancer)] p-5 shadow-sm md:rounded-[2rem] md:border-slate-200 md:bg-white/85 md:p-6 md:shadow-[0_20px_60px_rgba(15,23,42,0.08)] md:backdrop-blur">
+          <section class="overflow-hidden rounded-2xl border border-slate-200 bg-white p-5 shadow-sm md:p-6 md:shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
             <div class="border-b border-slate-200 pb-5">
               <h2 class="font-['Fraunces'] text-2xl font-semibold text-slate-900">Account</h2>
               <p class="mt-2 text-sm text-slate-500">Shortcuts and session controls.</p>
@@ -304,7 +306,7 @@ onMounted(loadSettings);
             </p>
           </section>
 
-          <section class="rounded-3xl border border-base-300 bg-[var(--cloud-dancer)] p-5 shadow-sm md:rounded-[2rem] md:border-slate-200 md:bg-white/85 md:p-6 md:shadow-[0_20px_60px_rgba(15,23,42,0.08)] md:backdrop-blur">
+          <section class="overflow-hidden rounded-2xl border border-slate-200 bg-white p-5 shadow-sm md:p-6 md:shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
             <div class="border-b border-slate-200 pb-5">
               <h2 class="font-['Fraunces'] text-2xl font-semibold text-slate-900">Preferences</h2>
               <p class="mt-2 text-sm text-slate-500">Saved in this browser.</p>
