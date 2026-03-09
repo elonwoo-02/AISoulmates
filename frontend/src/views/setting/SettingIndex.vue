@@ -7,8 +7,7 @@ import { useSettingsStore } from "@/stores/settings.js";
 
 const loading = ref(true);
 const saving = ref(false);
-const clearingKey = ref(false);
-const clearingBase = ref(false);
+const clearingConnection = ref(false);
 const loggingOut = ref(false);
 
 const errorMessage = ref("");
@@ -91,36 +90,20 @@ async function saveSettings() {
 }
 
 async function clearApiKey() {
-  clearingKey.value = true;
+  clearingConnection.value = true;
   errorMessage.value = "";
   successMessage.value = "";
   try {
     const res = await api.post("/api/user/settings/ai/", {
       api_key: "",
-    });
-    applySettings(res.data);
-    successMessage.value = "API key removed";
-  } catch {
-    errorMessage.value = "Failed to clear API key";
-  } finally {
-    clearingKey.value = false;
-  }
-}
-
-async function clearApiBase() {
-  clearingBase.value = true;
-  errorMessage.value = "";
-  successMessage.value = "";
-  try {
-    const res = await api.post("/api/user/settings/ai/", {
       api_base: "",
     });
     applySettings(res.data);
-    successMessage.value = "Base URL reset";
+    successMessage.value = "Personal settings removed";
   } catch {
-    errorMessage.value = "Failed to clear Base URL";
+    errorMessage.value = "Failed to clear personal settings";
   } finally {
-    clearingBase.value = false;
+    clearingConnection.value = false;
   }
 }
 
@@ -245,18 +228,10 @@ onMounted(loadSettings);
               <button
                 type="button"
                 class="btn rounded-full border border-slate-200 bg-white px-5 text-slate-700 hover:border-slate-300 hover:bg-slate-50"
-                :disabled="clearingKey"
+                :disabled="clearingConnection || (!apiKeyConfigured && usingDefaultApiBase)"
                 @click="clearApiKey"
               >
-                {{ clearingKey ? "Clearing..." : "Clear API key" }}
-              </button>
-              <button
-                type="button"
-                class="btn rounded-full border border-slate-200 bg-white px-5 text-slate-700 hover:border-slate-300 hover:bg-slate-50"
-                :disabled="clearingBase"
-                @click="clearApiBase"
-              >
-                {{ clearingBase ? "Clearing..." : "Reset Base URL" }}
+                {{ clearingConnection ? "Clearing..." : "Clear personal settings" }}
               </button>
             </div>
           </form>
