@@ -30,5 +30,5 @@ class GetHistoryView(APIView):
             })
         except Exception as e:
             return Response({
-                "error": str(e)
-            }, status=400)
+                "error": "An error occurred while fetching message history."
+            })
