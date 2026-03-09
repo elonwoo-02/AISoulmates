@@ -60,7 +60,7 @@ class MessageView(APIView):
         try:
             app = self._create_chat_app(friend)  # 创建聊天应用
         except ValueError as exc:
-            return Response({'detail': str(exc)}, status=400)
+            return Response({'detail': 'Invalid request parameters.'}, status=400)
         inputs = {
             'messages': [HumanMessage(request.data.get('message'))],  # 构建输入消息
         }
