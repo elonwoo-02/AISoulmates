@@ -85,7 +85,7 @@ class ChatGraph:
     def _create_llm(tools: list) -> ChatOpenAI:
         """初始化 ChatOpenAI 模型，支持流式输出"""
         return ChatOpenAI(
-            model='gpt-5-mini',  # 使用的模型名称
+            model='qwen3.5-flash',  # 使用的模型名称
             openai_api_key=os.getenv('API_KEY'),  # 从环境变量获取 API Key
             openai_api_base=os.getenv('API_BASE'),  # 从环境变量获取 API 基础地址
             streaming=True,  # 启用流式输出

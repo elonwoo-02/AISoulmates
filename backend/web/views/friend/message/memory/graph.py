@@ -11,7 +11,7 @@ class MemoryGraph:
     @staticmethod
     def create_app():
         llm = ChatOpenAI(
-            model='gpt-4o-mini',
+            model='qwen3.5-flash',
             openai_api_key=os.getenv('API_KEY'),
             openai_api_base=os.getenv('API_BASE'),
             streaming=True,
