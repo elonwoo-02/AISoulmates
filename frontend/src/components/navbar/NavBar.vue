@@ -2,6 +2,7 @@
 import { computed, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useUserStore } from "@/stores/user.js";
+import { useSettingsStore } from "@/stores/settings.js";
 import TopNavBar from "@/components/navbar/TopNavBar.vue";
 import BottomTabBar from "@/components/navbar/BottomTabBar.vue";
 import MenuIcon from "@/components/navbar/icons/MenuIcon.vue";
@@ -17,6 +18,7 @@ import UserMenu from "@/components/navbar/UserMenu.vue";
 const route = useRoute();
 const router = useRouter();
 const user = useUserStore();
+const settings = useSettingsStore();
 const searchQuery = ref("");
 
 const showBottomBar = computed(() => {
@@ -35,15 +37,21 @@ const showTopBarOnMobile = computed(() => {
 });
 
 watch(
-  () => route.query.q,
-  (newQ) => {
-    searchQuery.value = newQ || "";
+  [() => route.query.q, () => settings.lastSearchQuery, () => settings.rememberLastSearch],
+  ([newQ, savedQuery, rememberLastSearch]) => {
+    const routeQuery = typeof newQ === "string" ? newQ : "";
+    if (rememberLastSearch && routeQuery) {
+      settings.setLastSearchQuery(routeQuery);
+    }
+    searchQuery.value = routeQuery || (rememberLastSearch ? savedQuery : "") || "";
   },
   { immediate: true }
 );
 
 function handleSearch() {
-  router.push({ name: "homepage-index", query: { q: searchQuery.value.trim() } });
+  const nextQuery = searchQuery.value.trim();
+  settings.setLastSearchQuery(nextQuery);
+  router.push({ name: "homepage-index", query: nextQuery ? { q: nextQuery } : {} });
 }
 
 </script>

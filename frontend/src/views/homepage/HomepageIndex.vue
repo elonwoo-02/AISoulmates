@@ -1,10 +1,11 @@
 <script setup>
 import Character from "@/components/character/Character.vue";
 import HomepageSwipeCard from "@/components/character/HomepageSwipeCard.vue";
-import {nextTick, onBeforeUnmount, onMounted, ref, useTemplateRef, watch, computed} from "vue";
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, useTemplateRef, watch } from "vue";
 import api from "@/js/http/api.js";
-import {useRoute} from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { useUserStore } from "@/stores/user.js";
+import { useSettingsStore } from "@/stores/settings.js";
 
 const characters = ref([])
 const loading = ref(false)
@@ -12,14 +13,22 @@ const hasCharacters = ref(true)
 const sentinelRef = useTemplateRef('sentinel-ref')
 const error = ref(null)
 const route = useRoute()
+const router = useRouter()
 const user = useUserStore()
+const settings = useSettingsStore()
 const currentCardIndex = ref(0)
+const viewportWidth = ref(typeof window === 'undefined' ? 1280 : window.innerWidth)
 
 // Responsive design - use swipe cards on mobile when logged in, masonry otherwise
 const shouldUseSwipeCards = computed(() => {
-  if (typeof window === 'undefined') return false;
-  return window.innerWidth < 768 && user.isLogin(); // md breakpoint + logged in
+  return viewportWidth.value < 768 && user.isLogin() && !settings.preferGridOnMobile
 })
+
+const gridClass = computed(() =>
+  settings.compactCardLayout
+    ? "grid grid-cols-2 gap-1 px-1 py-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5"
+    : "grid grid-cols-2 gap-3 px-3 py-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5"
+)
 
 // Get current card for swipe mode
 const currentCard = computed(() => {
@@ -69,7 +78,13 @@ async function loadMore() {
 
 let observer = null
 onMounted( async () => {
-  await loadMore()
+  const shouldRestoreRememberedSearch = !route.query.q && settings.rememberLastSearch && settings.lastSearchQuery
+
+  if (shouldRestoreRememberedSearch) {
+    await router.replace({ name: 'homepage-index', query: { q: settings.lastSearchQuery } })
+  } else {
+    await loadMore()
+  }
 
   observer = new IntersectionObserver(
       entries => {
@@ -116,10 +131,8 @@ function nextCard() {
 // Handle window resize
 let resizeListener = null;
 onMounted(() => {
-  // Add resize listener to update shouldUseSwipeCards computed
   resizeListener = () => {
-    // Force reactivity update
-    const dummy = shouldUseSwipeCards.value;
+    viewportWidth.value = window.innerWidth
   };
   window.addEventListener('resize', resizeListener);
 })
@@ -150,7 +163,7 @@ onBeforeUnmount(() => {
 
     <!-- Desktop Masonry View or logged out view -->
     <div v-else class="w-full gap-2">
-      <div class="grid grid-cols-2 gap-1 mx-1 my-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5">
+      <div :class="gridClass">
       <Character
         v-for="character in characters"
         :key="character.id"

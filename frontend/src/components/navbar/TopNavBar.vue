@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { useSettingsStore } from "@/stores/settings.js";
 import SearchIcon from "@/components/navbar/icons/SearchIcon.vue";
 import SearchModal from "./SearchModal.vue";
 
@@ -8,11 +9,16 @@ const searchQuery = ref("");
 const showSearchModal = ref(false);
 const router = useRouter();
 const route = useRoute();
+const settings = useSettingsStore();
 
 watch(
-  () => route.query.q,
-  (newQ) => {
-    searchQuery.value = newQ || "";
+  [() => route.query.q, () => settings.lastSearchQuery, () => settings.rememberLastSearch],
+  ([newQ, savedQuery, rememberLastSearch]) => {
+    const routeQuery = typeof newQ === "string" ? newQ : "";
+    if (rememberLastSearch && routeQuery) {
+      settings.setLastSearchQuery(routeQuery);
+    }
+    searchQuery.value = routeQuery || (rememberLastSearch ? savedQuery : "") || "";
   },
   { immediate: true }
 );

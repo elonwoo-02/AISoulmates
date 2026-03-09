@@ -1,3 +1,5 @@
+from unittest.mock import patch
+
 from django.contrib.auth.models import User
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
@@ -6,6 +8,7 @@ from rest_framework.test import APIClient
 from web.models.character import Character
 from web.models.friend import Friend
 from web.models.user import UserProfile
+from web.views.utils.ai_config import resolve_ai_config
 
 
 class HomepageSearchTests(TestCase):
@@ -86,3 +89,105 @@ class FriendListTests(TestCase):
         character = resp.data["friends"][0]["character"]
         self.assertIn("photo", character)
         self.assertTrue(character["photo"])
+
+
+class AISettingsTests(TestCase):
+    def setUp(self):
+        self.client = APIClient()
+        self.user = User.objects.create_user(username="config-user", password="pass123")
+        self.profile = UserProfile.objects.create(user=self.user)
+
+    def test_get_ai_settings_requires_login(self):
+        resp = self.client.get("/api/user/settings/ai/")
+        self.assertEqual(resp.status_code, 401)
+
+    def test_get_ai_settings_returns_empty_state(self):
+        self.client.force_authenticate(user=self.user)
+        resp = self.client.get("/api/user/settings/ai/")
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.data["result"], "success")
+        self.assertFalse(resp.data["api_key_configured"])
+        self.assertEqual(resp.data["api_key_masked"], "")
+        self.assertEqual(resp.data["api_base"], "")
+        self.assertTrue(resp.data["using_default_api_key"])
+        self.assertTrue(resp.data["using_default_api_base"])
+
+    def test_post_ai_settings_persists_and_masks_key(self):
+        self.client.force_authenticate(user=self.user)
+        resp = self.client.post(
+            "/api/user/settings/ai/",
+            {"api_key": "sk-test-12345678", "api_base": "https://example.com/v1"},
+        )
+        self.assertEqual(resp.status_code, 200)
+        self.profile.refresh_from_db()
+        self.assertEqual(self.profile.api_key, "sk-test-12345678")
+        self.assertEqual(self.profile.api_base, "https://example.com/v1")
+        self.assertTrue(resp.data["api_key_configured"])
+        self.assertTrue(resp.data["api_key_masked"].endswith("5678"))
+        self.assertEqual(resp.data["api_base"], "https://example.com/v1")
+        self.assertFalse(resp.data["using_default_api_key"])
+        self.assertFalse(resp.data["using_default_api_base"])
+
+    def test_post_ai_settings_can_clear_values(self):
+        self.profile.api_key = "sk-existing"
+        self.profile.api_base = "https://example.com/v1"
+        self.profile.save()
+        self.client.force_authenticate(user=self.user)
+
+        resp = self.client.post(
+            "/api/user/settings/ai/",
+            {"api_key": "", "api_base": ""},
+        )
+        self.assertEqual(resp.status_code, 200)
+        self.profile.refresh_from_db()
+        self.assertEqual(self.profile.api_key, "")
+        self.assertEqual(self.profile.api_base, "")
+        self.assertTrue(resp.data["using_default_api_key"])
+        self.assertTrue(resp.data["using_default_api_base"])
+
+
+class AIConfigResolutionTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username="resolver", password="pass123")
+        self.profile = UserProfile.objects.create(user=self.user)
+
+    @patch.dict("os.environ", {"API_KEY": "env-key", "API_BASE": "https://env.example/v1"}, clear=False)
+    def test_resolve_ai_config_prefers_user_values(self):
+        self.profile.api_key = "user-key"
+        self.profile.api_base = "https://user.example/v1"
+        self.profile.save()
+
+        config = resolve_ai_config(self.profile)
+        self.assertEqual(config["api_key"], "user-key")
+        self.assertEqual(config["api_base"], "https://user.example/v1")
+        self.assertFalse(config["using_default_api_key"])
+        self.assertFalse(config["using_default_api_base"])
+
+    @patch.dict("os.environ", {"API_KEY": "env-key", "API_BASE": "https://env.example/v1"}, clear=False)
+    def test_resolve_ai_config_falls_back_to_environment(self):
+        config = resolve_ai_config(self.profile)
+        self.assertEqual(config["api_key"], "env-key")
+        self.assertEqual(config["api_base"], "https://env.example/v1")
+        self.assertTrue(config["using_default_api_key"])
+        self.assertTrue(config["using_default_api_base"])
+
+    @patch.dict("os.environ", {"API_KEY": "", "API_BASE": ""}, clear=False)
+    def test_resolve_ai_config_raises_when_missing_everywhere(self):
+        with self.assertRaisesMessage(ValueError, "API key is not configured"):
+            resolve_ai_config(self.profile)
+
+
+class UserProfileAutoCreateTests(TestCase):
+    def setUp(self):
+        self.client = APIClient()
+        self.user = User.objects.create_user(username="legacy-user", password="pass123")
+
+    def test_login_creates_missing_user_profile(self):
+        resp = self.client.post(
+            "/api/user/account/login/",
+            {"username": "legacy-user", "password": "pass123"},
+            format="json",
+        )
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.data["result"], "success")
+        self.assertTrue(UserProfile.objects.filter(user=self.user).exists())

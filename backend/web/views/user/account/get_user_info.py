@@ -10,7 +10,7 @@ class GetUserInfoView(APIView):
     def get(self, request):
         try:
             user = request.user
-            user_profile = UserProfile.objects.get(user=user)
+            user_profile, _ = UserProfile.objects.get_or_create(user=user)
             return Response({
                 'result': 'success',
                 'user_id': user.id,

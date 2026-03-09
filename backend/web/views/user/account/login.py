@@ -20,7 +20,7 @@ class LoginView(APIView):
             user = authenticate(username=username, password=password)
             # 2.1 用户名和密码正确
             if user:
-                user_profile = UserProfile.objects.get(user=user) # 对数据库的操作必须加object
+                user_profile, _ = UserProfile.objects.get_or_create(user=user) # 历史用户缺资料时自动补齐
                 refresh = RefreshToken.for_user(user)  # 生成jwt
                 response = Response({
                     'result': 'success',

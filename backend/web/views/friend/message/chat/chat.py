@@ -57,7 +57,10 @@ class MessageView(APIView):
         if isinstance(friend, Response):
             return friend  # 验证失败，返回错误响应
 
-        app = self._create_chat_app()  # 创建聊天应用
+        try:
+            app = self._create_chat_app(friend)  # 创建聊天应用
+        except ValueError as exc:
+            return Response({'detail': str(exc)}, status=400)
         inputs = {
             'messages': [HumanMessage(request.data.get('message'))],  # 构建输入消息
         }
@@ -102,17 +105,17 @@ class MessageView(APIView):
             })
         return friends.first()
 
-    def _create_chat_app(self):
+    def _create_chat_app(self, friend):
         """
         创建聊天应用实例
 
         参数:
-            无
+            friend: Friend 实例
 
         返回:
             ChatGraph 应用实例
         """
-        return ChatGraph.create_app()
+        return ChatGraph.create_app(friend.me)
 
     def _stream_chat_response(self, app, inputs):
         """

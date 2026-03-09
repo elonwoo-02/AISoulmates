@@ -1,11 +1,17 @@
 <script setup>
-import { ref, onMounted, nextTick, useTemplateRef, watch } from 'vue'
+import { computed, nextTick, onMounted, ref, useTemplateRef, watch } from 'vue'
+import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/user.js'
+import SettingIcon from '@/components/navbar/icons/SettingIcon.vue'
 
 const props = defineProps(['userProfile'])
 const emit = defineEmits(['editProfile'])
 
+const router = useRouter()
+const user = useUserStore()
 const backgroundRef = useTemplateRef('background-ref')
 const profileHeight = ref('16rem') // 增加默认高度到 16rem
+const isOwnSpace = computed(() => user.id && props.userProfile?.user_id === user.id)
 
 function calculateBackgroundHeight() {
   nextTick(() => {
@@ -35,6 +41,10 @@ watch(() => props.userProfile?.profile, () => {
 onMounted(() => {
   calculateBackgroundHeight()
 })
+
+function openSettings() {
+  router.push({ name: 'setting-index' })
+}
 </script>
 
 <template>
@@ -42,8 +52,13 @@ onMounted(() => {
     <div class="relative overflow-hidden">
       <!-- Background image with gradient overlay -->
       <div ref="background-ref" class="relative transition-all duration-300" :style="`height: ${profileHeight}; ${props.userProfile && props.userProfile.background_image ? `background-image: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url(${props.userProfile.background_image}); background-size: cover; background-position: center;` : 'background-image: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url(/src/assets/playboy.jpg); background-size: cover; background-position: center;'}`">
+        <div v-if="isOwnSpace" class="absolute top-4 left-4 z-10 md:hidden">
+          <button @click="openSettings" class="btn btn-ghost btn-sm rounded-full bg-white/10 backdrop-blur-sm text-white border-white/20 hover:bg-white/20">
+            <SettingIcon class="h-4 w-4" />
+          </button>
+        </div>
         <!-- Edit profile button in top-right corner -->
-        <div class="absolute top-4 right-4 z-10">
+        <div v-if="isOwnSpace" class="absolute top-4 right-4 z-10">
           <button @click="$emit('editProfile')" class="btn btn-ghost btn-sm rounded-full bg-white/10 backdrop-blur-sm text-white border-white/20 hover:bg-white/20">
             <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>

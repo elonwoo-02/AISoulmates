@@ -21,6 +21,7 @@ from web.views.user.account.refresh_token import RefreshTokenView
 from web.views.user.account.register import RegisterView
 
 from web.views.user.profile.update import UpdateProfileView
+from web.views.user.settings.ai import AISettingsView
 
 urlpatterns = [
     # 用户账户相关接口
@@ -32,6 +33,7 @@ urlpatterns = [
 
     # 用户资料相关接口
     path('api/user/profile/update', UpdateProfileView.as_view()),
+    path('api/user/settings/ai/', AISettingsView.as_view()),
 
     # 角色相关接口
     path('api/create/character/create/', CreateCharacterView.as_view()),

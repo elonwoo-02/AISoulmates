@@ -54,7 +54,7 @@ class UpdateProfileView(APIView):
             background_image = request.FILES.get('background_image', None)
 
             # 通过user获取用户资料对象（UserProfile）
-            user_profile = UserProfile.objects.get(user=user)
+            user_profile, _ = UserProfile.objects.get_or_create(user=user)
 
             # -------------------- 2. 验证用户输入 --------------------
             # 2.1 用户名不能为空
@@ -99,10 +99,6 @@ class UpdateProfileView(APIView):
                 'photo': user_profile.photo.url if user_profile.photo else '',
                 'background_image': user_profile.background_image.url if user_profile.background_image else '',
             })
-
-        except UserProfile.DoesNotExist:
-            # 用户资料不存在
-            return Response({'result': 'user profile not found'})
 
         except Exception as e:
             # 捕获其他异常

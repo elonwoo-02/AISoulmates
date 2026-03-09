@@ -23,6 +23,8 @@ class UserProfile(models.Model):
     photo = models.ImageField(default='user/photos/default.png', upload_to=photo_upload_to)
     profile = models.TextField(default="Thanks for your following", max_length=500) # TextField的最大长度无效
     background_image = models.ImageField(default='user/background_images/default.png', upload_to=background_image_upload_to)
+    api_key = models.TextField(default="", blank=True)
+    api_base = models.CharField(max_length=500, default="", blank=True)
     create_time = models.DateTimeField(default=now)
     update_time = models.DateTimeField(default=now)
 

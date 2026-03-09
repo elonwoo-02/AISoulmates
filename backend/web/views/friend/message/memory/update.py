@@ -27,7 +27,7 @@ def create_human_message(friend):
 
 
 def update_memory(friend):
-    app = MemoryGraph.create_app()
+    app = MemoryGraph.create_app(friend.me)
 
     inputs = {
         'messages': [

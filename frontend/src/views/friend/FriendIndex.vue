@@ -1,13 +1,21 @@
 <script setup>
-import {nextTick, onBeforeUnmount, onMounted, ref, useTemplateRef} from "vue";
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, useTemplateRef } from "vue";
 import api from "@/js/http/api.js";
 import Character from "@/components/character/Character.vue";
+import { useSettingsStore } from "@/stores/settings.js";
 
 const friends = ref([])
 const loading = ref(false)
 const hasFriends = ref(true)
 const sentinelRef = useTemplateRef('sentinel-ref')
 const error = ref(null)
+const settings = useSettingsStore()
+
+const gridClass = computed(() =>
+  settings.compactCardLayout
+    ? "grid grid-cols-2 gap-1 px-1 py-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5"
+    : "grid grid-cols-2 gap-3 px-3 py-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5"
+)
 
 function checkSentinelVisible() {  // 判断哨兵是否能被看到
   if (!sentinelRef.value) return false
@@ -79,7 +87,7 @@ onBeforeUnmount(() => {
 <template>
   <div class="flex flex-col items-center mb-12">
     <div class="w-full gap-2">
-      <div class="grid grid-cols-2 gap-1 mx-1 my-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5">
+      <div :class="gridClass">
       <Character
         v-for="friend in friends"
         :key="friend.id"

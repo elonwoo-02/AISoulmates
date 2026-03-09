@@ -1,6 +1,7 @@
 <script setup>
 import { ref, watch, nextTick } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { useSettingsStore } from "@/stores/settings.js";
 import ArrowLeftIcon from "./icons/ArrowLeftIcon.vue";
 
 const props = defineProps({
@@ -16,11 +17,12 @@ const searchQuery = ref("");
 const searchInputRef = ref(null);
 const router = useRouter();
 const route = useRoute();
+const settings = useSettingsStore();
 
 watch(
-  () => route.query.q,
-  (newQ) => {
-    searchQuery.value = newQ || "";
+  [() => route.query.q, () => settings.lastSearchQuery, () => settings.rememberLastSearch],
+  ([newQ, savedQuery, rememberLastSearch]) => {
+    searchQuery.value = newQ || (rememberLastSearch ? savedQuery : "") || "";
   },
   { immediate: true }
 );
@@ -30,7 +32,7 @@ watch(
   () => props.show,
   async (newVal) => {
     if (newVal) {
-      searchQuery.value = "";
+      searchQuery.value = route.query.q || (settings.rememberLastSearch ? settings.lastSearchQuery : "") || "";
       await nextTick();
       searchInputRef.value?.focus();
     }
@@ -38,10 +40,10 @@ watch(
 );
 
 function handleSearch() {
-  if (searchQuery.value.trim()) {
-    router.push({ name: "homepage-index", query: { q: searchQuery.value.trim() } });
-    emit("close");
-  }
+  const nextQuery = searchQuery.value.trim();
+  settings.setLastSearchQuery(nextQuery);
+  router.push({ name: "homepage-index", query: nextQuery ? { q: nextQuery } : {} });
+  emit("close");
 }
 
 function closeModal() {
