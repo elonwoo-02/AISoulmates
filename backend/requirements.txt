@@ -2,11 +2,11 @@ Django==6.0.1
 djangorestframework==3.16.1
 djangorestframework-simplejwt==5.5.1
 django-cors-headers==4.9.0
-Pillow==12.1.0
+Pillow==12.1.1
 python-dotenv==1.2.1
 openai==2.16.0
 lancedb==0.29.2
 langchain-community==0.4.1
 langchain-openai==1.1.7
 langchain-text-splitters==1.1.0
-langgraph==1.0.7
+langgraph==1.0.10rc1
