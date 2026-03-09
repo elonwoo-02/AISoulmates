@@ -78,7 +78,7 @@ function handleSearch() {
         <input id="my-drawer-4" type="checkbox" class="drawer-toggle" />
 
         <div class="drawer-content">
-          <nav class="z-70 navbar w-full bg-base-100 shadow-sm">
+          <nav class="z-70 sticky top-0 navbar w-full bg-base-100 shadow-sm">
             <div class="navbar-start">
               <div class="dropdown dropdown-hover">
                 <div tabindex="0" role="button" class="px-0 font-bold text-xl">AISoulmates</div>
@@ -156,6 +156,18 @@ function handleSearch() {
                 >
                   <FriendIcon />
                   <span class="is-drawer-close:hidden text-base ml-2 whitespace-nowrap">Friends</span>
+                </RouterLink>
+              </li>
+
+              <li>
+                <RouterLink
+                  :to="{ name: 'new-index' }"
+                  active-class="menu-focus"
+                  class="is-drawer-close:tooltip is-drawer-close:tooltip-right py-3"
+                  data-tip="Messages"
+                >
+                  <NewIcon />
+                  <span class="is-drawer-close:hidden text-base ml-2 whitespace-nowrap">Messages</span>
                 </RouterLink>
               </li>
 
