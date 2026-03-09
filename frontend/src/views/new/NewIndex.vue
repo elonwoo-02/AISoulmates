@@ -24,16 +24,6 @@ const chatHistoryRef = useTemplateRef("chat-history-ref");
 const selectedFriendId = computed(() => selectedFriend.value?.id ?? null);
 const showListPane = computed(() => !isMobile.value || !selectedFriend.value);
 const showChatPane = computed(() => !isMobile.value || !!selectedFriend.value);
-const selectedBackdropStyle = computed(() => {
-  const image = selectedFriend.value?.character?.background_image;
-  if (!image) return {};
-
-  return {
-    backgroundImage: `url(${image})`,
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-  };
-});
 
 function normalizeFriendId(value) {
   const friendId = Number(Array.isArray(value) ? value[0] : value);
@@ -223,217 +213,541 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="relative px-4 py-6 pb-24 md:px-6 lg:px-8">
-    <div class="pointer-events-none absolute inset-x-0 top-0 h-96 bg-[var(--cloud-dancer)]"></div>
-
-    <section class="relative mx-auto max-w-7xl space-y-5">
-      <MobilePageHeader
-        title="Messages"
-        :fallback-route="{ name: 'homepage-index' }"
-      />
-
-      <div class="grid gap-4 md:grid-cols-[320px_minmax(0,1fr)] xl:grid-cols-[360px_minmax(0,1fr)]">
-        <aside
-          v-if="showListPane"
-          class="flex min-h-[68vh] flex-col overflow-hidden rounded-[2rem] border border-slate-200 bg-white/85 shadow-[0_18px_54px_rgba(15,23,42,0.08)] backdrop-blur"
-        >
-          <div class="border-b border-slate-200 px-5 py-5">
-            <p class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-400">Conversations</p>
-            <h2 class="mt-2 font-['Fraunces'] text-2xl font-semibold text-slate-900">Your circle</h2>
-            <p class="mt-2 text-sm text-slate-500">Pick a character to continue the thread.</p>
-          </div>
-
-          <div class="min-h-0 flex-1 overflow-y-auto px-3 py-3">
-            <div v-if="friends.length" class="space-y-2">
-              <button
-                v-for="friend in friends"
-                :key="friend.id"
-                type="button"
-                class="group flex w-full items-start gap-3 rounded-[1.5rem] border px-3 py-3 text-left transition"
-                :class="selectedFriendId === friend.id
-                  ? 'border-slate-900 bg-slate-950 text-white shadow-[0_16px_40px_rgba(15,23,42,0.18)]'
-                  : 'border-slate-200 bg-slate-50/80 text-slate-900 hover:border-slate-300 hover:bg-white'"
-                @click="openConversation(friend)"
+  <div class="wechat-container">
+    <div class="wechat-content">
+      <!-- Conversation List -->
+      <div v-if="showListPane" class="conversation-list">
+        <MobilePageHeader
+          title="Messages"
+          :fallback-route="{ name: 'homepage-index' }"
+        />
+        <div v-if="friends.length" class="friend-list">
+          <div
+            v-for="friend in friends"
+            :key="friend.id"
+            class="friend-item"
+            :class="{ active: selectedFriendId === friend.id }"
+            @click="openConversation(friend)"
+          >
+            <div class="friend-avatar">
+              <img
+                v-if="friend.character.photo"
+                :src="friend.character.photo"
+                :alt="friend.character.name"
+                class="avatar-img"
               >
-                <div class="h-14 w-14 shrink-0 overflow-hidden rounded-[1.25rem] bg-slate-200">
-                  <img
-                    v-if="friend.character.photo"
-                    :src="friend.character.photo"
-                    :alt="friend.character.name"
-                    class="h-full w-full object-cover"
-                  >
-                  <div
-                    v-else
-                    class="flex h-full w-full items-center justify-center text-lg font-semibold"
-                    :class="selectedFriendId === friend.id ? 'bg-white/10 text-white' : 'bg-slate-200 text-slate-500'"
-                  >
-                    {{ friend.character.name?.slice(0, 1) || "?" }}
-                  </div>
-                </div>
-
-                <div class="min-w-0 flex-1">
-                  <div class="flex items-start justify-between gap-3">
-                    <div class="min-w-0">
-                      <p class="truncate text-sm font-semibold" :class="selectedFriendId === friend.id ? 'text-white' : 'text-slate-900'">
-                        {{ friend.character.name }}
-                      </p>
-                      <p class="mt-1 truncate text-xs uppercase tracking-[0.18em]" :class="selectedFriendId === friend.id ? 'text-white/55' : 'text-slate-400'">
-                        {{ friend.character.author.username }}
-                      </p>
-                    </div>
-                    <span
-                      class="rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em]"
-                      :class="selectedFriendId === friend.id ? 'bg-white/10 text-white' : 'bg-slate-200 text-slate-500'"
-                    >
-                      {{ selectedFriendId === friend.id ? "Open" : "Chat" }}
-                    </span>
-                  </div>
-
-                  <p
-                    class="conversation-summary mt-3 text-sm"
-                    :class="selectedFriendId === friend.id ? 'text-white/72' : 'text-slate-500'"
-                  >
-                    {{ friend.character.profile || "No profile yet." }}
-                  </p>
-                </div>
-              </button>
-            </div>
-
-            <div
-              v-else-if="!loadingFriends && !friendsError"
-              class="flex h-full min-h-[340px] flex-col items-center justify-center rounded-[1.75rem] border border-dashed border-slate-200 bg-slate-50/80 px-6 text-center"
-            >
-              <p class="font-['Fraunces'] text-2xl font-semibold text-slate-900">No conversations yet</p>
-              <p class="mt-3 max-w-xs text-sm text-slate-500">Add a friend from the homepage or character cards, then come back here.</p>
-              <button
-                type="button"
-                class="btn mt-5 rounded-full border-0 bg-slate-950 px-6 text-white hover:bg-slate-800"
-                @click="openHomepage"
-              >
-                Go to homepage
-              </button>
-            </div>
-
-            <p
-              v-if="friendsError"
-              class="rounded-[1.5rem] border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
-            >
-              {{ friendsError }}
-            </p>
-          </div>
-
-          <div class="border-t border-slate-200 px-4 py-4">
-            <div v-if="loadingFriends" class="flex items-center justify-center py-2 text-slate-500">
-              <span class="loading loading-spinner loading-md"></span>
-            </div>
-            <button
-              v-else-if="hasMoreFriends"
-              type="button"
-              class="btn w-full rounded-full border border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50"
-              @click="loadMoreFriends"
-            >
-              Load more
-            </button>
-            <p v-else-if="friends.length" class="text-center text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">
-              End of conversations
-            </p>
-          </div>
-        </aside>
-
-        <section
-          v-if="showChatPane"
-          class="relative flex min-h-[68vh] flex-col overflow-hidden rounded-[2rem] border border-slate-200 bg-white/78 shadow-[0_18px_54px_rgba(15,23,42,0.08)] backdrop-blur"
-        >
-          <div v-if="selectedFriend" class="pointer-events-none absolute inset-0 opacity-15" :style="selectedBackdropStyle"></div>
-          <div class="pointer-events-none absolute inset-0 bg-[var(--cloud-dancer)] opacity-80"></div>
-
-          <template v-if="selectedFriend">
-            <div class="relative border-b border-slate-200/80 px-4 py-4 md:px-5">
-              <div class="flex items-center gap-3">
-                <button
-                  type="button"
-                  class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 transition hover:border-slate-300 hover:text-slate-900 md:hidden"
-                  aria-label="Back to conversations"
-                  @click="closeConversation"
-                >
-                  <ArrowLeftIcon class="h-5 w-5" />
-                </button>
-
-                <div class="h-14 w-14 shrink-0 overflow-hidden rounded-[1.25rem] border border-white/70 bg-slate-200 shadow-sm">
-                  <img
-                    v-if="selectedFriend.character.photo"
-                    :src="selectedFriend.character.photo"
-                    :alt="selectedFriend.character.name"
-                    class="h-full w-full object-cover"
-                  >
-                  <div v-else class="flex h-full w-full items-center justify-center bg-slate-200 text-lg font-semibold text-slate-500">
-                    {{ selectedFriend.character.name?.slice(0, 1) || "?" }}
-                  </div>
-                </div>
-
-                <div class="min-w-0 flex-1">
-                  <div class="flex flex-wrap items-center gap-2">
-                    <h2 class="truncate font-['Fraunces'] text-2xl font-semibold text-slate-900">
-                      {{ selectedFriend.character.name }}
-                    </h2>
-                    <span
-                      class="rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em]"
-                      :class="isThinking ? 'bg-amber-100 text-amber-700' : 'bg-slate-100 text-slate-500'"
-                    >
-                      {{ isThinking ? "Thinking" : "Ready" }}
-                    </span>
-                  </div>
-                  <p class="mt-1 truncate text-sm text-slate-500">
-                    {{ selectedFriend.character.author.username }}
-                  </p>
-                </div>
-              </div>
-
-              <p class="mt-4 text-sm text-slate-600">{{ selectedFriend.character.profile || "Start a new conversation." }}</p>
-            </div>
-
-            <div class="relative flex min-h-0 flex-1 flex-col px-3 pb-3 pt-3 md:px-4">
-              <ChatHistory
-                :key="selectedFriend.id"
-                ref="chat-history-ref"
-                class="rounded-[1.75rem] bg-white/55 px-2 py-3 shadow-inner backdrop-blur-sm"
-                :history="history"
-                :friendId="selectedFriend.id"
-                :character="selectedFriend.character"
-                @pushBackFrontMessage="handlePushFrontMessage"
-              />
-
-              <div class="pt-3">
-                <InputField
-                  :key="`input-${selectedFriend.id}`"
-                  :friendId="selectedFriend.id"
-                  variant="page"
-                  @pushBackMessage="handlePushBackMessage"
-                  @addToLastMessage="handleAddToLastMessage"
-                  @updateProcessing="handleUpdateProcessing"
-                />
+              <div v-else class="avatar-placeholder">
+                {{ friend.character.name?.slice(0, 1) || "?" }}
               </div>
             </div>
-          </template>
-
-          <div v-else class="relative flex h-full min-h-[68vh] flex-col items-center justify-center px-8 text-center">
-            <div class="max-w-md rounded-[2rem] border border-dashed border-slate-200 bg-white/70 px-8 py-10 shadow-inner">
-              <p class="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">Workspace</p>
-              <h2 class="mt-4 font-['Fraunces'] text-3xl font-semibold text-slate-900">Pick a conversation</h2>
-              <p class="mt-3 text-sm text-slate-500">The chat stream will open here. History loading and live replies stay the same as the character modal.</p>
+            <div class="friend-info">
+              <div class="friend-header">
+                <span class="friend-name">{{ friend.character.name }}</span>
+                <span class="friend-time">12:30</span>
+              </div>
+              <div class="friend-message">
+                <span class="message-preview">{{ friend.character.profile || "No profile yet." }}</span>
+              </div>
             </div>
           </div>
-        </section>
+        </div>
+
+        <div
+          v-else-if="!loadingFriends && !friendsError"
+          class="empty-state"
+        >
+          <div class="empty-icon">💬</div>
+          <p class="empty-title">No conversations yet</p>
+          <p class="empty-desc">Add friends to start chatting</p>
+          <button
+            type="button"
+            class="go-home-btn"
+            @click="openHomepage"
+          >
+            Go to homepage
+          </button>
+        </div>
+
+        <div
+          v-if="friendsError"
+          class="error-message"
+        >
+          {{ friendsError }}
+        </div>
+
+        <div class="load-more">
+          <div v-if="loadingFriends" class="loading">
+            <span class="loading-spinner"></span>
+          </div>
+          <button
+            v-else-if="hasMoreFriends"
+            type="button"
+            class="load-more-btn"
+            @click="loadMoreFriends"
+          >
+            Load more
+          </button>
+        </div>
       </div>
-    </section>
+
+      <!-- Chat Area -->
+      <div v-if="showChatPane" class="chat-area">
+        <template v-if="selectedFriend">
+          <!-- Chat Header -->
+          <div class="chat-header">
+            <button
+              v-if="isMobile"
+              type="button"
+              class="back-btn mobile-only"
+              @click="closeConversation"
+            >
+              <ArrowLeftIcon class="h-5 w-5" />
+            </button>
+            <div class="chat-avatar">
+              <img
+                v-if="selectedFriend.character.photo"
+                :src="selectedFriend.character.photo"
+                :alt="selectedFriend.character.name"
+                class="avatar-img"
+              >
+              <div v-else class="avatar-placeholder">
+                {{ selectedFriend.character.name?.slice(0, 1) || "?" }}
+              </div>
+            </div>
+            <div class="chat-info">
+              <h3 class="chat-name">{{ selectedFriend.character.name }}</h3>
+              <p class="chat-status">{{ isThinking ? "Thinking..." : "Online" }}</p>
+            </div>
+            <div class="chat-actions">
+              <button type="button" class="action-btn">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                </svg>
+              </button>
+              <button type="button" class="action-btn">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Chat Messages -->
+          <div class="chat-messages">
+            <ChatHistory
+              :key="selectedFriend.id"
+              ref="chat-history-ref"
+              class="chat-history"
+              :history="history"
+              :friendId="selectedFriend.id"
+              :character="selectedFriend.character"
+              @pushBackFrontMessage="handlePushFrontMessage"
+            />
+          </div>
+
+          <!-- Chat Input -->
+          <div class="chat-input-container">
+            <InputField
+              :key="`input-${selectedFriend.id}`"
+              :friendId="selectedFriend.id"
+              variant="page"
+              @pushBackMessage="handlePushBackMessage"
+              @addToLastMessage="handleAddToLastMessage"
+              @updateProcessing="handleUpdateProcessing"
+            />
+          </div>
+        </template>
+
+        <div v-else class="chat-placeholder">
+          <div class="placeholder-content">
+            <div class="placeholder-icon">💬</div>
+            <h3>WeChat</h3>
+            <p>Select a conversation to start chatting</p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <style scoped>
-.conversation-summary {
-  display: -webkit-box;
+.wechat-container {
+  height: 100vh;
+  background: #f5f5f5;
+  display: flex;
+  flex-direction: column;
+}
+
+.wechat-navbar {
+  height: 64px;
+  background: #ededed;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  border-bottom: 1px solid #d9d9d9;
+  position: relative;
+  z-index: 10;
+}
+
+.navbar-left,
+.navbar-right {
+  width: 60px;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-center {
+  flex: 1;
+  text-align: center;
+}
+
+.navbar-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: #111;
+  margin: 0;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  color: #07c160;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-btn {
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wechat-content {
+  flex: 1;
+  display: flex;
   overflow: hidden;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+}
+
+.conversation-list {
+  width: 100%;
+  background: #f5f5f5;
+  display: flex;
+  flex-direction: column;
+}
+
+.friend-list {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.friend-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  background: white;
+  border-bottom: 1px solid #e5e5e5;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.friend-item:hover {
+  background: #f5f5f5;
+}
+
+.friend-item.active {
+  background: #ebebeb;
+}
+
+.friend-avatar {
+  width: 48px;
+  height: 48px;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.avatar-placeholder {
+  width: 100%;
+  height: 100%;
+  background: #ddd;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 600;
+  color: #999;
+}
+
+.friend-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.friend-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.friend-name {
+  font-size: 16px;
+  font-weight: 500;
+  color: #111;
+}
+
+.friend-time {
+  font-size: 12px;
+  color: #999;
+}
+
+.friend-message {
+  display: flex;
+  align-items: center;
+}
+
+.message-preview {
+  font-size: 14px;
+  color: #999;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.empty-state {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.empty-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.empty-title {
+  font-size: 18px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.empty-desc {
+  font-size: 14px;
+  color: #999;
+  margin-bottom: 20px;
+}
+
+.go-home-btn {
+  background: #07c160;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.error-message {
+  padding: 16px;
+  background: #fff2f0;
+  border: 1px solid #ffccc7;
+  border-radius: 4px;
+  color: #ff4d4f;
+  font-size: 14px;
+  margin: 16px;
+}
+
+.load-more {
+  padding: 16px;
+  text-align: center;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+}
+
+.loading-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid #07c160;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.load-more-btn {
+  background: white;
+  border: 1px solid #e5e5e5;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+}
+
+.chat-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: white;
+}
+
+.chat-header {
+  height: 64px;
+  background: #f8f8f8;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.chat-avatar {
+  width: 40px;
+  height: 40px;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.chat-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.chat-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111;
+  margin: 0;
+}
+
+.chat-status {
+  font-size: 12px;
+  color: #07c160;
+  margin: 0;
+}
+
+.chat-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  background: #f5f5f5;
+}
+
+.chat-history {
+  background: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+.chat-input-container {
+  background: #f8f8f8;
+  padding: 8px 16px;
+  border-top: 1px solid #e5e5e5;
+}
+
+.chat-placeholder {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5f5f5;
+}
+
+.placeholder-content {
+  text-align: center;
+}
+
+.placeholder-icon {
+  font-size: 64px;
+  margin-bottom: 16px;
+}
+
+.placeholder-content h3 {
+  font-size: 24px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.placeholder-content p {
+  font-size: 14px;
+  color: #999;
+  margin: 0;
+}
+
+/* Desktop responsive */
+@media (min-width: 768px) {
+  .conversation-list {
+    width: 320px;
+    border-right: 1px solid #e5e5e5;
+  }
+  
+  .chat-area {
+    flex: 1;
+  }
+  
+  .mobile-only {
+    display: none !important;
+  }
+}
+
+/* Mobile responsive */
+@media (max-width: 767px) {
+  .conversation-list {
+    width: 100%;
+  }
+  
+  .chat-area {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 5;
+  }
 }
 </style>

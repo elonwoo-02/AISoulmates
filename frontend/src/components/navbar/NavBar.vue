@@ -29,7 +29,12 @@ const showBottomBar = computed(() => {
     "create-index",
     "user-space-index",
   ]);
-  return enabledRoutes.has(route.name);
+  const isEnabled = enabledRoutes.has(route.name);
+  // Hide bottom bar when in chat view (new-index with friend selected)
+  if (route.name === "new-index" && route.query.friend_id) {
+    return false;
+  }
+  return isEnabled;
 });
 
 const showTopBarOnMobile = computed(() => {
