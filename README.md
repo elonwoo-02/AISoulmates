@@ -95,7 +95,13 @@ cd AISoulmates
 ```bash
 python -m venv .venv
 .venv\Scripts\activate
-pip install django djangorestframework djangorestframework-simplejwt django-cors-headers pillow python-dotenv openai lancedb langchain-community langchain-openai langchain-text-splitters langgraph
+pip install -r requirements.txt
+```
+
+如果你要在本地做开发或运行测试，可以改用：
+
+```bash
+pip install -r requirements-dev.txt
 ```
 
 创建或补充 `backend/.env`：
@@ -256,7 +262,6 @@ npm run preview
 
 ## 已知约束
 
-- 仓库未提供 `requirements.txt`，后端依赖需要按 README 或代码导入自行安装
 - 当前默认数据库为 SQLite，适合本地开发
 - `backend/db.sqlite3`、`backend/media/`、前端构建产物等都属于运行期文件，不应视为核心源码
 - 当前 README 只描述开发与本地运行，不代表生产部署方案已经完善
