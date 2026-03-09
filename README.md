@@ -58,6 +58,7 @@ AISoulmates/
 │   ├── static/                     # Django 静态资源，包含前端构建产物
 │   ├── media/                      # 运行期上传文件
 │   ├── .env                        # 后端环境变量
+│   ├── .env.example                # 环境变量示例
 │   └── manage.py
 ├── frontend/
 │   ├── src/
@@ -104,7 +105,13 @@ pip install -r requirements.txt
 pip install -r requirements-dev.txt
 ```
 
-创建或补充 `backend/.env`：
+先从示例文件复制一份本地环境变量：
+
+```bash
+Copy-Item .env.example .env
+```
+
+然后按你的 OpenAI 兼容服务补充或修改 `backend/.env`：
 
 ```env
 API_KEY=your_api_key
