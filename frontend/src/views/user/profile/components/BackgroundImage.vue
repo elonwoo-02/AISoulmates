@@ -73,7 +73,7 @@ defineExpose({
     <div class="avatar relative">
       <div class="w-55 h-31 rounded-box">
         <img v-if="myBackgroundImage" :src="myBackgroundImage" alt="myBackgroundImage" class="w-full h-full object-cover rounded-box"/>
-        <div v-else class="w-full h-full rounded-box" style="background: linear-gradient(135deg, rgb(239 68 68 / 0.9), rgb(251 146 60 / 0.8), rgb(252 211 77 / 0.8));"></div>
+        <div v-else class="w-full h-full rounded-box" style="background: var(--cloud-dancer);"></div>
       </div>
       <div @click="fileInputRef.click()" class="w-55 h-31 rounded-box absolute left-0 top-0 bg-black/20 flex justify-center items-center cursor-pointer">
         <CameraIcon/>

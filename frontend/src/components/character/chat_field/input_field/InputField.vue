@@ -25,17 +25,17 @@ const isPageVariant = computed(() => props.variant === "page");
 const formClass = computed(() =>
   isPageVariant.value
     ? "flex items-center gap-3 rounded-[1.75rem] border border-slate-200 bg-white/90 px-3 py-3 shadow-[0_12px_32px_rgba(15,23,42,0.08)] backdrop-blur"
-    : "flex items-center gap-2 h-12 px-2"
+    : "flex items-center gap-2 h-8 w-full px-2"
 );
 const inputClass = computed(() =>
   isPageVariant.value
     ? "input h-12 w-full rounded-2xl border-0 bg-slate-100 text-base text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-0 focus:ring-0"
-    : "input h-full w-full rounded-2xl bg-black/30 text-base text-white focus:outline-none focus:border-none focus:ring-0"
+    : "input h-full w-full rounded-xl bg-black/20 text-base text-white placeholder:text-white/60 focus:outline-none focus:border-none focus:ring-0 focus:bg-black/30"
 );
 const actionButtonClass = computed(() =>
   isPageVariant.value
-    ? "flex h-10 w-10 items-center justify-center rounded-full bg-slate-950 text-white transition-colors hover:bg-slate-800"
-    : "flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-white/10"
+    ? "flex h-10 w-10 items-center justify-center rounded-lg bg-slate-950 text-white transition-colors hover:bg-slate-800"
+    : "flex h-8 w-8 items-center justify-center rounded bg-slate-800 text-white transition-colors hover:bg-slate-700"
 );
 const showMic = computed(() => !isPageVariant.value);
 
@@ -102,7 +102,7 @@ defineExpose({
     <div class="flex items-center gap-1">
       <div
         v-if="showMic"
-        class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full transition-colors hover:bg-white/10"
+        class="flex h-8 w-8 cursor-pointer items-center justify-center rounded bg-slate-800 text-white transition-colors hover:bg-slate-700"
       >
         <MicIcon/>
       </div>

@@ -51,7 +51,7 @@ function openSettings() {
   <section class="w-full">
     <div class="relative overflow-hidden">
       <!-- Background image with gradient overlay -->
-      <div ref="background-ref" class="relative transition-all duration-300" :style="`height: ${profileHeight}; ${props.userProfile && props.userProfile.background_image ? `background-image: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url(${props.userProfile.background_image}); background-size: cover; background-position: center;` : 'background-image: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url(/src/assets/playboy.jpg); background-size: cover; background-position: center;'}`">
+      <div ref="background-ref" class="relative transition-all duration-300" :style="`height: ${profileHeight}; ${props.userProfile && props.userProfile.background_image ? `background-image: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url(${props.userProfile.background_image}); background-size: cover; background-position: center;` : 'background: var(--cloud-dancer);'}`">
         <div v-if="isOwnSpace" class="absolute top-4 left-4 z-10 md:hidden">
           <button @click="openSettings" class="btn btn-ghost btn-sm rounded-full bg-white/10 backdrop-blur-sm text-white border-white/20 hover:bg-white/20">
             <SettingIcon class="h-4 w-4" />

@@ -5,7 +5,7 @@ defineProps(['userProfile'])
 <template>
   <section class="w-full">
     <div class="relative bg-white rounded-2xl shadow-sm border border-gray-100">
-      <div class="h-32 bg-gradient-to-r from-pink-100 via-red-50 to-orange-100"></div>
+      <div class="h-32 bg-[var(--cloud-dancer)]"></div>
 
       <div class="px-4 pb-4">
         <div class="flex flex-col items-center -mt-12">

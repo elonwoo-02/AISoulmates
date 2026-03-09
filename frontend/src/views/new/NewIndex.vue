@@ -224,7 +224,7 @@ onBeforeUnmount(() => {
 
 <template>
   <div class="relative px-4 py-6 pb-24 md:px-6 lg:px-8">
-    <div class="pointer-events-none absolute inset-x-0 top-0 h-96 bg-[radial-gradient(circle_at_top_left,rgba(255,92,92,0.16),transparent_42%),radial-gradient(circle_at_top_right,rgba(245,158,11,0.18),transparent_40%),linear-gradient(180deg,rgba(248,250,252,0.95),rgba(248,250,252,0))]"></div>
+    <div class="pointer-events-none absolute inset-x-0 top-0 h-96 bg-[var(--cloud-dancer)]"></div>
 
     <section class="relative mx-auto max-w-7xl space-y-5">
       <MobilePageHeader
@@ -345,7 +345,7 @@ onBeforeUnmount(() => {
           class="relative flex min-h-[68vh] flex-col overflow-hidden rounded-[2rem] border border-slate-200 bg-white/78 shadow-[0_18px_54px_rgba(15,23,42,0.08)] backdrop-blur"
         >
           <div v-if="selectedFriend" class="pointer-events-none absolute inset-0 opacity-15" :style="selectedBackdropStyle"></div>
-          <div class="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(255,255,255,0.76))]"></div>
+          <div class="pointer-events-none absolute inset-0 bg-[var(--cloud-dancer)] opacity-80"></div>
 
           <template v-if="selectedFriend">
             <div class="relative border-b border-slate-200/80 px-4 py-4 md:px-5">

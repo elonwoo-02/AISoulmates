@@ -22,7 +22,7 @@
   isolation: isolate;
   border-radius: 26px;
   padding: 1px;
-  background: linear-gradient(145deg, rgba(255, 242, 233, 0.8), rgba(245, 233, 255, 0.6));
+  background: var(--cloud-dancer);
   box-shadow: 0 24px 60px rgba(15, 23, 42, 0.18);
   overflow: hidden;
 }
@@ -32,7 +32,7 @@
   z-index: 2;
   border-radius: 24px;
   border: 1px solid rgba(15, 23, 42, 0.08);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(250, 247, 244, 0.92));
+  background: var(--cloud-dancer);
   padding: 28px 26px 24px;
   backdrop-filter: blur(6px);
 }
@@ -57,9 +57,7 @@
   inset: -40%;
   z-index: 1;
   opacity: 0.18;
-  background-image:
-    radial-gradient(circle, rgba(15, 23, 42, 0.12) 0.6px, transparent 0.6px),
-    radial-gradient(circle, rgba(15, 23, 42, 0.08) 0.5px, transparent 0.5px);
+  background: var(--cloud-dancer);
   background-size: 28px 28px, 18px 18px;
   mix-blend-mode: multiply;
   pointer-events: none;
@@ -70,7 +68,7 @@
   inset: -20% 10% auto 10%;
   height: 60%;
   z-index: 0;
-  background: radial-gradient(circle at top, rgba(255, 255, 255, 0.7), transparent 60%);
+  background: var(--cloud-dancer);
   pointer-events: none;
 }
 

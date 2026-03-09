@@ -9,14 +9,14 @@ function handleAvatarClick() {
 </script>
 
 <template>
-<div class="flex items-center gap-3 px-3 py-2 rounded-2xl bg-black/40 backdrop-blur-sm">
+<div class="flex items-center gap-2 px-2 py-1 rounded-xl bg-black/40 backdrop-blur-sm">
   <div class="avatar" @click="handleAvatarClick">
-    <div class="w-8 rounded-full ring-2 ring-white/30 cursor-pointer hover:ring-white/50 transition-all">
+    <div class="w-6 rounded-full ring-2 ring-white/30 cursor-pointer hover:ring-white/50 transition-all">
       <img :src="character.photo" alt="">
     </div>
   </div>
   <div class="text-white">
-    <div class="font-medium text-sm">{{ character.name }}</div>
+    <div class="font-medium text-xs">{{ character.name }}</div>
     <div class="text-xs text-white/60">{{ isThinking ? 'Thinking...' : 'Online' }}</div>
   </div>
 </div>

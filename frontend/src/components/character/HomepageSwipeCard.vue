@@ -239,7 +239,7 @@ onBeforeUnmount(() => {
         />
 
         <!-- Gradient Overlay -->
-        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+        <div class="absolute inset-0 bg-[var(--cloud-dancer)]"></div>
 
         <!-- LIKE/NOPE Indicators -->
         <div v-if="Math.abs(currentX) > 30" class="absolute inset-0 flex items-center justify-center pointer-events-none">
@@ -269,7 +269,7 @@ onBeforeUnmount(() => {
                 alt="character avatar"
                 class="w-full h-full object-cover"
               />
-              <div v-else class="w-full h-full bg-gradient-to-br from-pink-500 to-purple-600 flex items-center justify-center">
+              <div v-else class="w-full h-full bg-[var(--cloud-dancer)] flex items-center justify-center">
                 <span class="text-xl font-bold text-white">{{ character.name?.charAt(0) }}</span>
               </div>
             </div>

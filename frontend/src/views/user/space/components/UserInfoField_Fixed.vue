@@ -45,7 +45,7 @@ onMounted(() => {
   <section class="w-full">
     <div class="relative overflow-hidden">
       <!-- Background image with gradient overlay -->
-      <div ref="background-ref" class="relative transition-all duration-300" :style="`height: ${profileHeight}; ${props.userProfile && props.userProfile.background_image ? `background-image: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url(${props.userProfile.background_image}); background-size: cover; background-position: center;` : 'background: linear-gradient(135deg, rgb(239 68 68 / 0.9), rgb(251 146 60 / 0.8), rgb(252 211 77 / 0.8));'}`">
+      <div ref="background-ref" class="relative transition-all duration-300" :style="`height: ${profileHeight}; ${props.userProfile && props.userProfile.background_image ? `background-image: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url(${props.userProfile.background_image}); background-size: cover; background-position: center;` : 'background: var(--cloud-dancer);'}`">
         <!-- Edit button in top-right corner -->
         <div class="absolute top-4 right-4 z-10">
           <button @click="editProfile" class="btn btn-ghost btn-sm rounded-full bg-white/10 backdrop-blur-sm text-white border-white/20 hover:bg-white/20">
