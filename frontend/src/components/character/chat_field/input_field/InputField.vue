@@ -24,17 +24,17 @@ const processing = ref(false);
 const isPageVariant = computed(() => props.variant === "page");
 const formClass = computed(() =>
   isPageVariant.value
-    ? "flex items-center gap-3 rounded-[1.75rem] border border-slate-200 bg-white/90 px-3 py-3 shadow-[0_12px_32px_rgba(15,23,42,0.08)] backdrop-blur"
+    ? "flex items-center gap-2 w-full px-2 py-1.5"
     : "flex items-center gap-2 h-8 w-full px-2"
 );
 const inputClass = computed(() =>
   isPageVariant.value
-    ? "input h-12 w-full rounded-2xl border-0 bg-slate-100 text-base text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-0 focus:ring-0"
+    ? "input h-9 w-full rounded-lg border-0 bg-gray-100 text-base text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-300"
     : "input h-full w-full rounded-xl bg-black/20 text-base text-white placeholder:text-white/60 focus:outline-none focus:border-none focus:ring-0 focus:bg-black/30"
 );
 const actionButtonClass = computed(() =>
   isPageVariant.value
-    ? "flex h-10 w-10 items-center justify-center rounded-lg bg-slate-950 text-white transition-colors hover:bg-slate-800"
+    ? "flex h-9 min-w-[60px] items-center justify-center rounded-lg bg-gray-200 text-gray-600 font-medium text-sm transition-colors hover:bg-gray-300"
     : "flex h-8 w-8 items-center justify-center rounded bg-slate-800 text-white transition-colors hover:bg-slate-700"
 );
 const showMic = computed(() => !isPageVariant.value);
@@ -92,12 +92,22 @@ defineExpose({
 
 <template>
   <form @submit.prevent="handleSend" :class="formClass">
+    <div v-if="isPageVariant" class="flex items-center gap-1.5">
+      <button
+        type="button"
+        class="flex h-9 w-9 items-center justify-center rounded-lg bg-transparent text-gray-500 hover:bg-gray-100"
+      >
+        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+        </svg>
+      </button>
+    </div>
     <input
         ref="input-ref"
         v-model="message"
         :class="inputClass"
         type="text"
-        :placeholder="isPageVariant ? 'Type a message' : 'type here...'"
+        :placeholder="isPageVariant ? '' : 'type here...'"
     >
     <div class="flex items-center gap-1">
       <div
@@ -107,7 +117,8 @@ defineExpose({
         <MicIcon/>
       </div>
       <div @click="handleSend" :class="actionButtonClass">
-        <SendIcon/>
+        <span v-if="isPageVariant">发送</span>
+        <SendIcon v-else/>
       </div>
     </div>
   </form>

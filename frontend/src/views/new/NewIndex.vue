@@ -216,39 +216,31 @@ onBeforeUnmount(() => {
   <div class="wechat-container">
     <div class="wechat-content">
       <!-- Conversation List -->
-      <div v-if="showListPane" class="conversation-list">
+      <div v-if="showListPane" class="flex w-full flex-col bg-gray-100 md:w-[280px] md:border-r md:border-gray-200">
         <MobilePageHeader
           title="Messages"
           :fallback-route="{ name: 'homepage-index' }"
         />
-        <div v-if="friends.length" class="friend-list">
+        <div v-if="friends.length" class="flex-1 overflow-y-auto">
           <div
             v-for="friend in friends"
             :key="friend.id"
-            class="friend-item"
-            :class="{ active: selectedFriendId === friend.id }"
+            class="flex cursor-pointer items-center bg-white px-3 py-2 transition-colors hover:bg-gray-100"
+            :class="{ 'bg-gray-200': selectedFriendId === friend.id }"
             @click="openConversation(friend)"
           >
-            <div class="friend-avatar">
+            <div class="h-9 w-9 flex-shrink-0">
               <img
                 v-if="friend.character.photo"
                 :src="friend.character.photo"
                 :alt="friend.character.name"
-                class="avatar-img"
+                class="h-full w-full rounded-full object-cover"
               >
-              <div v-else class="avatar-placeholder">
+              <div v-else class="flex h-full w-full items-center justify-center rounded-full bg-gray-300 text-sm font-semibold text-gray-500">
                 {{ friend.character.name?.slice(0, 1) || "?" }}
               </div>
             </div>
-            <div class="friend-info">
-              <div class="friend-header">
-                <span class="friend-name">{{ friend.character.name }}</span>
-                <span class="friend-time">12:30</span>
-              </div>
-              <div class="friend-message">
-                <span class="message-preview">{{ friend.character.profile || "No profile yet." }}</span>
-              </div>
-            </div>
+            <span class="ml-2.5 text-[15px] text-gray-800">{{ friend.character.name }}</span>
           </div>
         </div>
 
@@ -294,37 +286,37 @@ onBeforeUnmount(() => {
       <div v-if="showChatPane" class="chat-area">
         <template v-if="selectedFriend">
           <!-- Chat Header -->
-          <div class="chat-header">
+          <div class="sticky top-0 z-10 flex h-[50px] items-center bg-gray-50 px-2 border-b border-gray-200">
             <button
               v-if="isMobile"
               type="button"
-              class="back-btn mobile-only"
+              class="flex items-center justify-center p-2 text-green-500 md:hidden"
               @click="closeConversation"
             >
               <ArrowLeftIcon class="h-5 w-5" />
             </button>
-            <div class="chat-avatar">
+            <div class="h-8 w-8 flex-shrink-0">
               <img
                 v-if="selectedFriend.character.photo"
                 :src="selectedFriend.character.photo"
                 :alt="selectedFriend.character.name"
-                class="avatar-img"
+                class="h-full w-full rounded-full object-cover"
               >
-              <div v-else class="avatar-placeholder">
+              <div v-else class="flex h-full w-full items-center justify-center rounded-full bg-gray-300 text-sm font-semibold text-gray-500">
                 {{ selectedFriend.character.name?.slice(0, 1) || "?" }}
               </div>
             </div>
-            <div class="chat-info">
-              <h3 class="chat-name">{{ selectedFriend.character.name }}</h3>
-              <p class="chat-status">{{ isThinking ? "Thinking..." : "Online" }}</p>
+            <div class="ml-2.5 flex-1 min-w-0">
+              <h3 class="text-[15px] font-semibold text-gray-800">{{ selectedFriend.character.name }}</h3>
+              <p class="text-xs text-green-500">{{ isThinking ? "Thinking..." : "Online" }}</p>
             </div>
-            <div class="chat-actions">
-              <button type="button" class="action-btn">
+            <div class="flex gap-1">
+              <button type="button" class="flex items-center justify-center p-1.5 text-gray-500">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
                 </svg>
               </button>
-              <button type="button" class="action-btn">
+              <button type="button" class="flex items-center justify-center p-1.5 text-gray-500">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
                 </svg>
@@ -333,11 +325,11 @@ onBeforeUnmount(() => {
           </div>
 
           <!-- Chat Messages -->
-          <div class="chat-messages">
+          <div class="flex-1 overflow-y-auto bg-gray-100">
             <ChatHistory
               :key="selectedFriend.id"
               ref="chat-history-ref"
-              class="chat-history"
+              class="!bg-transparent !rounded-none !shadow-none !backdrop-blur-none"
               :history="history"
               :friendId="selectedFriend.id"
               :character="selectedFriend.character"
@@ -346,7 +338,7 @@ onBeforeUnmount(() => {
           </div>
 
           <!-- Chat Input -->
-          <div class="chat-input-container">
+          <div class="bg-gray-100 p-1 px-2 border-t border-gray-200">
             <InputField
               :key="`input-${selectedFriend.id}`"
               :friendId="selectedFriend.id"
@@ -358,11 +350,11 @@ onBeforeUnmount(() => {
           </div>
         </template>
 
-        <div v-else class="chat-placeholder">
-          <div class="placeholder-content">
-            <div class="placeholder-icon">💬</div>
-            <h3>WeChat</h3>
-            <p>Select a conversation to start chatting</p>
+        <div v-else class="flex flex-1 items-center justify-center bg-gray-100">
+          <div class="text-center">
+            <div class="text-5xl mb-4">💬</div>
+            <h3 class="text-xl font-medium text-gray-700 mb-2">Soulmate Chat</h3>
+            <p class="text-sm text-gray-400">Select a conversation to start chatting</p>
           </div>
         </div>
       </div>
@@ -372,162 +364,16 @@ onBeforeUnmount(() => {
 
 <style scoped>
 .wechat-container {
-  height: 100vh;
+  height: calc(100vh - 64px);
   background: #f5f5f5;
   display: flex;
   flex-direction: column;
-}
-
-.wechat-navbar {
-  height: 64px;
-  background: #ededed;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 16px;
-  border-bottom: 1px solid #d9d9d9;
-  position: relative;
-  z-index: 10;
-}
-
-.navbar-left,
-.navbar-right {
-  width: 60px;
-  display: flex;
-  align-items: center;
-}
-
-.navbar-center {
-  flex: 1;
-  text-align: center;
-}
-
-.navbar-title {
-  font-size: 17px;
-  font-weight: 600;
-  color: #111;
-  margin: 0;
-}
-
-.back-btn {
-  background: none;
-  border: none;
-  padding: 8px;
-  cursor: pointer;
-  color: #07c160;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.nav-btn {
-  background: none;
-  border: none;
-  padding: 8px;
-  cursor: pointer;
-  color: #333;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .wechat-content {
   flex: 1;
   display: flex;
   overflow: hidden;
-}
-
-.conversation-list {
-  width: 100%;
-  background: #f5f5f5;
-  display: flex;
-  flex-direction: column;
-}
-
-.friend-list {
-  flex: 1;
-  overflow-y: auto;
-}
-
-.friend-item {
-  display: flex;
-  align-items: center;
-  padding: 12px 16px;
-  background: white;
-  border-bottom: 1px solid #e5e5e5;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.friend-item:hover {
-  background: #f5f5f5;
-}
-
-.friend-item.active {
-  background: #ebebeb;
-}
-
-.friend-avatar {
-  width: 48px;
-  height: 48px;
-  margin-right: 12px;
-  flex-shrink: 0;
-}
-
-.avatar-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 4px;
-}
-
-.avatar-placeholder {
-  width: 100%;
-  height: 100%;
-  background: #ddd;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  font-weight: 600;
-  color: #999;
-}
-
-.friend-info {
-  flex: 1;
-  min-width: 0;
-}
-
-.friend-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 4px;
-}
-
-.friend-name {
-  font-size: 16px;
-  font-weight: 500;
-  color: #111;
-}
-
-.friend-time {
-  font-size: 12px;
-  color: #999;
-}
-
-.friend-message {
-  display: flex;
-  align-items: center;
-}
-
-.message-preview {
-  font-size: 14px;
-  color: #999;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .empty-state {
@@ -619,92 +465,6 @@ onBeforeUnmount(() => {
   background: white;
 }
 
-.chat-header {
-  height: 64px;
-  background: #f8f8f8;
-  display: flex;
-  align-items: center;
-  padding: 0 16px;
-  border-bottom: 1px solid #e5e5e5;
-}
-
-.chat-avatar {
-  width: 40px;
-  height: 40px;
-  margin-right: 12px;
-  flex-shrink: 0;
-}
-
-.chat-info {
-  flex: 1;
-  min-width: 0;
-}
-
-.chat-name {
-  font-size: 16px;
-  font-weight: 600;
-  color: #111;
-  margin: 0;
-}
-
-.chat-status {
-  font-size: 12px;
-  color: #07c160;
-  margin: 0;
-}
-
-.chat-actions {
-  display: flex;
-  gap: 8px;
-}
-
-.action-btn {
-  background: none;
-  border: none;
-  padding: 8px;
-  cursor: pointer;
-  color: #333;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.chat-messages {
-  flex: 1;
-  overflow-y: auto;
-  background: #f5f5f5;
-}
-
-.chat-history {
-  background: transparent !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-  backdrop-filter: none !important;
-}
-
-.chat-input-container {
-  background: #f8f8f8;
-  padding: 8px 16px;
-  border-top: 1px solid #e5e5e5;
-}
-
-.chat-placeholder {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #f5f5f5;
-}
-
-.placeholder-content {
-  text-align: center;
-}
-
-.placeholder-icon {
-  font-size: 64px;
-  margin-bottom: 16px;
-}
-
 .placeholder-content h3 {
   font-size: 24px;
   font-weight: 500;
@@ -712,23 +472,8 @@ onBeforeUnmount(() => {
   margin-bottom: 8px;
 }
 
-.placeholder-content p {
-  font-size: 14px;
-  color: #999;
-  margin: 0;
-}
-
 /* Desktop responsive */
 @media (min-width: 768px) {
-  .conversation-list {
-    width: 320px;
-    border-right: 1px solid #e5e5e5;
-  }
-  
-  .chat-area {
-    flex: 1;
-  }
-  
   .mobile-only {
     display: none !important;
   }
@@ -736,10 +481,6 @@ onBeforeUnmount(() => {
 
 /* Mobile responsive */
 @media (max-width: 767px) {
-  .conversation-list {
-    width: 100%;
-  }
-  
   .chat-area {
     width: 100%;
     position: absolute;
