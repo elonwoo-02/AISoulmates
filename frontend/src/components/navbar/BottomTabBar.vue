@@ -18,7 +18,7 @@ function goHome() {
   router.push({ name: "homepage-index" });
 }
 
-function goMarket() {
+function goWorld() {
   router.push({ name: "friend-index" });
 }
 
@@ -59,7 +59,7 @@ function goMe() {
       <button
         class="flex flex-col items-center gap-0.5 text-xs font-medium text-[--text-tertiary] transition-colors hover:text-[--text-primary] border-b-2 border-transparent"
         :class="{ 'text-[--accent-red] border-red-500': activeName === 'friend-index' }"
-        @click="goMarket"
+        @click="goWorld"
         aria-label="Friends"
       >
         <BottomFriendIcon class="h-6 w-6" :class="{ 'text-red-500': activeName === 'friend-index' }" />

@@ -11,4 +11,5 @@ skills-lock.json
 .agents/
 .comate/
 backend/web/documents/
+frontend/public/vad/
 *.env
