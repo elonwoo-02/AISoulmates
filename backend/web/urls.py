@@ -7,7 +7,7 @@ from web.views.create.character.remove import RemoveCharacterView
 from web.views.create.character.update import UpdateCharacterView
 from web.views.friend.get_list import GetListFriendView
 from web.views.friend.get_or_create import GetOrCreateFriendView
-from web.views.friend.message.chat.chat import MessageView
+from web.views.friend.message.chat.chat import MessageChatView
 from web.views.friend.message.get_history import GetHistoryView
 from web.views.friend.message.stt.stt import STTView
 from web.views.friend.remove import RemoveFriendView
@@ -49,7 +49,7 @@ urlpatterns = [
     path('api/friend/get_list/', GetListFriendView.as_view()),
 
     # 消息相关接口
-    path('api/friend/message/chat/', MessageView.as_view()),
+    path('api/friend/message/chat/', MessageChatView.as_view()),
     path('api/friend/message/get_history/', GetHistoryView.as_view()),
     path('api/friend/message/stt/stt/', STTView.as_view()),
 
