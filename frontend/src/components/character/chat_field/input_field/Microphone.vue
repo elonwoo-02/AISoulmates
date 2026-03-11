@@ -83,9 +83,9 @@ const sendToBackend = async (arrayBuffer) => {
 
   try {
     // 发送POST请求到后端API
-    const res = await api.post('', formData)
+    const res = await api.post('/api/friend/message/stt/stt/', formData)
     const data = res.data
-    
+    console.log(data)
     // 处理成功响应
     if (data.result === 'success') {
       emit('send', null, data.text)  // 发送识别结果
