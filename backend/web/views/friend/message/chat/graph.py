@@ -81,9 +81,9 @@ class ChatGraph:
         return search_knowledge_base
 
     @staticmethod
-    def _create_llm(tools: list, user_profile) -> ChatOpenAI:
+    def _create_llm(tools: list) -> ChatOpenAI:
         """初始化 ChatOpenAI 模型，支持流式输出"""
-        config = resolve_ai_config(user_profile)
+        config = resolve_ai_config()
         return ChatOpenAI(
             model='qwen3.5-flash',  # 使用的模型名称
             openai_api_key=config['api_key'],  # 优先使用用户配置
@@ -144,11 +144,11 @@ class ChatGraph:
         return graph.compile()  # 编译图，返回可执行的应用
 
     @staticmethod
-    def create_app(user_profile):
+    def create_app():
         """创建并返回聊天图应用"""
         # 构建应用的各个组件
         tools = ChatGraph._create_tools()
-        llm = ChatGraph._create_llm(tools, user_profile)
+        llm = ChatGraph._create_llm(tools)
         model_call = ChatGraph._create_model_call(llm)
         should_continue = ChatGraph._create_should_continue()
 

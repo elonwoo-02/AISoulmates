@@ -19,7 +19,7 @@ let vadInstance = null;
  * 当语音结束时触发onSpeechEnd回调并发送音频数据
  */
 const startRecording = async () => {
-  const baseUrl = "http://localhost:5173/vad/";
+  const baseUrl = "http://127.0.0.1:8000/static/frontend/vad/";
   try {
     vadInstance = await MicVAD.new({
       // VAD基础资源路径
@@ -85,7 +85,6 @@ const sendToBackend = async (arrayBuffer) => {
     // 发送POST请求到后端API
     const res = await api.post('/api/friend/message/stt/stt/', formData)
     const data = res.data
-    console.log(data)
     // 处理成功响应
     if (data.result === 'success') {
       emit('send', null, data.text)  // 发送识别结果
