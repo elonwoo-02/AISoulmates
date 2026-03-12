@@ -7,6 +7,7 @@ import websockets
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from web.views.utils.ai_config import resolve_model_config
 
 class STTView(APIView):
     permission_classes = [IsAuthenticated]
@@ -67,13 +68,17 @@ class STTView(APIView):
         async for msg in ws:  # 持续监听WebSocket消息
             data = json.loads(msg)  # 解析JSON格式的消息
             event = data['header']['event']  # 获取事件类型
+            if event in ['task-finished', 'task-failed']:  # 如果任务结束或失败
+                break  # 退出循环
             if event == 'result-generated':  # 如果是结果生成事件
                 output = data['payload']['output']  # 获取输出内容
-                # 检查是否有完整的句子结束标记
-                if output.get('transcription', None) and output['transcription']['sentence_end']:
-                    text = output['transcription']['text']  # 获取转换后的文本
-                elif event in ['task-finished', 'task-failed']:  # 如果任务结束或失败
-                    break  # 退出循环
+                transcription = output.get('transcription')
+                if transcription:
+                    # 先记录最新文本，避免没有 sentence_end 导致最终为空
+                    text = transcription.get('text', text)
+                    # 如果检测到句子结束，可提前结束接收
+                    if transcription.get('sentence_end'):
+                        break
         return text  # 返回最终文本
 
     async def run_stt_tasks(self, pcm_data):
@@ -89,6 +94,7 @@ class STTView(APIView):
         task_id = uuid.uuid4().hex  # 生成唯一任务ID
         api_key = os.getenv('API_KEY')  # 从环境变量获取API密钥
         wss_url = os.getenv('WSS_URL')  # 从环境变量获取WebSocket URL
+        model_config = resolve_model_config()
         headers = {
             'Authorization': f'Bearer {api_key}',  # 设置认证头
         }
@@ -102,7 +108,7 @@ class STTView(APIView):
                     "action": "run-task"  # 运行动作
                 },
                 "payload": {
-                    "model": "gummy-realtime-v1",  # 使用的模型
+                    "model": model_config['stt_model'],  # 使用的模型
                     "parameters": {
                         "sample_rate": 16000,  # 采样率
                         "format": "pcm",  # 音频格式
@@ -116,7 +122,7 @@ class STTView(APIView):
             }))
             # 等待任务开始确认
             async for msg in ws:
-                if json.load(msg)['header']['event'] == 'task-started':
+                if json.loads(msg)['header']['event'] == 'task-started':
                     break
 
             # 并行运行发送和接收任务

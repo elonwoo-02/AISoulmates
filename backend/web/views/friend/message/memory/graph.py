@@ -5,15 +5,16 @@ from langchain_openai import ChatOpenAI
 from langgraph.constants import START, END
 from langgraph.graph import add_messages, StateGraph
 
-from web.views.utils.ai_config import resolve_ai_config
+from web.views.utils.ai_config import resolve_ai_config, resolve_model_config
 
 
 class MemoryGraph:
     @staticmethod
     def create_app(user_profile):
         config = resolve_ai_config(user_profile)
+        model_config = resolve_model_config()
         llm = ChatOpenAI(
-            model='qwen3.5-flash',
+            model=model_config['memory_model'],
             openai_api_key=config['api_key'],
             openai_api_base=config['api_base'],
             streaming=True,

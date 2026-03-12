@@ -13,7 +13,7 @@ from langgraph.graph import add_messages, StateGraph
 from langgraph.prebuilt import ToolNode
 
 from web.documents.utils.custom_embeddings import CustomEmbeddings
-from web.views.utils.ai_config import resolve_ai_config
+from web.views.utils.ai_config import resolve_ai_config, resolve_model_config
 
 
 class AgentState(TypedDict):
@@ -84,8 +84,9 @@ class ChatGraph:
     def _create_llm(tools: list) -> ChatOpenAI:
         """初始化 ChatOpenAI 模型，支持流式输出"""
         config = resolve_ai_config()
+        model_config = resolve_model_config()
         return ChatOpenAI(
-            model='qwen3.5-flash',  # 使用的模型名称
+            model=model_config['chat_model'],  # 使用的模型名称
             openai_api_key=config['api_key'],  # 优先使用用户配置
             openai_api_base=config['api_base'],  # 其次回退到环境变量
             streaming=True,  # 启用流式输出

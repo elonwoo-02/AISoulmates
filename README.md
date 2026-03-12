@@ -132,6 +132,10 @@ Copy-Item .env.example .env
 API_KEY=your_api_key
 API_BASE=your_openai_compatible_base_url
 WSS_URL=your_websocket_url
+CHAT_MODEL=qwen3.5-flash
+MEMORY_MODEL=qwen3.5-flash
+STT_MODEL=gummy-realtime-v1
+TTS_MODEL=cosyvoice-v3-flash
 ```
 
 运行后端：
@@ -208,6 +212,8 @@ WSS_URL=your_websocket_url
 
 - TTS：`cosyvoice-v3-flash`
 - STT：`gummy-realtime-v1`
+
+你也可以在 `.env` 中通过 `CHAT_MODEL` / `MEMORY_MODEL` / `STT_MODEL` / `TTS_MODEL` 覆盖默认模型名。
 
 ### 📚 知识库检索
 

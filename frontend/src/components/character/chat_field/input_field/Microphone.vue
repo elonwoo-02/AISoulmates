@@ -87,7 +87,7 @@ const sendToBackend = async (arrayBuffer) => {
     const data = res.data
     // 处理成功响应
     if (data.result === 'success') {
-      emit('send', null, data.text)  // 发送识别结果
+      emit('send', data.text)  // 发送识别结果
     }
   } catch (err) {
     console.error(err)

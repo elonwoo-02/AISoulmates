@@ -33,3 +33,16 @@ def resolve_ai_config(user_profile=None) -> dict:
         'using_default_api_key': not bool(user_api_key),
         'using_default_api_base': not bool(user_api_base),
     }
+
+
+def resolve_model_config() -> dict:
+    def _get(name: str, default: str) -> str:
+        value = (os.getenv(name) or '').strip()
+        return value or default
+
+    return {
+        'chat_model': _get('CHAT_MODEL', 'qwen3.5-flash'),
+        'memory_model': _get('MEMORY_MODEL', 'qwen3.5-flash'),
+        'tts_model': _get('TTS_MODEL', 'cosyvoice-v3-flash'),
+        'stt_model': _get('STT_MODEL', 'gummy-realtime-v1'),
+    }

@@ -24,6 +24,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from web.models.friend import Friend, Message, SystemPrompt
 from web.views.friend.message.chat.graph import ChatGraph
+from web.views.utils.ai_config import resolve_model_config
 from web.views.friend.message.memory.update import update_memory
 
 
@@ -226,6 +227,7 @@ class MessageChatView(APIView):
         # 获取API配置
         api_key = os.getenv('API_KEY')
         wss_url = os.getenv('WSS_URL')
+        model_config = resolve_model_config()
         headers = {
             "Authorization": f"Bearer {api_key}"
         }
@@ -243,7 +245,7 @@ class MessageChatView(APIView):
                     "task_group": "audio",
                     "task": "tts",
                     "function": "SpeechSynthesizer",
-                    "model": "cosyvoice-v3-flash",
+                    "model": model_config['tts_model'],
                     "parameters": {
                         "text_type": "PlainText",
                         "voice": "longanyang",  # 音色
